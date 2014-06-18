@@ -88,6 +88,7 @@
 /* Copy the first part of user declarations.  */
 #line 1 "main.y"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -101,7 +102,6 @@ void yyerror(char *s);
 double getVar(char var);
 void update_var(char var, double num);
 void print_env();
-int yylex();
 extern int yylineno;
 
 // Only supports single character variables for now...
@@ -134,7 +134,7 @@ typedef union YYSTYPE
 	char var;
 }
 /* Line 193 of yacc.c.  */
-#line 138 "y.tab.c"
+#line 138 "main.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -147,7 +147,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 151 "y.tab.c"
+#line 151 "main.c"
 
 #ifdef short
 # undef short
@@ -1370,97 +1370,97 @@ yyreduce:
     {
         case 2:
 #line 39 "main.y"
-    { ; }
+    { ; ;}
     break;
 
   case 3:
 #line 40 "main.y"
-    { printf("%f\n", (yyvsp[(1) - (2)].num)); }
+    { printf("%f\n", (yyvsp[(1) - (2)].num)); ;}
     break;
 
   case 4:
 #line 41 "main.y"
-    { exit(0); }
+    { exit(0); ;}
     break;
 
   case 5:
 #line 42 "main.y"
-    { printf("%f\n", (yyvsp[(2) - (3)].num)); }
+    { printf("%f\n", (yyvsp[(2) - (3)].num)); ;}
     break;
 
   case 6:
 #line 43 "main.y"
-    { print_env(); }
+    { print_env(); ;}
     break;
 
   case 7:
 #line 44 "main.y"
-    { printf("%f\n", (yyvsp[(2) - (3)].num)); }
+    { printf("%f\n", (yyvsp[(2) - (3)].num)); ;}
     break;
 
   case 8:
 #line 45 "main.y"
-    { ; }
+    { ; ;}
     break;
 
   case 9:
 #line 46 "main.y"
-    { exit(0); }
+    { exit(0); ;}
     break;
 
   case 10:
 #line 47 "main.y"
-    { printf("%f\n", (yyvsp[(3) - (4)].num)); }
+    { printf("%f\n", (yyvsp[(3) - (4)].num)); ;}
     break;
 
   case 11:
 #line 48 "main.y"
-    { print_env(); }
+    { print_env(); ;}
     break;
 
   case 12:
 #line 51 "main.y"
-    { update_var((yyvsp[(1) - (3)].var),(yyvsp[(3) - (3)].num));}
+    { update_var((yyvsp[(1) - (3)].var),(yyvsp[(3) - (3)].num));;}
     break;
 
   case 14:
 #line 55 "main.y"
-    { (yyval.num) = -(yyvsp[(2) - (2)].num); }
+    { (yyval.num) = -(yyvsp[(2) - (2)].num); ;}
     break;
 
   case 15:
 #line 56 "main.y"
-    { (yyval.num) = (yyvsp[(1) - (3)].num) + (yyvsp[(3) - (3)].num); }
+    { (yyval.num) = (yyvsp[(1) - (3)].num) + (yyvsp[(3) - (3)].num); ;}
     break;
 
   case 16:
 #line 57 "main.y"
-    { (yyval.num) = (yyvsp[(1) - (3)].num) - (yyvsp[(3) - (3)].num); }
+    { (yyval.num) = (yyvsp[(1) - (3)].num) - (yyvsp[(3) - (3)].num); ;}
     break;
 
   case 17:
 #line 58 "main.y"
-    { (yyval.num) = (yyvsp[(1) - (3)].num) * (yyvsp[(3) - (3)].num); }
+    { (yyval.num) = (yyvsp[(1) - (3)].num) * (yyvsp[(3) - (3)].num); ;}
     break;
 
   case 18:
 #line 59 "main.y"
-    { (yyval.num) = (yyvsp[(1) - (3)].num) / (yyvsp[(3) - (3)].num); }
+    { (yyval.num) = (yyvsp[(1) - (3)].num) / (yyvsp[(3) - (3)].num); ;}
     break;
 
   case 19:
 #line 60 "main.y"
-    { (yyval.num) = (yyvsp[(2) - (3)].num); }
+    { (yyval.num) = (yyvsp[(2) - (3)].num); ;}
     break;
 
   case 21:
 #line 64 "main.y"
-    { (yyval.num) = getVar((yyvsp[(1) - (1)].var)); }
+    { (yyval.num) = getVar((yyvsp[(1) - (1)].var)); ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1464 "y.tab.c"
+#line 1464 "main.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1722,3 +1722,4 @@ int main(void){
 	}
 	return yyparse();
 }
+

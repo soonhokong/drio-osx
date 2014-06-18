@@ -1,10 +1,11 @@
 %{
-#include "y.tab.h"
+#include "main.h"
 %}
 
 %%
 "print"					{ return print; }
 "exit"			   		{ return quit; }
+"quit"			   		{ return quit; }
 "print environment"		{ return printenv; }
 
 	/* Variables */
@@ -17,7 +18,7 @@
 [-+=()*\n/] 	 		{ return yytext[0]; }
 
 	/* numbers */
-[0-9]*\.?[0-9]+	{
+[0-9]*\.?[0-9]+			{
 							yylval.num = atof(yytext); 
 							return number;
 						}

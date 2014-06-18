@@ -1,4 +1,5 @@
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,7 +13,6 @@ void yyerror(char *s);
 double getVar(char var);
 void update_var(char var, double num);
 void print_env();
-int yylex();
 extern int yylineno;
 
 // Only supports single character variables for now...
@@ -48,20 +48,20 @@ stmt	 	: assignment '\n'		{ ; }
 			| stmt printenv '\n'	{ print_env(); }
 			;
 
-assignment	: variable '=' exp 	{ update_var($1,$3);}
+assignment	: variable '=' exp 		{ update_var($1,$3);}
 			;
 
 exp			: term 				
-			| '-' exp %prec UMINUS { $$ = -$2; }
-			| exp '+' exp 		{ $$ = $1 + $3; }
-			| exp '-' exp 		{ $$ = $1 - $3; }
-			| exp '*' exp 		{ $$ = $1 * $3; }
-			| exp '/' exp 		{ $$ = $1 / $3; }
-			| '(' exp ')' 		{ $$ = $2; }
+			| '-' exp %prec UMINUS 	{ $$ = -$2; }
+			| exp '+' exp 			{ $$ = $1 + $3; }
+			| exp '-' exp 			{ $$ = $1 - $3; }
+			| exp '*' exp 			{ $$ = $1 * $3; }
+			| exp '/' exp 			{ $$ = $1 / $3; }
+			| '(' exp ')' 			{ $$ = $2; }
 			;
 
 term 		: number			
-			| variable 			{ $$ = getVar($1); }
+			| variable 				{ $$ = getVar($1); }
 %%
 
 // C Code:
