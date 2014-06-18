@@ -13,14 +13,14 @@
 							return variable;
 						}
 
+	/* operators */
+[-+=()*\n/] 	 		{ return yytext[0]; }
+
 	/* numbers */
-[+-]?[0-9]*\.?[0-9]+	{
+[0-9]*\.?[0-9]+	{
 							yylval.num = atof(yytext); 
 							return number;
 						}
-
-	/* operators */
-[-+=()*\n/] 	 		{ return yytext[0]; }
 
 	/* ignore spaces */
 [ \t]               	{ ; }

@@ -31,6 +31,9 @@ var vars[52];
 %token <var> variable
 %type <num> stmt exp term
 %type <var> assignment
+%left '+' '-'
+%left '*' '/'
+%nonassoc UMINUS 
 
 %%
 stmt	 	: assignment '\n'		{ ; }
@@ -49,6 +52,7 @@ assignment	: variable '=' exp 	{ update_var($1,$3);}
 			;
 
 exp			: term 				
+			| '-' exp %prec UMINUS { $$ = -$2; }
 			| exp '+' exp 		{ $$ = $1 + $3; }
 			| exp '-' exp 		{ $$ = $1 - $3; }
 			| exp '*' exp 		{ $$ = $1 * $3; }
@@ -63,9 +67,9 @@ term 		: number
 // C Code:
 
 int getIndex(char var){
-	if (65 <= var <= 90){
+	if (65 <= var && var <= 90){
 		return var - 65;
-	} else if (97 <= (int)var <= 122){
+	} else if (97 <= var && var <= 122){
 		return var - 71;
 	} else {
 		printf("Error: Variable '%c' is not a valid variable. Defaulting to 0\n", var);

@@ -43,7 +43,8 @@
      printenv = 259,
      quit = 260,
      number = 261,
-     variable = 262
+     variable = 262,
+     UMINUS = 263
    };
 #endif
 /* Tokens.  */
@@ -52,6 +53,7 @@
 #define quit 260
 #define number 261
 #define variable 262
+#define UMINUS 263
 
 
 
@@ -64,7 +66,7 @@ typedef union YYSTYPE
 	char var;
 }
 /* Line 1529 of yacc.c.  */
-#line 68 "y.tab.h"
+#line 70 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
