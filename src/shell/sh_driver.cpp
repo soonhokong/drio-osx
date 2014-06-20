@@ -1,7 +1,7 @@
 /* Author: Jichao Sun <jichaos@andrew.cmu.edu> */
 
 #include <iostream>
-#include "sh_driver.hpp"
+#include "sh_driver.h"
 
 SH::SH_Driver::~SH_Driver(){
 	delete scanner;
