@@ -4,7 +4,7 @@
 
 #ifndef __SHDRIVER_HPP__
 #define __SHDRIVER_HPP__ 1
- 
+
 #include <string>
 #include "sh_scanner.h"
 #include "sh_parser.tab.hh"

@@ -1,10 +1,12 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> */
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+ * Copyright 2014 Jichao Sun
+ */
 
 #ifndef __SHSCANNER_HPP__
 #define __SHSCANNER_HPP__ 1
 
 // Defining yyFlexLexer
-#if ! defined(yyFlexLexerOnce)
+#if !defined(yyFlexLexerOnce)
 #include <FlexLexer.h>
 #endif
 
@@ -18,20 +20,19 @@ namespace SH{
 
 class SH_Scanner : public yyFlexLexer{
 public:
+    SH_Scanner() :  yyFlexLexer(),
+                    yylval(nullptr){};
 
-	SH_Scanner() :	yyFlexLexer(),
-					yylval( nullptr ){};
-
-	int yylex(SH::SH_Parser::semantic_type *lval){
-		yylval = lval;
-		return(yylex());
-	}
+    int yylex(SH::SH_Parser::semantic_type *lval){
+        yylval = lval;
+        return(yylex());
+    }
 
 private:
-	int yylex();
+    int yylex();
 
-	//yylval is now a pointer to a union
-	SH::SH_Parser::semantic_type *yylval;
+    // yylval is now a pointer to a union
+    SH::SH_Parser::semantic_type *yylval;
 };
 }
 #endif
