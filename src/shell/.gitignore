@@ -1,0 +1,11 @@
+lexer.o
+main.o
+parser.o
+scoped_env.o
+sh_driver.o
+sh_lexer.yy.cc
+sh_parser.output
+sh_parser.tab.cc
+sh_parser.tab.hh
+shell
+stack.hh
