@@ -37,7 +37,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 namespace dreal {
 class scoped_env {
 private:
-    typedef std::unordered_map<std::string, double> map;
+    typedef std::unordered_map<std::string, std::pair<std::string,double>> map;
     typedef map::key_type key_type;
     typedef map::value_type value_type;
     typedef map::mapped_type mapped_type;

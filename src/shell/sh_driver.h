@@ -25,7 +25,8 @@ public:
     void print(const double num);
     void print_env();
     void print_var(const std::string &var);
-    void update_var(const std::string &var, const double num);
+    void update_var(const std::string &var, const std::string &type,  
+                    const double num);
     double get_var(const std::string &var);
 
 private:

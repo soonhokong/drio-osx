@@ -43,6 +43,8 @@
 }
 
 %start          stmt
+%token          t_real
+%token          t_int
 %token          print  
 %token          printenv
 %token          quit
@@ -52,23 +54,19 @@
 %type   <var>   assignment
 %left           '+' '-'
 %left           '*' '/'
-%nonassoc       UMINUS 
+%nonassoc       UMINUS
 
 %destructor { if ($$)  { delete ($$); ($$) = nullptr; } } <var>
 
 
 %%
-// line         : stmt 
-//          | line stmt
-//          ;
-
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
             | exp '\n'              { driver.print($1); }
             | quit '\n'             { exit(0); }
             | print exp '\n'        { driver.print($2); }
             | printenv '\n'         { driver.print_env(); }
-	    | stmt '\n'             { ; }
+	        | stmt '\n'             { ; }
             | stmt exp '\n'         { driver.print($2); }
             | stmt assignment '\n'  { ; }
             | stmt quit '\n'        { exit(0); }
@@ -76,7 +74,9 @@ stmt        : '\n'                  { ; }
             | stmt printenv '\n'    { driver.print_env(); }
             ;
 
-assignment  : variable '=' exp      { driver.update_var(*$1,$3); }
+assignment  : variable '=' exp      { driver.update_var(*$1,"real",$3); }
+            | t_real variable       { driver.update_var(*$2,"real",0); } 
+            | t_int variable        { driver.update_var(*$2,"int",0); }  
             ;
 
 exp         : term              

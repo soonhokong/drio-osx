@@ -3,6 +3,7 @@
  */
 
 #include <iostream>
+#include <unordered_map>
 #include <string>
 #include "sh_driver.h"
 
@@ -36,15 +37,21 @@ void SH::SH_Driver::print(const double num){
 }
 
 void SH::SH_Driver::print_env(){
-    std::cout << "Printing Environment \n";
+    for (auto i = scoped_env.begin(); i != scoped_env.end(); ++i){
+        if (i->first != "")
+        {
+            std::cout << i->first << ":" << i->second.first << " ~ " << i->second.second << "\n";
+        }
+    }
 }
 
-void SH::SH_Driver::update_var(const std::string &var, const double num){
-    scoped_env.insert(var, num);
+void SH::SH_Driver::update_var(const std::string &var, const std::string &type, 
+                               const double num){
+    scoped_env.insert(var, make_pair(type,num));
 }
 
 double SH::SH_Driver::get_var(const std::string &var){
-    double res;
+    std::pair<std::string, double > res;
     try{
         res = scoped_env.lookup(var);
     }
@@ -52,5 +59,8 @@ double SH::SH_Driver::get_var(const std::string &var){
         std::cout << "Variable " << var << " is undefined, defaulting to 0\n";
         return 0;
     }
-    return res;
+    if (res.first != "real")
+        return (double)(int)(res.second + 0.5);
+    else 
+        return res.second;
 }

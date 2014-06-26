@@ -23,7 +23,9 @@ typedef SH::SH_Parser::token token;
 %option c++
 
 %%
-"print"                 { return token::print; }
+"real"                  { return token::t_real; } 
+"int"                   { return token::t_int; }
+"print"                 { return token::print; } 
 "exit"                  { return token::quit; }
 "quit"                  { return token::quit; }
 "print environment"     { return token::printenv; }
