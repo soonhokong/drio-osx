@@ -1,4 +1,4 @@
-#Custon command for flex/lex
+#Custon command for flex/bison
 
 ADD_CUSTOM_COMMAND(
 	OUTPUT	(${DRIO_BINARY_DIR}/shell/sh_parser.tab.cc
@@ -11,12 +11,12 @@ ADD_CUSTOM_COMMAND(
 	OUTPUT ${DRIO_BINARY_DIR}/shell/sh_lexer.yy.cc
 	COMMAND ${FLEX_EXECUTABLE}
 	ARGS --outfile=${DRIO_BINARY_DIR}/shell/sh_lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/sh_scanner.l 
+	DEPENDS ${DRIO_BINARY_DIR}/shell/sh_parser.tab.hh
 	)
+
 
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/sh_lexer.yy.cc GENERATED)
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/sh_parser.tab.cc GENERATED)
 
 INCLUDE_DIRECTORIES(${DRIO_BINARY_DIR}/shell)
-add_library(SH_UTIL sh_lexer.yy.cc sh_parser.tab.cc)
-
-target_link_libraries(SH_UTIL SH_LIBS)
+add_library(SH_UTIL SHARED sh_lexer.yy.cc sh_parser.tab.cc sh_driver.cpp scoped_env.cpp)
