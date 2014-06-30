@@ -5,7 +5,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
-#include "driver.h"
+#include <utility>
+#include "shell/driver.h"
 
 shell::driver::~driver(){
     delete scanner;
@@ -25,7 +26,6 @@ void shell::driver::parse(){
     }
 }
 
-
 dreal::scoped_env scoped_env;
 
 void shell::driver::print_var(const std::string &var){
@@ -38,16 +38,15 @@ void shell::driver::print(const double num){
 
 void shell::driver::print_env(){
     for (auto i = scoped_env.begin(); i != scoped_env.end(); ++i){
-        if (i->first != "")
-        {
+        if (i->first != ""){
             std::cout << i->first << ":" << i->second.first << " ~ " << i->second.second << "\n";
         }
     }
 }
 
-void shell::driver::update_var(const std::string &var, const std::string &type, 
+void shell::driver::update_var(const std::string &var, const std::string &type,
                                const double num){
-    scoped_env.insert(var, make_pair(type,num));
+    scoped_env.insert(var, make_pair(type, num));
 }
 
 double shell::driver::get_var(const std::string &var){
@@ -60,7 +59,7 @@ double shell::driver::get_var(const std::string &var){
         return 0;
     }
     if (res.first != "real")
-        return (double)(int)(res.second + 0.5);
-    else 
+        return static_cast<int>(res.second + 0.5);
+    else
         return res.second;
 }

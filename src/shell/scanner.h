@@ -2,9 +2,7 @@
  * Copyright 2014 Jichao Sun
  */
 
-#ifndef __SHELLSCANNER_HPP__
-#define __SHELLSCANNER_HPP__ 1
-
+#pragma once
 // Defining yyFlexLexer
 #if !defined(yyFlexLexerOnce)
 #include <FlexLexer.h>
@@ -35,4 +33,3 @@ private:
     shell::parser::semantic_type *yylval;
 };
 }
-#endif

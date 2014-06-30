@@ -2,13 +2,11 @@
  * Copyright 2014 Jichao Sun
  */
 
-#ifndef __SHELLDRIVER_HPP__
-#define __SHELLDRIVER_HPP__ 1
-
+#pragma once
 #include <string>
-#include "scanner.h"
+#include "shell/scanner.h"
 #include "parser.tab.hh"
-#include "scoped_env.h"
+#include "shell/scoped_env.h"
 
 
 namespace shell{
@@ -25,7 +23,7 @@ public:
     void print(const double num);
     void print_env();
     void print_var(const std::string &var);
-    void update_var(const std::string &var, const std::string &type,  
+    void update_var(const std::string &var, const std::string &type,
                     const double num);
     double get_var(const std::string &var);
 
@@ -34,5 +32,3 @@ private:
     shell::scanner *scanner;
 };
 }
-
-#endif
