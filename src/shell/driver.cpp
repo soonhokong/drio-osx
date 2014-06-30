@@ -5,20 +5,20 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
-#include "sh_driver.h"
+#include "driver.h"
 
-SH::SH_Driver::~SH_Driver(){
+shell::driver::~driver(){
     delete scanner;
     scanner = nullptr;
     delete parser;
     parser = nullptr;
 }
 
-void SH::SH_Driver::parse(){
+void shell::driver::parse(){
     delete scanner;
-    scanner = new SH::SH_Scanner();
+    scanner = new shell::scanner();
     delete parser;
-    parser = new SH::SH_Parser(*scanner, *this);
+    parser = new shell::parser(*scanner, *this);
 
     if (parser->parse() != 0){
         std::cerr << "Parse failed \n";
@@ -28,15 +28,15 @@ void SH::SH_Driver::parse(){
 
 dreal::scoped_env scoped_env;
 
-void SH::SH_Driver::print_var(const std::string &var){
-    std::cout << var << " = " << SH::SH_Driver::get_var(var);
+void shell::driver::print_var(const std::string &var){
+    std::cout << var << " = " << shell::driver::get_var(var);
 }
 
-void SH::SH_Driver::print(const double num){
+void shell::driver::print(const double num){
     std::cout << num  << "\n";
 }
 
-void SH::SH_Driver::print_env(){
+void shell::driver::print_env(){
     for (auto i = scoped_env.begin(); i != scoped_env.end(); ++i){
         if (i->first != "")
         {
@@ -45,12 +45,12 @@ void SH::SH_Driver::print_env(){
     }
 }
 
-void SH::SH_Driver::update_var(const std::string &var, const std::string &type, 
+void shell::driver::update_var(const std::string &var, const std::string &type, 
                                const double num){
     scoped_env.insert(var, make_pair(type,num));
 }
 
-double SH::SH_Driver::get_var(const std::string &var){
+double shell::driver::get_var(const std::string &var){
     std::pair<std::string, double > res;
     try{
         res = scoped_env.lookup(var);

@@ -4,10 +4,10 @@
 
 #include <iostream>
 #include <cstdlib>
-#include "shell/sh_driver.h"
+#include "shell/driver.h"
 
 int main(int argc, char const *argv[]){
-    SH::SH_Driver driver;
+    shell::driver driver;
     while (1){
         driver.parse();
     }

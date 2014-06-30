@@ -5,20 +5,18 @@
 %{
 #include <string>
 #include <cstdlib>
-#include "sh_scanner.h"
+#include "scanner.h"
 
 #define STOKEN(x) (new std::string(x))
 #define NTOKEN(x) ( double (atof(x)) )
-// #define yyterminate() return(token::END)
-// #define YY_NO_UNISTD_H
 
-typedef SH::SH_Parser::token token;
+typedef shell::parser::token token;
 
 %}
 
 %option debug
 %option nodefault
-%option yyclass="SH_Scanner" 
+%option yyclass="scanner" 
 %option noyywrap 
 %option c++
 

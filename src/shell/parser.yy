@@ -5,36 +5,30 @@
 %skeleton "lalr1.cc"
 %debug
 %defines
-%define api.namespace {SH}
-%define parser_class_name {SH_Parser}
+%define api.namespace {shell}
+%define parser_class_name {parser}
 
 %code requires{
-    namespace SH{
-        class SH_Driver;
-        class SH_Scanner;
+    namespace shell{
+        class driver;
+        class scanner;
     }
 }
 
-%lex-param   { SH_Scanner  &scanner  }
-%parse-param { SH_Scanner  &scanner  }
+%lex-param   { class scanner  &scanner  }
+%parse-param { class scanner  &scanner  }
  
-%lex-param   { SH_Driver  &driver  }
-%parse-param { SH_Driver  &driver  }
+%lex-param   { class driver  &driver  }
+%parse-param { class driver  &driver  }
 
 %code{
     #include <iostream>
     #include <cstdlib>
-    #include "sh_driver.h"
+    #include "driver.h"
 
-   static int yylex(SH::SH_Parser::semantic_type *yylval,
-                    SH::SH_Scanner  &scanner,
-                    SH::SH_Driver   &driver);
-
-// void yyerror(char *s);
-// double getVar(char var);
-// void update_var(char var, double num);
-// void print_env();
-// extern int yylineno;
+   static int yylex(shell::parser::semantic_type *yylval,
+                    shell::scanner  &scanner,
+                    shell::driver   &driver);
 }
 
 %union {
@@ -95,15 +89,15 @@ term        : number
 // C++ Code:
 
 void 
-SH::SH_Parser::error( const std::string &err_message )
+shell::parser::error( const std::string &err_message )
 {
    std::cerr << "Error: " << err_message << "\n"; 
 }
 
-#include "sh_scanner.h"
+#include "scanner.h"
 
-static int yylex( SH::SH_Parser::semantic_type *yylval,
-                  SH::SH_Scanner  &scanner,
-                  SH::SH_Driver   &driver ){
+static int yylex( shell::parser::semantic_type *yylval,
+                  shell::scanner  &scanner,
+                  shell::driver   &driver ){
    return(scanner.yylex(yylval));
 }

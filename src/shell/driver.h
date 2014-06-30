@@ -2,23 +2,23 @@
  * Copyright 2014 Jichao Sun
  */
 
-#ifndef __SHDRIVER_HPP__
-#define __SHDRIVER_HPP__ 1
+#ifndef __SHELLDRIVER_HPP__
+#define __SHELLDRIVER_HPP__ 1
 
 #include <string>
-#include "sh_scanner.h"
-#include "sh_parser.tab.hh"
+#include "scanner.h"
+#include "parser.tab.hh"
 #include "scoped_env.h"
 
 
-namespace SH{
+namespace shell{
 
-class SH_Driver{
+class driver{
 public:
-    SH_Driver() :   parser (nullptr),
-                    scanner (nullptr){};
+    driver() :   parser (nullptr),
+                 scanner (nullptr){};
 
-    virtual ~SH_Driver();
+    virtual ~driver();
 
     void parse();
 
@@ -30,8 +30,8 @@ public:
     double get_var(const std::string &var);
 
 private:
-    SH::SH_Parser *parser;
-    SH::SH_Scanner *scanner;
+    shell::parser *parser;
+    shell::scanner *scanner;
 };
 }
 
