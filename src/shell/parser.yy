@@ -36,14 +36,28 @@
     std::string *var;
 }
 
-%start          stmt
+%start          line
+
 %token          t_real
 %token          t_int
+%token          GE
+%token          LE
+%token          GEQ
+%token          LEQ
+%token          EQ
+
+%token          formula
+%token          eval
+%token          define
+
 %token          print  
 %token          printenv
 %token          quit
+
+
 %token  <num>   number
 %token  <var>   variable
+
 %type   <num>   stmt exp term
 %type   <var>   assignment
 %left           '+' '-'
@@ -54,23 +68,31 @@
 
 
 %%
+line        : stmt
+            | line stmt
+            ;
+
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
+            | variable eval         { driver.eval(*$1); }
             | exp '\n'              { driver.print($1); }
+            | eq_op '\n'            { ; }
             | quit '\n'             { exit(0); }
             | print exp '\n'        { driver.print($2); }
             | printenv '\n'         { driver.print_env(); }
-	        | stmt '\n'             { ; }
-            | stmt exp '\n'         { driver.print($2); }
-            | stmt assignment '\n'  { ; }
-            | stmt quit '\n'        { exit(0); }
-            | stmt print exp '\n'   { driver.print($3); }
-            | stmt printenv '\n'    { driver.print_env(); }
             ;
 
-assignment  : variable '=' exp      { driver.update_var(*$1,"real",$3); }
-            | t_real variable       { driver.update_var(*$2,"real",0); } 
-            | t_int variable        { driver.update_var(*$2,"int",0); }  
+eq_op       : exp EQ exp            { $1 == $3 ? std::cout << "true\n" : std::cout <<            "false\n";}
+            | exp GE exp            { $1 > $3 ? std::cout << "true\n" : std::cout << "false\n";}
+            | exp LE exp            { $1 < $3 ? std::cout << "true\n" : std::cout << "false\n";}
+            | exp GEQ exp           { $1 >= $3 ? std::cout << "true\n" : std::cout << "false\n";}
+            | exp LEQ exp           { $1 <= $3 ? std::cout << "true\n" : std::cout << "false\n";}
+
+assignment  : variable '=' exp      { driver.update_var(*$1, "real", $3); }
+            | t_real variable       { driver.update_var(*$2, "real", 0); } 
+            | t_int variable        { driver.update_var(*$2, "int", 0); } 
+            | formula variable      { driver.update_form(*$2, 0); } 
+            | variable define exp   { driver.update_form(*$1, $3); }
             ;
 
 exp         : term              

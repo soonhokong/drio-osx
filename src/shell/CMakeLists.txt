@@ -4,7 +4,7 @@ ADD_CUSTOM_COMMAND(
 	OUTPUT	(${DRIO_BINARY_DIR}/shell/parser.tab.cc
 			 ${DRIO_BINARY_DIR}/shell/parser.tab.hh)
 	COMMAND	/usr/local/opt/bison/bin/bison
-	ARGS -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy
+	ARGS -Wno-other -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy -Wother
 	)
 
 ADD_CUSTOM_COMMAND(

@@ -23,6 +23,16 @@ typedef shell::parser::token token;
 %%
 "real"                  { return token::t_real; } 
 "int"                   { return token::t_int; }
+">"                     { return token::GE; }
+"<"                     { return token::LE; }
+">="                    { return token::GEQ; }
+"<="                    { return token::LEQ; }
+"=="                    { return token::EQ; }
+
+"formula"               { return token::formula; }
+".eval"                 { return token::eval; }
+":="                    { return token::define; }
+
 "print"                 { return token::print; } 
 "exit"                  { return token::quit; }
 "quit"                  { return token::quit; }
@@ -47,7 +57,7 @@ typedef shell::parser::token token;
 [ \t]                   { ; }
 
     /* everything else */
-.                       { printf ("unexpected character"); }
+.                       { printf ("unexpected character\n"); }
 
 %%
 

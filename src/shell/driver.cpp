@@ -63,3 +63,11 @@ double shell::driver::get_var(const std::string &var){
     else
         return res.second;
 }
+
+void shell::driver::update_form(const std::string &form, const double num){
+    std::cout << "Updating formula " << form << " as " << num << "\n";
+}
+
+void shell::driver::eval(const std::string &form){
+    std::cout << "Evaluating formula " << form << "\n";
+}

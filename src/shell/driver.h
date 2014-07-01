@@ -26,6 +26,8 @@ public:
     void update_var(const std::string &var, const std::string &type,
                     const double num);
     double get_var(const std::string &var);
+    void update_form(const std::string &form, const double num);
+    void eval(const std::string &form);
 
 private:
     shell::parser *parser;
