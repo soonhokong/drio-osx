@@ -21,8 +21,8 @@ typedef shell::parser::token token;
 %option c++
 
 %%
-"real"                  { return token::t_real; } 
-"int"                   { return token::t_int; }
+"real"                  { return token::realnum; } 
+"int"                   { return token::intnum; }
 ">"                     { return token::GE; }
 "<"                     { return token::LE; }
 ">="                    { return token::GEQ; }
@@ -31,7 +31,17 @@ typedef shell::parser::token token;
 
 "formula"               { return token::formula; }
 ".eval"                 { return token::eval; }
-":="                    { return token::define; }
+":="[^\n]+              { 
+                            yylval->str = STOKEN((yytext+=2));
+                            return token::define; 
+                        }
+
+"and"                   { return token::t_and; }
+"or"                    { return token::t_or; }
+"implies"               { return token::implies; }
+"not"                   
+"forall"
+"exists"
 
 "print"                 { return token::print; } 
 "exit"                  { return token::quit; }
@@ -40,8 +50,8 @@ typedef shell::parser::token token;
 
     /* Variables */
 [a-zA-Z]+               {   
-                            yylval->var = STOKEN(yytext); 
-                            return token::variable;
+                            yylval->str = STOKEN(yytext); 
+                            return token::var;
                         }
 
     /* operators */

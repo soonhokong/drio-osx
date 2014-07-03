@@ -24,6 +24,7 @@
 %code{
     #include <iostream>
     #include <cstdlib>
+    #include <string>
     #include "driver.h"
 
    static int yylex(shell::parser::semantic_type *yylval,
@@ -33,13 +34,13 @@
 
 %union {
     double num; 
-    std::string *var;
+    std::string *str;
 }
 
 %start          line
 
-%token          t_real
-%token          t_int
+%token          realnum
+%token          intnum
 %token          GE
 %token          LE
 %token          GEQ
@@ -48,23 +49,22 @@
 
 %token          formula
 %token          eval
-%token          define
+%token  <str>   define
 
 %token          print  
 %token          printenv
 %token          quit
 
-
 %token  <num>   number
-%token  <var>   variable
+%token  <str>   var
 
 %type   <num>   stmt exp term
-%type   <var>   assignment
+%type   <str>   assignment 
 %left           '+' '-'
 %left           '*' '/'
 %nonassoc       UMINUS
 
-%destructor { if ($$)  { delete ($$); ($$) = nullptr; } } <var>
+%destructor { if ($$)  { delete ($$); ($$) = nullptr; } } <str>
 
 
 %%
@@ -74,7 +74,7 @@ line        : stmt
 
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
-            | variable eval         { driver.eval(*$1); }
+            | var eval              { driver.eval(*$1); }
             | exp '\n'              { driver.print($1); }
             | eq_op '\n'            { ; }
             | quit '\n'             { exit(0); }
@@ -82,17 +82,18 @@ stmt        : '\n'                  { ; }
             | printenv '\n'         { driver.print_env(); }
             ;
 
-eq_op       : exp EQ exp            { $1 == $3 ? std::cout << "true\n" : std::cout <<            "false\n";}
+eq_op       : exp EQ exp            { $1 == $3 ? std::cout << "true\n" : std::cout << "false\n";}
             | exp GE exp            { $1 > $3 ? std::cout << "true\n" : std::cout << "false\n";}
             | exp LE exp            { $1 < $3 ? std::cout << "true\n" : std::cout << "false\n";}
             | exp GEQ exp           { $1 >= $3 ? std::cout << "true\n" : std::cout << "false\n";}
             | exp LEQ exp           { $1 <= $3 ? std::cout << "true\n" : std::cout << "false\n";}
+            ;
 
-assignment  : variable '=' exp      { driver.update_var(*$1, "real", $3); }
-            | t_real variable       { driver.update_var(*$2, "real", 0); } 
-            | t_int variable        { driver.update_var(*$2, "int", 0); } 
-            | formula variable      { driver.update_form(*$2, 0); } 
-            | variable define exp   { driver.update_form(*$1, $3); }
+assignment  : var '=' exp           { driver.update_var(*$1, "real", $3); }
+            | realnum var            { driver.update_var(*$2, "real", 0); } 
+            | intnum var             { driver.update_var(*$2, "int", 0); } 
+            | formula var           { driver.update_form(*$2, ""); } 
+            | var define            { driver.update_form(*$1, *$2); }
             ;
 
 exp         : term              
@@ -105,7 +106,8 @@ exp         : term
             ;
 
 term        : number            
-            | variable              { $$ = driver.get_var(*$1); }
+            | var                   { $$ = driver.get_var(*$1); }
+            ;
 %%
 
 // C++ Code:

@@ -64,10 +64,10 @@ double shell::driver::get_var(const std::string &var){
         return res.second;
 }
 
-void shell::driver::update_form(const std::string &form, const double num){
-    std::cout << "Updating formula " << form << " as " << num << "\n";
+void shell::driver::update_form(const std::string &name, const std::string &num){
+    std::cout << "Updating formula " << name << " as " << num << "\n";
 }
 
-void shell::driver::eval(const std::string &form){
-    std::cout << "Evaluating formula " << form << "\n";
+void shell::driver::eval(const std::string &name){
+    std::cout << "Evaluating formula " << name << "\n";
 }
