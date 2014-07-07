@@ -106,7 +106,7 @@ lgc         : eq_op
             | t_not lgc %prec UNOT  { $$ = !($2); }
             | lgc t_and lgc         { $$ = $1 && $3; }
             | lgc t_or lgc          { $$ = $1 || $3; }
-            | lgc implies lgc       { $$ = $1 && $3; }
+            | lgc implies lgc       { $$ = $1 ? $3 : false; }
             | forall lgc            { $$ = $2; } //TODO;
             | exists lgc            { $$ = $2; } //TODO;
             | '(' lgc ')'           { $$ = $2; } //TODO;
