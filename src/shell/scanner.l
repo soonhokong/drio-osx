@@ -11,12 +11,11 @@
 #define NTOKEN(x) ( double (atof(x)) )
 
 typedef shell::parser::token token;
-
 %}
 
 %option debug
 %option nodefault
-%option yyclass="scanner" 
+%option yyclass="scanner"
 %option noyywrap 
 %option c++
 
@@ -29,19 +28,19 @@ typedef shell::parser::token token;
 "<="                    { return token::LEQ; }
 "=="                    { return token::EQ; }
 
+"and"                   { return token::t_and; }
+"or"                    { return token::t_or; }
+"implies"               { return token::implies; }
+"not"                   { return token::t_not; }
+"forall"                { return token::forall; }
+"exists"                { return token::exists; }
+
 "formula"               { return token::formula; }
 ".eval"                 { return token::eval; }
 ":="[^\n]+              { 
                             yylval->str = STOKEN((yytext+=2));
                             return token::define; 
                         }
-
-"and"                   { return token::t_and; }
-"or"                    { return token::t_or; }
-"implies"               { return token::implies; }
-"not"                   
-"forall"
-"exists"
 
 "print"                 { return token::print; } 
 "exit"                  { return token::quit; }
@@ -55,7 +54,7 @@ typedef shell::parser::token token;
                         }
 
     /* operators */
-[-+=()*\n/]             { return yytext[0]; }
+[-+=()*\n/,]             { return yytext[0]; }
 
     /* numbers */
 [0-9]*\.?[0-9]+         {

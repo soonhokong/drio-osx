@@ -25,7 +25,6 @@ public:
         yylval = lval;
         return(yylex());
     }
-
 private:
     int yylex();
 

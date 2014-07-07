@@ -60,6 +60,7 @@ public:
     void erase(key_type const & k);
     void push();
     void pop();
+    void clear();
     unsigned size() const;
     friend std::ostream & operator<<(std::ostream & out, scoped_env const & e);
 };

@@ -21,12 +21,14 @@ public:
     void parse();
 
     void print(const double num);
+    void print(const bool bval);
     void print_env();
     void print_var(const std::string &var);
-    void update_var(const std::string &var, const std::string &type,
-                    const double num);
+    void update_var(const std::string &var, const std::string &type, const double num);
     double get_var(const std::string &var);
+
     void update_form(const std::string &name, const std::string &form);
+    void update_temp(const std::string &var, const std::string &type, const double num);
     void eval(const std::string &name);
 
 private:

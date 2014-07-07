@@ -107,6 +107,10 @@ void scoped_env::pop() {
     m_scopes.pop_back();
 }
 
+void scoped_env::clear(){
+    m_map.clear();
+}
+
 unsigned scoped_env::size() const {
     return m_map.size();
 }
