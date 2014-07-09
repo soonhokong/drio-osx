@@ -15,6 +15,8 @@
 #define toTerm(x,y) const term* y =  static_cast<const term*>(x)
 #define toTermVar(x,y) term_var* y =  static_cast<term_var*>(x)
 
+#define toAtom(x,y) const atom* y =  static_cast<const atom*>(x)
+
 /* var_env  -> unordered map for variables
    fmla_env -> unordered map for formulas
    temp_env -> unordered map for temporary variables */
@@ -40,7 +42,7 @@ void shell::driver::parse(){
     }
 }
 
-void shell::driver::print(const void* expr){
+void shell::driver::print_exp(const void* expr){
     toTerm(expr,res);
     try{
         std::cout << res->val()  << "\n";
@@ -48,6 +50,16 @@ void shell::driver::print(const void* expr){
         std::cerr << ex.what() << "\n";
     }
 }
+
+void shell::driver::print_atom(const void* atm){
+    toAtom(atm,res);
+    try{
+        std::cout << (res->val() ? "true" : "false") << "\n";
+    } catch(const std::exception& ex){
+        std::cerr << ex.what() << "\n";
+    }
+}
+
 
 void shell::driver::print_env(){
     for (auto i = var_env.begin(); i != var_env.end(); ++i){
@@ -100,6 +112,12 @@ shell::term* shell::driver::mk_func(const unsigned op, const void *expr1, const 
     toTerm(expr1,res1);
     toTerm(expr2,res2);
     return new term_func(op, res1, res2);
+}
+
+shell::atom* shell::driver::mk_atom_eq(const unsigned op, const void *arg1, const void *arg2){
+    toTerm(arg1,res1);
+    toTerm(arg2,res2);
+    return new atom_eq(op, res1, res2);
 }
 
 // /* Updates formulas */

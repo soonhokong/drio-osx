@@ -1,1 +1,0 @@
-add_library(formula STATIC function.cpp terms.cpp)

@@ -28,8 +28,9 @@
     #include "driver.h"
 
 
-    enum class term_type { Real, Int };
-    enum class func_op { Add, Sub, Mult, Div, Neg, Pow };
+    enum term_type { Real, Int };
+    enum func_op { Add, Sub, Mult, Div, Neg, Pow };
+    enum atom_kind { Equality, Predicate };
 
     static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
@@ -37,7 +38,7 @@
 }
 
 %union {
-    void *trm; 
+    void *ptr; 
     double num;
     std::string *str;
 }
@@ -71,7 +72,7 @@
 %token  <num>   number
 %token  <str>   var
 
-%type   <trm>   exp term
+%type   <ptr>   exp term eq_op lgc
 %left           '+' '-'
 %left           '*' '/'
 %nonassoc       UMINUS
@@ -88,18 +89,18 @@ line        : stmt
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
             | var eval              { ; } //driver.eval(*$1);
-            | exp '\n'              { driver.print($1); }
-            | lgc '\n'              {  } //driver.print($1);
+            | exp '\n'              { driver.print_exp($1); }
+            | lgc '\n'              { driver.print_atom($1); } 
             | quit '\n'             { exit(0); }
-            | print exp '\n'        { driver.print($2); }
+            | print exp '\n'        { driver.print_exp($2); }
             | printenv '\n'         { driver.print_env(); }
             ;
 
-eq_op       : exp EQ exp            {  } //$1 == $3 ? $$ = true : $$ = false;
-            | exp GT exp            {  } //$1 > $3  ? $$ = true : $$ = false;
-            | exp LT exp            {  } //$1 < $3  ? $$ = true : $$ = false;
-            | exp GTE exp           {  } //$1 >= $3 ? $$ = true : $$ = false;
-            | exp LTE exp           {  } //$1 <= $3 ? $$ = true : $$ = false;
+eq_op       : exp EQ exp            { $$ = driver.mk_atom_eq(EQ,$1,$3); } 
+            | exp GT exp            { $$ = driver.mk_atom_eq(GT,$1,$3); } 
+            | exp LT exp            { $$ = driver.mk_atom_eq(LT,$1,$3); } 
+            | exp GTE exp           { $$ = driver.mk_atom_eq(GTE,$1,$3); } 
+            | exp LTE exp           { $$ = driver.mk_atom_eq(LTE,$1,$3); } 
             | '(' eq_op ')'         { ; }
             ;
 

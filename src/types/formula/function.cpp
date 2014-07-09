@@ -11,13 +11,13 @@ namespace shell{
 term_func::term_func(const unsigned op, const term *arg1):
     m_op(op),
     m_num_args(1),
-    arg1(arg1){};
+    arg1(arg1){ m_kind = Formula; }
 
 term_func::term_func(const unsigned op, const term *arg1, const term *arg2):
     m_op(op),
     m_num_args(2),
     arg1(arg1),
-    arg2(arg2){};
+    arg2(arg2){ m_kind = Formula; };
 
 double term_func::val() const {
     switch (m_op){

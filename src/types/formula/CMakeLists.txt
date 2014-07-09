@@ -1,1 +1,1 @@
-add_library(formula STATIC function.cpp term.cpp)
+add_library(formula STATIC function.cpp term.cpp atom.cpp)
