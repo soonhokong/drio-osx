@@ -27,25 +27,29 @@
     #include <string>
     #include "driver.h"
 
-   static int yylex(shell::parser::semantic_type *yylval,
+
+    enum class term_type { Real, Int };
+    enum class func_op { Add, Sub, Mult, Div, Neg, Pow };
+
+    static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
                     shell::driver   &driver);
 }
 
 %union {
-    double num; 
+    void *trm; 
+    double num;
     std::string *str;
-    bool bval;
 }
 
 %start          line
 
 %token          realnum
 %token          intnum
-%token          GE
-%token          LE
-%token          GEQ
-%token          LEQ
+%token          GT
+%token          LT
+%token          GTE
+%token          LTE
 %token          EQ
 
 %token          t_not
@@ -67,9 +71,7 @@
 %token  <num>   number
 %token  <str>   var
 
-%type   <num>   stmt exp term
-%type   <str>   assignment 
-%type   <bval>  eq_op lgc
+%type   <trm>   exp term
 %left           '+' '-'
 %left           '*' '/'
 %nonassoc       UMINUS
@@ -85,54 +87,51 @@ line        : stmt
 
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
-            | var eval              { driver.eval(*$1); }
-            | var eval '(' tvar ')' { driver.eval(*$1); }
+            | var eval              { ; } //driver.eval(*$1);
             | exp '\n'              { driver.print($1); }
-            | lgc '\n'              { driver.print($1); }
+            | lgc '\n'              {  } //driver.print($1);
             | quit '\n'             { exit(0); }
             | print exp '\n'        { driver.print($2); }
             | printenv '\n'         { driver.print_env(); }
             ;
 
-eq_op       : exp EQ exp            { $1 == $3 ? $$ = true : $$ = false; }
-            | exp GE exp            { $1 > $3  ? $$ = true : $$ = false; }
-            | exp LE exp            { $1 < $3  ? $$ = true : $$ = false; }
-            | exp GEQ exp           { $1 >= $3 ? $$ = true : $$ = false; }
-            | exp LEQ exp           { $1 <= $3 ? $$ = true : $$ = false; }
+eq_op       : exp EQ exp            {  } //$1 == $3 ? $$ = true : $$ = false;
+            | exp GT exp            {  } //$1 > $3  ? $$ = true : $$ = false;
+            | exp LT exp            {  } //$1 < $3  ? $$ = true : $$ = false;
+            | exp GTE exp           {  } //$1 >= $3 ? $$ = true : $$ = false;
+            | exp LTE exp           {  } //$1 <= $3 ? $$ = true : $$ = false;
             | '(' eq_op ')'         { ; }
             ;
 
 lgc         : eq_op                 
-            | t_not lgc %prec UNOT  { $$ = !($2); }
-            | lgc t_and lgc         { $$ = $1 && $3; }
-            | lgc t_or lgc          { $$ = $1 || $3; }
-            | lgc implies lgc       { $$ = $1 ? $3 : false; }
-            | forall lgc            { $$ = $2; } //TODO;
-            | exists lgc            { $$ = $2; } //TODO;
-            | '(' lgc ')'           { $$ = $2; } //TODO;
+            | t_not lgc %prec UNOT  {  } //$$ = !($2);
+            | lgc t_and lgc         {  } //$$ = $1 && $3;
+            | lgc t_or lgc          {  } //$$ = $1 || $3;
+            | lgc implies lgc       {  } //$$ = $1 ? $3 : false;
+            | forall lgc            {  } //TODO; $$ = $2;
+            | exists lgc            {  } //TODO; $$ = $2;
+            | '(' lgc ')'           {  } //TODO; $$ = $2;
             ;
 
-assignment  : var '=' exp           { driver.update_var(*$1, "real", $3); }
-            | realnum var           { driver.update_var(*$2, "real", 0); } 
-            | intnum var            { driver.update_var(*$2, "int", 0); } 
-            | formula var           { driver.update_form(*$2, ""); } 
-            | var define            { driver.update_form(*$1, *$2); }
+assignment  : var '=' exp           { driver.update_var(*$1, $3); }
+            | realnum var           { driver.mk_var(*$2, Real); } 
+            | intnum var            { driver.mk_var(*$2, Int); } 
+            | formula var           { ; }  //driver.update_form(*$2, "")
+            | var define            { ; }  //driver.update_form(*$1, *$2)
             ;
-
-tvar        : var '=' exp           { driver.update_temp(*$1, "real", $3); }
-            | tvar ',' var '=' exp  { driver.update_temp(*$3, "real", $5); } 
 
 exp         : term
-            | '-' exp %prec UMINUS  { $$ = -$2; }
-            | exp '+' exp           { $$ = $1 + $3; }
-            | exp '-' exp           { $$ = $1 - $3; }
-            | exp '*' exp           { $$ = $1 * $3; }
-            | exp '/' exp           { $$ = $1 / $3; }
+            | '-' exp %prec UMINUS  { $$ = driver.mk_func(Neg, $2); }
+            | exp '+' exp           { $$ = driver.mk_func(Add, $1, $3); }
+            | exp '-' exp           { $$ = driver.mk_func(Sub, $1, $3); }
+            | exp '*' exp           { $$ = driver.mk_func(Mult, $1, $3); }
+            | exp '/' exp           { $$ = driver.mk_func(Div, $1, $3); }
+            | exp '^' exp           { $$ = driver.mk_func(Pow, $1, $3); }
             | '(' exp ')'           { $$ = $2; }
             ;
 
-term        : number                
-            | var                   { $$ = driver.get_var(*$1); }
+term        : number                { $$ = driver.mk_const($1, Real); }
+            | var                   { $$ = driver.mk_var(*$1, Real); }
             ;
 
 

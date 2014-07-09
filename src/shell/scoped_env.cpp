@@ -67,7 +67,7 @@ void scoped_env::update(key_type const & k, mapped_type const & v) {
 scoped_env::mapped_type scoped_env::lookup(key_type const & k) {
     auto ite = m_map.find(k);
     if (ite == m_map.end()){
-        throw 0;
+        throw std::runtime_error( "Error: " + k + " not found." );;
     }
     return ite->second;
 }
@@ -116,10 +116,5 @@ unsigned scoped_env::size() const {
 }
 
 std::ostream & operator<<(std::ostream & out, scoped_env const & e) {
-    for (auto const & p : e) {
-        out << setfill(' ') << setw(15) << p.first
-            << " : " << p.second.first << " ~ " << p.second.second << ";" << endl;
-    }
-    return out;
 }
 }

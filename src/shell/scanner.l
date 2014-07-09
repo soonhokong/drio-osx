@@ -22,10 +22,10 @@ typedef shell::parser::token token;
 %%
 "real"                  { return token::realnum; } 
 "int"                   { return token::intnum; }
-">"                     { return token::GE; }
-"<"                     { return token::LE; }
-">="                    { return token::GEQ; }
-"<="                    { return token::LEQ; }
+">"                     { return token::GT; }
+"<"                     { return token::LT; }
+">="                    { return token::GTE; }
+"<="                    { return token::LTE; }
 "=="                    { return token::EQ; }
 
 "and"                   { return token::t_and; }
