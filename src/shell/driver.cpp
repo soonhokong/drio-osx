@@ -57,21 +57,45 @@ void shell::driver::print_env(){
     }
 }
 
-void shell::driver::update_var(const std::string &var, void *expr){
+void shell::driver::set_var(const std::string &name, void *expr){
     toTermVar(expr,res);
-    var_env.insert(var, res);
+    unsigned type;
+    try{
+        type = var_env.lookup(name)->type();
+
+    } catch(const std::exception& ex){
+        type = Real;
+    }
+    res->set_type(type);
+    var_env.insert(name, res);
 }
 
 shell::term* shell::driver::mk_const(const double num, const unsigned type){
     return new term_const(num, type);
 }
+
 shell::term* shell::driver::mk_var(const std::string &name, const unsigned type){
+    term_var * res = new term_var(name, type);
+    var_env.insert(name,res);
     return new term_var(name, type);
 }
+
+//Single arg constructor for possibly inheriting a type.
+shell::term* shell::driver::mk_var(const std::string &name){
+    unsigned type;
+    try{
+        type = var_env.lookup(name)->type();
+    } catch(const std::exception& ex){
+        type = Real;
+    }
+    return new term_var(name, type);
+}
+
 shell::term* shell::driver::mk_func(const unsigned op, const void *expr){
     toTerm(expr,t1);
     return new term_func(op, t1);
 }
+
 shell::term* shell::driver::mk_func(const unsigned op, const void *expr1, const void *expr2){
     toTerm(expr1,res1);
     toTerm(expr2,res2);

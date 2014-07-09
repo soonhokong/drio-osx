@@ -29,6 +29,7 @@ public:
     term_var(const std::string name, const unsigned type); 
 
     term_type type() const { return static_cast<term_type>(m_type); }
+    void set_type(unsigned type) { m_type = type; }
     std::string name() const { return m_name; }
     double val() const; 
 };

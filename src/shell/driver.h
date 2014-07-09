@@ -23,7 +23,7 @@ public:
 
     void print(const void *expr);
     void print_env();
-    void update_var(const std::string &var, void *expr);
+    void set_var(const std::string &name, void *expr);
 
     // void update_form(const std::string &name, const std::string &form);
     // void update_temp(const std::string &var, const std::string &type, const double num);
@@ -31,6 +31,7 @@ public:
 
     term* mk_const(const double num, const unsigned type);
     term* mk_var(const std::string &name, const unsigned type);
+    term* mk_var(const std::string &name);
     term* mk_func(const unsigned op, const void *expr);
     term* mk_func(const unsigned op, const void *expr1, const void *expr2);
 

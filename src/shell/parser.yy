@@ -113,7 +113,7 @@ lgc         : eq_op
             | '(' lgc ')'           {  } //TODO; $$ = $2;
             ;
 
-assignment  : var '=' exp           { driver.update_var(*$1, $3); }
+assignment  : var '=' exp           { driver.set_var(*$1, $3); }
             | realnum var           { driver.mk_var(*$2, Real); } 
             | intnum var            { driver.mk_var(*$2, Int); } 
             | formula var           { ; }  //driver.update_form(*$2, "")
@@ -131,7 +131,7 @@ exp         : term
             ;
 
 term        : number                { $$ = driver.mk_const($1, Real); }
-            | var                   { $$ = driver.mk_var(*$1, Real); }
+            | var                   { $$ = driver.mk_var(*$1); }
             ;
 
 
