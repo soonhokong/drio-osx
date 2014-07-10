@@ -31,6 +31,8 @@
     enum func_op { Add, Sub, Mult, Div, Neg, Pow };
     enum equality_op { EQ, GT, LT, GTE, LTE };
     enum cnct_type { And, Or, Implies };
+    enum quant_type { Forall, Exists };
+
 
     static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
@@ -107,11 +109,11 @@ eq_op       : exp EQ exp            { $$ = driver.mk_fmla_eq(EQ,$1,$3); }
 lgc         : eq_op                 
             | t_not lgc %prec UNOT  { $$ = driver.mk_fmla_neg($2); } 
             | lgc t_and lgc         { $$ = driver.mk_fmla_cnct(And, $1, $3); } 
-            | lgc t_or lgc          { $$ = driver.mk_fmla_cnct(Or, $1, $3); } //$$ = $1 || $3;
+            | lgc t_or lgc          { $$ = driver.mk_fmla_cnct(Or, $1, $3); }
             | lgc implies lgc       { $$ = driver.mk_fmla_cnct(Implies, $1, $3); } 
-            | forall lgc            {  } //TODO; $$ = $2;
-            | exists lgc            {  } //TODO; $$ = $2;
-            | '(' lgc ')'           {  } //TODO; $$ = $2;
+            | forall var lgc        { $$ = driver.mk_fmla_quant(Forall, *$2, $3); } 
+            | exists var lgc        { $$ = driver.mk_fmla_quant(Exists, *$2, $3); } 
+            | '(' lgc ')'           { $$ = $2; } 
             ;
 
 assignment  : var '=' exp           { driver.set_var(*$1, $3); }

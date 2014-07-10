@@ -19,7 +19,7 @@ include_directories("${DRIO_BINARY_DIR}/shell")
 add_executable(sh main.cpp)
 target_link_libraries(sh SH_UTIL)
 target_link_libraries(sh formula)
-
+target_link_libraries(SH_UTIL formula)
 
 ADD_CUSTOM_COMMAND(TARGET sh
           POST_BUILD

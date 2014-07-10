@@ -11,6 +11,7 @@
 #include "types/formula/formula.h"
 #include "types/formula/atom.h"
 #include "types/formula/connective.h"
+#include "types/formula/quantifier.h"
 
 namespace shell{
 
@@ -41,6 +42,7 @@ public:
     fmla* mk_fmla_eq(const unsigned op, const void *lhs, const void *rhs);
     fmla* mk_fmla_cnct(const unsigned op, const void *lhs, const void *rhs);
     fmla* mk_fmla_neg(const void *arg);
+    fmla* mk_fmla_quant(const unsigned op, const std::string &name, const void *formula);
 
 private:
     shell::parser *parser;

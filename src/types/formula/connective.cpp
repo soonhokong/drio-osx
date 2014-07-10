@@ -6,8 +6,8 @@
 
 namespace shell{
 
-fmla_cnct::fmla_cnct(unsigned op, const fmla* lhs, const fmla* rhs):
-	f_type(op),
+fmla_cnct::fmla_cnct(unsigned type, const fmla* lhs, const fmla* rhs):
+	f_type(type),
 	f_lhs(lhs),
 	f_rhs(rhs){ f_kind = Connective; }
 

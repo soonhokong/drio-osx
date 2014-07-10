@@ -11,12 +11,13 @@
 #include "shell/scoped_env.h"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
+#include "types/formula/atom.h"
 #include "types/formula/connective.h"
+#include "types/formula/quantifier.h"
 
-#define toTerm(x,y) const term* y =  static_cast<const term*>(x)
-#define toTermVar(x,y) term_var* y =  static_cast<term_var*>(x)
-
-#define toFmla(x,y) const fmla* y =  static_cast<const fmla*>(x)
+#define toTerm(x,y) const shell::term* y =  static_cast<const shell::term*>(x)
+#define toTermVar(x,y) const shell::term_var* y =  static_cast<const shell::term_var*>(x)
+#define toFmla(x,y) const shell::fmla* y =  static_cast<const shell::fmla*>(x)
 
 /* var_env  -> unordered map for variables
    fmla_env -> unordered map for formulas
@@ -138,39 +139,8 @@ shell::fmla* shell::driver::mk_fmla_neg(const void *arg){
     return new fmla_neg(res);
 }
 
-// /* Updates formulas */
-// void shell::driver::update_form(const std::string &name, const std::string &formula){
-//     std::cout << "Updating formula " << name << " as " << formula << "\n";
-//     fmla_env.insert(name, make_pair(formula, 0));
-// }
-
-// /* Assigns temporary variable for formula evaluation */
-// void shell::driver::update_temp(const std::string &name, const std::string &type, const double num){
-//     temp_env.insert(name,make_pair(type, num));
-// }
-
-// /* Formula evalutation e.g. formula.eval */
-// void shell::driver::eval(const std::string &name){
-//     std::pair<std::string, double > res;
-//     std::string formula;
-//     try{
-//         res = fmla_env.lookup(name);
-//     }
-//     catch (int e){
-//         std::cout << "Formula " << name << " is undefined.\n";
-//         temp_env.clear();
-//         return;
-//     }
-//     if (res.first == ""){
-//         std::cout << "Formula " << name << " is empty.\n";
-//     }
-//     else{
-//         formula += res.first;
-//         formula += '\n';
-//         std::istringstream input(formula);
-//         scanner->yypush_buffer_state(scanner->yy_create_buffer(&input,16384));
-//         parser->parse();
-//         scanner->yypop_buffer_state();
-//     }
-//     temp_env.clear();
-// }
+shell::fmla* shell::driver::mk_fmla_quant(const unsigned op, const std::string &name, const void *formula){
+    toFmla(formula,fmla1);
+    toTermVar(shell::driver::mk_var(name),var);
+    return new fmla_quant(op, var, fmla1);
+}
