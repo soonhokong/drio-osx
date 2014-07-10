@@ -7,9 +7,10 @@
 
 namespace shell{
 
-/* Abstract base class for terms */
 enum term_kind { Variable, Constant, Formula };
+enum term_type { Real, Int };
 
+/* Abstract base class for terms */
 class term{
 protected:
     unsigned        m_kind;
@@ -19,8 +20,6 @@ public:
 };
 
 /* Variable class */
-enum term_type { Real, Int };
-
 class term_var : public term {
 private:
     unsigned        m_type;
@@ -37,12 +36,10 @@ public:
 /* Constants class */
 class term_const : public term {
 private:
-    unsigned        m_type;
     double          m_val;
 public:
-    term_const(const double val, const unsigned type);
+    term_const(const double val);
 
-    term_type type() const { return static_cast<term_type>(m_type); }
     double val() const { return m_val; }
 };
 }

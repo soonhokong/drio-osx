@@ -15,7 +15,7 @@
 #define toTerm(x,y) const term* y =  static_cast<const term*>(x)
 #define toTermVar(x,y) term_var* y =  static_cast<term_var*>(x)
 
-#define toAtom(x,y) const atom* y =  static_cast<const atom*>(x)
+#define toFmla(x,y) const fmla* y =  static_cast<const fmla*>(x)
 
 /* var_env  -> unordered map for variables
    fmla_env -> unordered map for formulas
@@ -51,8 +51,8 @@ void shell::driver::print_exp(const void* expr){
     }
 }
 
-void shell::driver::print_atom(const void* atm){
-    toAtom(atm,res);
+void shell::driver::print_fmla(const void* formula){
+    toFmla(formula,res);
     try{
         std::cout << (res->val() ? "true" : "false") << "\n";
     } catch(const std::exception& ex){
@@ -60,43 +60,48 @@ void shell::driver::print_atom(const void* atm){
     }
 }
 
-
 void shell::driver::print_env(){
     for (auto i = var_env.begin(); i != var_env.end(); ++i){
         if (i->first != ""){
-            std::cout << i->first << ":" << i->second->name() << " ~ " << i->second->val() << "\n";
+            std::cout << i->first << ":" << i->second.first << " ~ " << i->second.second << "\n";
         }
     }
 }
 
-void shell::driver::set_var(const std::string &name, void *expr){
-    toTermVar(expr,res);
-    unsigned type;
-    try{
-        type = var_env.lookup(name)->type();
+void shell::driver::set_var(const std::string &name, const void *expr){
+    toTerm(expr,res);
+    double num = res->val();
 
+    //Retrieving type if already delcared
+    term_type type;
+    try{
+        type = var_env.lookup(name).first;
     } catch(const std::exception& ex){
         type = Real;
     }
-    res->set_type(type);
-    var_env.insert(name, res);
+    
+    try {
+        var_env.insert(name, std::make_pair(type,num));
+    } catch(const std::exception& ex){
+        std::cerr << ex.what() << "\n";
+    }
 }
 
-shell::term* shell::driver::mk_const(const double num, const unsigned type){
-    return new term_const(num, type);
+shell::term* shell::driver::mk_const(const double num){
+    return new term_const(num);
 }
 
 shell::term* shell::driver::mk_var(const std::string &name, const unsigned type){
     term_var * res = new term_var(name, type);
-    var_env.insert(name,res);
-    return new term_var(name, type);
+    var_env.insert(name, std::make_pair(static_cast<term_type>(type),0));
+    return res;
 }
 
 //Single arg constructor for possibly inheriting a type.
 shell::term* shell::driver::mk_var(const std::string &name){
-    unsigned type;
+    term_type type;
     try{
-        type = var_env.lookup(name)->type();
+        type = var_env.lookup(name).first;
     } catch(const std::exception& ex){
         type = Real;
     }
@@ -114,10 +119,10 @@ shell::term* shell::driver::mk_func(const unsigned op, const void *expr1, const 
     return new term_func(op, res1, res2);
 }
 
-shell::atom* shell::driver::mk_atom_eq(const unsigned op, const void *arg1, const void *arg2){
+shell::fmla* shell::driver::mk_fmla_eq(const unsigned op, const void *arg1, const void *arg2){
     toTerm(arg1,res1);
     toTerm(arg2,res2);
-    return new atom_eq(op, res1, res2);
+    return new fmla_eq(op, res1, res2);
 }
 
 // /* Updates formulas */

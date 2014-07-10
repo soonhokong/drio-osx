@@ -30,7 +30,7 @@
 
     enum term_type { Real, Int };
     enum func_op { Add, Sub, Mult, Div, Neg, Pow };
-    enum atom_kind { Equality, Predicate };
+    enum equality_op { EQ, GT, LT, GTE, LTE };
 
     static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
@@ -90,17 +90,17 @@ stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
             | var eval              { ; } //driver.eval(*$1);
             | exp '\n'              { driver.print_exp($1); }
-            | lgc '\n'              { driver.print_atom($1); } 
+            | lgc '\n'              { driver.print_fmla($1); } 
             | quit '\n'             { exit(0); }
             | print exp '\n'        { driver.print_exp($2); }
             | printenv '\n'         { driver.print_env(); }
             ;
 
-eq_op       : exp EQ exp            { $$ = driver.mk_atom_eq(EQ,$1,$3); } 
-            | exp GT exp            { $$ = driver.mk_atom_eq(GT,$1,$3); } 
-            | exp LT exp            { $$ = driver.mk_atom_eq(LT,$1,$3); } 
-            | exp GTE exp           { $$ = driver.mk_atom_eq(GTE,$1,$3); } 
-            | exp LTE exp           { $$ = driver.mk_atom_eq(LTE,$1,$3); } 
+eq_op       : exp EQ exp            { $$ = driver.mk_fmla_eq(EQ,$1,$3); } 
+            | exp GT exp            { $$ = driver.mk_fmla_eq(GT,$1,$3); } 
+            | exp LT exp            { $$ = driver.mk_fmla_eq(LT,$1,$3); } 
+            | exp GTE exp           { $$ = driver.mk_fmla_eq(GTE,$1,$3); } 
+            | exp LTE exp           { $$ = driver.mk_fmla_eq(LTE,$1,$3); } 
             | '(' eq_op ')'         { ; }
             ;
 
@@ -131,7 +131,7 @@ exp         : term
             | '(' exp ')'           { $$ = $2; }
             ;
 
-term        : number                { $$ = driver.mk_const($1, Real); }
+term        : number                { $$ = driver.mk_const($1); }
             | var                   { $$ = driver.mk_var(*$1); }
             ;
 

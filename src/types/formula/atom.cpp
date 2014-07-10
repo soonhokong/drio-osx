@@ -7,23 +7,23 @@
 
 namespace shell{
 
-atom_eq::atom_eq(unsigned op, const term *lhs, const term *rhs):
-    a_op(op),
-    a_lhs(lhs),
-    a_rhs(rhs){ a_kind = op; }
+fmla_eq::fmla_eq(unsigned op, const term *lhs, const term *rhs):
+    f_op(op),
+    f_lhs(lhs),
+    f_rhs(rhs){ f_kind = op; }
 
-bool atom_eq::val() const{
-    switch( a_op ){
+bool fmla_eq::val() const{
+    switch( f_op ){
         case EQ:
-            return a_lhs->val() == a_rhs->val();
+            return f_lhs->val() == f_rhs->val();
         case GT:
-            return a_lhs->val() > a_rhs->val();
+            return f_lhs->val() > f_rhs->val();
         case LT:
-            return a_lhs->val() < a_rhs->val();
+            return f_lhs->val() < f_rhs->val();
         case GTE:
-            return a_lhs->val() >= a_rhs->val();
+            return f_lhs->val() >= f_rhs->val();
         case LTE:
-            return a_lhs->val() <= a_rhs->val();
+            return f_lhs->val() <= f_rhs->val();
     }
     //Should never reach here
     return false;
