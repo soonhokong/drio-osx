@@ -13,12 +13,12 @@ enum equality_op { EQ, GT, LT, GTE, LTE };
 
 class fmla_eq : public fmla {
 protected:
-    unsigned            f_op;
+    unsigned            f_type;
     const term*         f_lhs;
     const term*         f_rhs;
 public:
     fmla_eq(unsigned op, const term *lhs, const term *rhs);
-    equality_op kind() const { return static_cast<equality_op>(f_op); }
+    equality_op type() const { return static_cast<equality_op>(f_type); }
     bool val() const;
 };
 }

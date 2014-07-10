@@ -27,10 +27,10 @@
     #include <string>
     #include "driver.h"
 
-
     enum term_type { Real, Int };
     enum func_op { Add, Sub, Mult, Div, Neg, Pow };
     enum equality_op { EQ, GT, LT, GTE, LTE };
+    enum cnct_type { And, Or, Implies };
 
     static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
@@ -101,14 +101,14 @@ eq_op       : exp EQ exp            { $$ = driver.mk_fmla_eq(EQ,$1,$3); }
             | exp LT exp            { $$ = driver.mk_fmla_eq(LT,$1,$3); } 
             | exp GTE exp           { $$ = driver.mk_fmla_eq(GTE,$1,$3); } 
             | exp LTE exp           { $$ = driver.mk_fmla_eq(LTE,$1,$3); } 
-            | '(' eq_op ')'         { ; }
+            | '(' eq_op ')'         { $$ = $2; }
             ;
 
 lgc         : eq_op                 
-            | t_not lgc %prec UNOT  {  } //$$ = !($2);
-            | lgc t_and lgc         {  } //$$ = $1 && $3;
-            | lgc t_or lgc          {  } //$$ = $1 || $3;
-            | lgc implies lgc       {  } //$$ = $1 ? $3 : false;
+            | t_not lgc %prec UNOT  { $$ = driver.mk_fmla_neg($2); } 
+            | lgc t_and lgc         { $$ = driver.mk_fmla_cnct(And, $1, $3); } 
+            | lgc t_or lgc          { $$ = driver.mk_fmla_cnct(Or, $1, $3); } //$$ = $1 || $3;
+            | lgc implies lgc       { $$ = driver.mk_fmla_cnct(Implies, $1, $3); } 
             | forall lgc            {  } //TODO; $$ = $2;
             | exists lgc            {  } //TODO; $$ = $2;
             | '(' lgc ')'           {  } //TODO; $$ = $2;

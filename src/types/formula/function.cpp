@@ -8,31 +8,31 @@
 
 namespace shell{
 
-term_func::term_func(const unsigned op, const term *arg1):
+term_func::term_func(const unsigned op, const term *lhs):
     m_op(op),
     m_num_args(1),
-    arg1(arg1){ m_kind = Formula; }
+    m_lhs(lhs){ m_kind = Formula; }
 
-term_func::term_func(const unsigned op, const term *arg1, const term *arg2):
+term_func::term_func(const unsigned op, const term *lhs, const term *rhs):
     m_op(op),
     m_num_args(2),
-    arg1(arg1),
-    arg2(arg2){ m_kind = Formula; };
+    m_lhs(lhs),
+    m_rhs(rhs){ m_kind = Formula; };
 
 double term_func::val() const {
     switch (m_op){
         case Add:
-            return arg1->val() + arg2->val();
+            return m_lhs->val() + m_rhs->val();
         case Sub:
-            return arg1->val() - arg2->val();
+            return m_lhs->val() - m_rhs->val();
         case Mult:
-            return arg1->val() * arg2->val();
+            return m_lhs->val() * m_rhs->val();
         case Div:
-            return arg1->val() / arg2->val();
+            return m_lhs->val() / m_rhs->val();
         case Pow:
-            return std::pow(arg1->val(), arg2->val());
+            return std::pow(m_lhs->val(), m_rhs->val());
         case Neg:
-            return arg1->val() * -1;
+            return m_lhs->val() * -1;
     }
     //Should never reach here
     return 0;

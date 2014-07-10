@@ -10,6 +10,7 @@
 #include "types/formula/function.h"
 #include "types/formula/formula.h"
 #include "types/formula/atom.h"
+#include "types/formula/connective.h"
 
 namespace shell{
 
@@ -23,7 +24,7 @@ public:
     void parse();
 
     void print_exp(const void *expr);
-    void print_fmla(const void *atm);
+    void print_fmla(const void *fmla);
     void print_env();
     void set_var(const std::string &name, const void *expr);
 
@@ -37,7 +38,9 @@ public:
     term* mk_func(const unsigned op, const void *expr);
     term* mk_func(const unsigned op, const void *expr1, const void *expr2);
 
-    fmla* mk_fmla_eq(const unsigned op, const void *arg1, const void *arg2);
+    fmla* mk_fmla_eq(const unsigned op, const void *lhs, const void *rhs);
+    fmla* mk_fmla_cnct(const unsigned op, const void *lhs, const void *rhs);
+    fmla* mk_fmla_neg(const void *arg);
 
 private:
     shell::parser *parser;

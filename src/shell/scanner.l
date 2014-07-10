@@ -54,7 +54,7 @@ typedef shell::parser::token token;
                         }
 
     /* operators */
-[-+=()*\n/,]             { return yytext[0]; }
+[-+=()*\n/,^]             { return yytext[0]; }
 
     /* numbers */
 [0-9]*\.?[0-9]+         {

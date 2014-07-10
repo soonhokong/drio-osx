@@ -11,6 +11,7 @@
 #include "shell/scoped_env.h"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
+#include "types/formula/connective.h"
 
 #define toTerm(x,y) const term* y =  static_cast<const term*>(x)
 #define toTermVar(x,y) term_var* y =  static_cast<term_var*>(x)
@@ -91,13 +92,14 @@ shell::term* shell::driver::mk_const(const double num){
     return new term_const(num);
 }
 
+//Used for delclaring variable type
 shell::term* shell::driver::mk_var(const std::string &name, const unsigned type){
     term_var * res = new term_var(name, type);
     var_env.insert(name, std::make_pair(static_cast<term_type>(type),0));
     return res;
 }
 
-//Single arg constructor for possibly inheriting a type.
+//Single arg constructor for possibly inheriting a already declared type.
 shell::term* shell::driver::mk_var(const std::string &name){
     term_type type;
     try{
@@ -114,15 +116,26 @@ shell::term* shell::driver::mk_func(const unsigned op, const void *expr){
 }
 
 shell::term* shell::driver::mk_func(const unsigned op, const void *expr1, const void *expr2){
-    toTerm(expr1,res1);
-    toTerm(expr2,res2);
-    return new term_func(op, res1, res2);
+    toTerm(expr1,term1);
+    toTerm(expr2,term2);
+    return new term_func(op, term1, term2);
 }
 
-shell::fmla* shell::driver::mk_fmla_eq(const unsigned op, const void *arg1, const void *arg2){
-    toTerm(arg1,res1);
-    toTerm(arg2,res2);
-    return new fmla_eq(op, res1, res2);
+shell::fmla* shell::driver::mk_fmla_eq(const unsigned op, const void *lhs, const void *rhs){
+    toTerm(lhs,term1);
+    toTerm(rhs,term2);
+    return new fmla_eq(op, term1, term2);
+}
+
+shell::fmla* shell::driver::mk_fmla_cnct(const unsigned op, const void *lhs, const void *rhs){
+    toFmla(lhs,fmla1);
+    toFmla(rhs,fmla2);
+    return new fmla_cnct(op, fmla1, fmla2);
+}
+
+shell::fmla* shell::driver::mk_fmla_neg(const void *arg){
+    toFmla(arg,res);
+    return new fmla_neg(res);
 }
 
 // /* Updates formulas */

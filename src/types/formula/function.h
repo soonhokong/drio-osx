@@ -15,12 +15,12 @@ class term_func : public term {
 private:
     unsigned        m_op;
     unsigned        m_num_args;
-    const term*     arg1;
-    const term*     arg2;
+    const term*     m_lhs;
+    const term*     m_rhs;
 
 public:
-    term_func(const unsigned op, const term *arg1);
-    term_func(const unsigned op, const term *arg1, const term *arg2);
+    term_func(const unsigned op, const term *lhs);
+    term_func(const unsigned op, const term *lhs, const term *rhs);
     double val() const;
 };
 }

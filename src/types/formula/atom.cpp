@@ -8,12 +8,12 @@
 namespace shell{
 
 fmla_eq::fmla_eq(unsigned op, const term *lhs, const term *rhs):
-    f_op(op),
+    f_type(op),
     f_lhs(lhs),
-    f_rhs(rhs){ f_kind = op; }
+    f_rhs(rhs){ f_kind = Equality; }
 
 bool fmla_eq::val() const{
-    switch( f_op ){
+    switch( f_type ){
         case EQ:
             return f_lhs->val() == f_rhs->val();
         case GT:
