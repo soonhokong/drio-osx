@@ -29,6 +29,9 @@ public:
     void print_env();
     void set_var(const std::string &name, const void *expr);
 
+    void var_push();
+    void var_pop();
+
     // void update_form(const std::string &name, const std::string &form);
     // void update_temp(const std::string &var, const std::string &type, const double num);
     // void eval(const std::string &name);
@@ -49,6 +52,7 @@ public:
     void eval_fmla(const std::string &name);
 
     void error(const std::string &err);
+
 private:
     shell::parser *parser;
     shell::scanner *scanner;

@@ -90,6 +90,15 @@ void shell::driver::set_var(const std::string &name, const void *expr){
     }
 }
 
+void shell::driver::var_push(){
+    var_env.push();
+}
+
+void shell::driver::var_pop(){
+    var_env.pop();
+}
+
+
 shell::term* shell::driver::mk_const(const double num){
     return new term_const(num);
 }
