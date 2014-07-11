@@ -8,7 +8,8 @@
 #include <string>
 #include <utility>
 #include "shell/driver.h"
-#include "shell/scoped_env.h"
+#include "shell/var_scoped_env.h"
+#include "shell/fmla_scoped_env.h"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
 #include "types/formula/atom.h"
@@ -22,8 +23,8 @@
 /* var_env  -> unordered map for variables
    fmla_env -> unordered map for formulas
    temp_env -> unordered map for temporary variables */
-dreal::scoped_env var_env;
-dreal::scoped_env fmla_env;
+dreal::var_scoped_env var_env;
+dreal::fmla_scoped_env fmla_env;
 // dreal::scoped_env temp_env;
 
 shell::driver::~driver(){
@@ -72,7 +73,6 @@ void shell::driver::print_env(){
 
 void shell::driver::set_var(const std::string &name, const void *expr){
     toTerm(expr,res);
-    double num = res->val();
 
     //Retrieving type if already delcared
     term_type type;
@@ -83,6 +83,7 @@ void shell::driver::set_var(const std::string &name, const void *expr){
     }
     
     try {
+        double num = res->val();
         var_env.insert(name, std::make_pair(type,num));
     } catch(const std::exception& ex){
         std::cerr << ex.what() << "\n";
@@ -112,25 +113,25 @@ shell::term* shell::driver::mk_var(const std::string &name){
 }
 
 shell::term* shell::driver::mk_func(const unsigned op, const void *expr){
-    toTerm(expr,t1);
+    toTerm(expr, t1);
     return new term_func(op, t1);
 }
 
 shell::term* shell::driver::mk_func(const unsigned op, const void *expr1, const void *expr2){
-    toTerm(expr1,term1);
-    toTerm(expr2,term2);
+    toTerm(expr1, term1);
+    toTerm(expr2, term2);
     return new term_func(op, term1, term2);
 }
 
 shell::fmla* shell::driver::mk_fmla_eq(const unsigned op, const void *lhs, const void *rhs){
-    toTerm(lhs,term1);
-    toTerm(rhs,term2);
+    toTerm(lhs, term1);
+    toTerm(rhs, term2);
     return new fmla_eq(op, term1, term2);
 }
 
 shell::fmla* shell::driver::mk_fmla_cnct(const unsigned op, const void *lhs, const void *rhs){
-    toFmla(lhs,fmla1);
-    toFmla(rhs,fmla2);
+    toFmla(lhs, fmla1);
+    toFmla(rhs, fmla2);
     return new fmla_cnct(op, fmla1, fmla2);
 }
 
@@ -140,7 +141,34 @@ shell::fmla* shell::driver::mk_fmla_neg(const void *arg){
 }
 
 shell::fmla* shell::driver::mk_fmla_quant(const unsigned op, const std::string &name, const void *formula){
-    toFmla(formula,fmla1);
-    toTermVar(shell::driver::mk_var(name),var);
+    toFmla(formula, fmla1);
+    toTermVar(shell::driver::mk_var(name), var);
     return new fmla_quant(op, var, fmla1);
+}
+
+void shell::driver::set_fmla(const std::string &name){
+    fmla_env.insert(name, NULL);
+}
+
+void shell::driver::set_fmla(const std::string &name, const void *formula){
+    toFmla(formula, fmla1);
+    fmla_env.insert(name, fmla1);
+}
+
+void shell::driver::eval_fmla(const std::string &name){
+    const fmla* formula;
+    try{
+        formula = fmla_env.lookup(name);
+    } catch(const std::exception& ex){
+        std::cerr << ex.what() << "\n";
+    }
+    if (formula == NULL){
+        std::cerr << "Error: formula " << name << " was not found.\n";
+    } else{
+        print_fmla(formula);
+    }
+}
+
+void shell::driver::error(const std::string &err){
+    std::cerr << "Error: " << err << "\n";
 }

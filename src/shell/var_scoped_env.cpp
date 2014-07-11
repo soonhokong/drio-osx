@@ -30,7 +30,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <iomanip>
 #include <iostream>
-#include "shell/scoped_env.h"
+#include "shell/var_scoped_env.h"
 
 using std::endl;
 using std::setfill;
@@ -39,13 +39,13 @@ using std::setw;
 
 namespace dreal {
 
-scoped_env::scoped_env() {
+var_scoped_env::var_scoped_env() {
 }
 
-scoped_env::~scoped_env() {
+var_scoped_env::~var_scoped_env() {
 }
 
-void scoped_env::insert(key_type const & k, mapped_type const & v) {
+void var_scoped_env::insert(key_type const & k, mapped_type const & v) {
     auto p = make_pair(k, v);
     auto ite = m_map.find(k);
     if (ite != m_map.end()) {
@@ -57,33 +57,33 @@ void scoped_env::insert(key_type const & k, mapped_type const & v) {
     }
 }
 
-void scoped_env::update(key_type const & k, mapped_type const & v) {
+void var_scoped_env::update(key_type const & k, mapped_type const & v) {
     auto ite = m_map.find(k);
     assert(ite != m_map.end());
     m_actions.push_back(make_pair(Action::UPDATE, *ite));
     m_map[k] = v;
 }
 
-scoped_env::mapped_type scoped_env::lookup(key_type const & k) {
+var_scoped_env::mapped_type var_scoped_env::lookup(key_type const & k) {
     auto ite = m_map.find(k);
     if (ite == m_map.end()){
-        throw std::runtime_error( "Error: " + k + " not found." );;
+        throw std::runtime_error( "Error: variable " + k + " was not found." );;
     }
     return ite->second;
 }
 
-void scoped_env::erase(key_type const & k) {
+void var_scoped_env::erase(key_type const & k) {
     auto ite = m_map.find(k);
     assert(ite != m_map.end());
     m_actions.push_back(make_pair(Action::ERASE, *ite));
     m_map.erase(k);
 }
 
-void scoped_env::push() {
+void var_scoped_env::push() {
     m_scopes.push_back(m_actions.size());
 }
 
-void scoped_env::pop() {
+void var_scoped_env::pop() {
     unsigned prev_size = m_scopes.back();
     unsigned c = m_actions.size();
     while (c-- > prev_size) {
@@ -107,15 +107,15 @@ void scoped_env::pop() {
     m_scopes.pop_back();
 }
 
-void scoped_env::clear(){
+void var_scoped_env::clear(){
     m_map.clear();
 }
 
-unsigned scoped_env::size() const {
+unsigned var_scoped_env::size() const {
     return m_map.size();
 }
 
-std::ostream & operator<<(std::ostream & out, scoped_env const & e) {
+std::ostream & operator<<(std::ostream & out, var_scoped_env const & e) {
     for (auto const & p : e) {
         out << setfill(' ') << setw(15) << p.first
             << " : " << p.second.first << " ~ " << p.second.second << ";" << endl;

@@ -90,7 +90,7 @@ line        : stmt
 
 stmt        : '\n'                  { ; }
             | assignment '\n'       { ; }
-            | var eval              { ; } //driver.eval(*$1);
+            | var eval              { driver.eval_fmla(*$1); } 
             | exp '\n'              { driver.print_exp($1); }
             | lgc '\n'              { driver.print_fmla($1); } 
             | quit '\n'             { exit(0); }
@@ -119,8 +119,9 @@ lgc         : eq_op
 assignment  : var '=' exp           { driver.set_var(*$1, $3); }
             | realnum var           { driver.mk_var(*$2, Real); } 
             | intnum var            { driver.mk_var(*$2, Int); } 
-            | formula var           { ; }  //driver.update_form(*$2, "")
-            | var define            { ; }  //driver.update_form(*$1, *$2)
+            | formula var           { driver.set_fmla(*$2); }  
+            | var define lgc        { driver.set_fmla(*$1,$3); }  
+            | var define exp        { driver.error("Not a valid formula"); }
             ;
 
 exp         : term

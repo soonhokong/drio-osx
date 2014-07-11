@@ -4,9 +4,9 @@
 
 #include <utility>
 #include "types/formula/term.h"
-#include "shell/scoped_env.h"
+#include "shell/var_scoped_env.h"
 
-extern dreal::scoped_env var_env;
+extern dreal::var_scoped_env var_env;
 
 namespace shell{
 

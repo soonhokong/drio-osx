@@ -37,10 +37,7 @@ typedef shell::parser::token token;
 
 "formula"               { return token::formula; }
 ".eval"                 { return token::eval; }
-":="[^\n]+              { 
-                            yylval->str = STOKEN((yytext+=2));
-                            return token::define; 
-                        }
+":="                    { return token::define; }
 
 "print"                 { return token::print; } 
 "exit"                  { return token::quit; }

@@ -44,6 +44,11 @@ public:
     fmla* mk_fmla_neg(const void *arg);
     fmla* mk_fmla_quant(const unsigned op, const std::string &name, const void *formula);
 
+    void set_fmla(const std::string &name);
+    void set_fmla(const std::string &name, const void *formula);
+    void eval_fmla(const std::string &name);
+
+    void error(const std::string &err);
 private:
     shell::parser *parser;
     shell::scanner *scanner;

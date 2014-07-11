@@ -36,7 +36,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 #include "types/formula/term.h"
 
 namespace dreal {
-class scoped_env {
+class var_scoped_env {
 private:
     typedef std::unordered_map<std::string, std::pair<shell::term_type, double>> map;
     typedef map::key_type key_type;
@@ -51,8 +51,8 @@ private:
     std::vector<unsigned> m_scopes;
 
 public:
-    scoped_env();
-    ~scoped_env();
+    var_scoped_env();
+    ~var_scoped_env();
     const_iterator begin() const { return m_map.cbegin(); }
     const_iterator end() const { return m_map.cend(); }
     void insert(key_type const & k, mapped_type const & v);
@@ -63,8 +63,8 @@ public:
     void pop();
     void clear();
     unsigned size() const;
-    friend std::ostream & operator<<(std::ostream & out, scoped_env const & e);
+    friend std::ostream & operator<<(std::ostream & out, var_scoped_env const & e);
 };
 
-std::ostream & operator<<(std::ostream & out, scoped_env const & e);
+std::ostream & operator<<(std::ostream & out, var_scoped_env const & e);
 }

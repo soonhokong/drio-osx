@@ -19,4 +19,4 @@ SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/lexer.yy.cc GENERATED)
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/parser.tab.cc GENERATED)
 
 INCLUDE_DIRECTORIES(${DRIO_BINARY_DIR}/shell)
-add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp scoped_env.cpp)
+add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp var_scoped_env.cpp fmla_scoped_env.cpp)
