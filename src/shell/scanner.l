@@ -28,12 +28,12 @@ typedef shell::parser::token token;
 "<="                    { return token::LTE; }
 "=="                    { return token::EQ; }
 
-"and"                   { return token::t_and; }
-"or"                    { return token::t_or; }
-"implies"               { return token::implies; }
-"not"                   { return token::t_not; }
-"forall"                { return token::forall; }
-"exists"                { return token::exists; }
+"\\and"                   { return token::t_and; }
+"\\or"                    { return token::t_or; }
+"\\implies"               { return token::implies; }
+"\\not"                   { return token::t_not; }
+"\\forall"                { return token::forall; }
+"\\exists"                { return token::exists; }
 
 "formula"               { return token::formula; }
 ".eval"                 { return token::eval; }
