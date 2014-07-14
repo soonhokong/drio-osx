@@ -1,18 +1,18 @@
 #Custon command for flex/bison
 
 ADD_CUSTOM_COMMAND(
-	OUTPUT	(${DRIO_BINARY_DIR}/shell/parser.tab.cc
-			 ${DRIO_BINARY_DIR}/shell/parser.tab.hh)
-	COMMAND	/usr/local/opt/bison/bin/bison
-	ARGS -Wno-other -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy -Wother
-	)
+        OUTPUT	(${DRIO_BINARY_DIR}/shell/parser.tab.cc
+                         ${DRIO_BINARY_DIR}/shell/parser.tab.hh)
+        COMMAND	${BISON_EXECUTABLE}
+        ARGS -Wno-other -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy -Wother
+        )
 
 ADD_CUSTOM_COMMAND(
-	OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
-	COMMAND ${FLEX_EXECUTABLE}
-	ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l 
-	DEPENDS ${DRIO_BINARY_DIR}/shell/parser.tab.hh
-	)
+        OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
+        COMMAND ${FLEX_EXECUTABLE}
+        ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
+        DEPENDS ${DRIO_BINARY_DIR}/shell/parser.tab.hh
+        )
 
 
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/lexer.yy.cc GENERATED)
