@@ -18,8 +18,8 @@ namespace shell{
 
 class scanner : public yyFlexLexer{
 public:
-    scanner() :  yyFlexLexer(),
-                 yylval(nullptr){};
+    scanner(std::istream *in) :  yyFlexLexer(in),
+				                 yylval(nullptr){};
 
     int yylex(shell::parser::semantic_type *lval){
         yylval = lval;

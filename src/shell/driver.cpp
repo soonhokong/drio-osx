@@ -36,7 +36,7 @@ shell::driver::~driver(){
 
 void shell::driver::parse(){
     delete scanner;
-    scanner = new shell::scanner();
+    scanner = new shell::scanner(&std::cin);
     delete parser;
     parser = new shell::parser(*scanner, *this);
 

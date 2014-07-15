@@ -3,8 +3,8 @@
 ADD_CUSTOM_COMMAND(
 	OUTPUT	(${DRIO_BINARY_DIR}/shell/parser.tab.cc
 			 ${DRIO_BINARY_DIR}/shell/parser.tab.hh)
-	COMMAND	/usr/local/opt/bison/bin/bison
-	ARGS -Wno-other -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy -Wother
+	COMMAND	${BISON_EXECUTABLE}
+	ARGS -d -v ${DRIO_SOURCE_DIR}/shell/parser.yy 
 	)
 
 ADD_CUSTOM_COMMAND(
