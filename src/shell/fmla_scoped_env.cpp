@@ -30,6 +30,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include "shell/fmla_scoped_env.h"
 
 using std::endl;
@@ -113,9 +114,5 @@ void fmla_scoped_env::clear(){
 
 unsigned fmla_scoped_env::size() const {
     return m_map.size();
-}
-
-std::ostream & operator<<(std::ostream & out, fmla_scoped_env const & e) {
-
 }
 }

@@ -9,8 +9,8 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11 -Wno-deprecated
 
 include_directories("${DRIO_SOURCE_DIR}")
 include_directories("${DRIO_SOURCE_DIR}/types/formula")
-add_subdirectory(types)
 include_directories("${DRIO_SOURCE_DIR}/shell")
+add_subdirectory(types)
 add_subdirectory(shell)
 
 include_directories("${DRIO_BINARY_DIR}/shell")
@@ -19,7 +19,7 @@ include_directories("${DRIO_BINARY_DIR}/shell")
 add_executable(sh main.cpp)
 target_link_libraries(sh SH_UTIL)
 target_link_libraries(sh formula)
-
+add_dependencies(SH_UTIL formula)
 
 ADD_CUSTOM_COMMAND(TARGET sh
           POST_BUILD

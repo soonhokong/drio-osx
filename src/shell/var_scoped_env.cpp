@@ -30,6 +30,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 #include <cassert>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include "shell/var_scoped_env.h"
 
 using std::endl;
