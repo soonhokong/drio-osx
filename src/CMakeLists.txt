@@ -2,24 +2,20 @@ cmake_minimum_required(VERSION 2.8.7)
 project(DRIO)
 set(CMAKE_COLOR_MAKEFILE ON)
 
-find_package(BISON)
-find_package(FLEX)
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
+
+include_directories("${DRIO_BINARY_DIR}")
 
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11 -Wno-deprecated-register -Wno-delete-non-virtual-dtor")
 
 include_directories("${DRIO_SOURCE_DIR}")
-include_directories("${DRIO_SOURCE_DIR}/types/formula")
-include_directories("${DRIO_SOURCE_DIR}/shell")
 add_subdirectory(types)
 add_subdirectory(shell)
 
-include_directories("${DRIO_BINARY_DIR}/shell")
-
 # adds executable
 add_executable(sh main.cpp)
-target_link_libraries(sh SH_UTIL)
-target_link_libraries(sh formula)
-add_dependencies(SH_UTIL formula)
+target_link_libraries(sh SH_UTIL formula)
 
 ADD_CUSTOM_COMMAND(TARGET sh
           POST_BUILD
