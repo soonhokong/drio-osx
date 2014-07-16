@@ -1,4 +1,4 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
@@ -12,14 +12,14 @@
 #undef YY_DECL
 #define YY_DECL int shell::scanner::yylex()
 
-#include "parser.tab.hh"
+#include "shell/parser.tab.hh"
 
 namespace shell{
 
 class scanner : public yyFlexLexer{
 public:
     scanner(std::istream *in) :  yyFlexLexer(in),
-				                 yylval(nullptr){};
+                                                 yylval(nullptr){};
 
     int yylex(shell::parser::semantic_type *lval){
         yylval = lval;

@@ -1,11 +1,11 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
 %{
 #include <string>
 #include <cstdlib>
-#include "scanner.h"
+#include "shell/scanner.h"
 
 #define STOKEN(x) (new std::string(x))
 #define NTOKEN(x) ( double (atof(x)) )
@@ -16,11 +16,11 @@ typedef shell::parser::token token;
 %option debug
 %option nodefault
 %option yyclass="scanner"
-%option noyywrap 
+%option noyywrap
 %option c++
 
 %%
-"real"                  { return token::realnum; } 
+"real"                  { return token::realnum; }
 "int"                   { return token::intnum; }
 ">"                     { return token::GT; }
 "<"                     { return token::LT; }
@@ -39,14 +39,14 @@ typedef shell::parser::token token;
 ".eval"                 { return token::eval; }
 ":="                    { return token::define; }
 
-"print"                 { return token::print; } 
+"print"                 { return token::print; }
 "exit"                  { return token::quit; }
 "quit"                  { return token::quit; }
 "print environment"     { return token::printenv; }
 
     /* Variables */
-[a-zA-Z]+               {   
-                            yylval->str = STOKEN(yytext); 
+[a-zA-Z]+               {
+                            yylval->str = STOKEN(yytext);
                             return token::var;
                         }
 
@@ -55,7 +55,7 @@ typedef shell::parser::token token;
 
     /* numbers */
 [0-9]*\.?[0-9]+         {
-                            yylval->num = NTOKEN(yytext); 
+                            yylval->num = NTOKEN(yytext);
                             return token::number;
                         }
 

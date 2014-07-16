@@ -1,11 +1,11 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
 #pragma once
 #include <string>
 #include "shell/scanner.h"
-#include "parser.tab.hh"
+#include "shell/parser.tab.hh"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
 #include "types/formula/formula.h"
