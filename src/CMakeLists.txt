@@ -7,7 +7,7 @@ find_package(FLEX REQUIRED)
 
 include_directories("${DRIO_BINARY_DIR}")
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11 -Wno-deprecated-register -Wno-delete-non-virtual-dtor")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11")
 
 include_directories("${DRIO_SOURCE_DIR}")
 add_subdirectory(types)
