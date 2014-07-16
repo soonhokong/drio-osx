@@ -5,7 +5,7 @@ set(CMAKE_COLOR_MAKEFILE ON)
 find_package(BISON)
 find_package(FLEX)
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11 -Wno-deprecated-register")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -O0 -g -Wall -std=c++11 -Wno-deprecated-register -Wno-delete-non-virtual-dtor")
 
 include_directories("${DRIO_SOURCE_DIR}")
 include_directories("${DRIO_SOURCE_DIR}/types/formula")
