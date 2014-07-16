@@ -178,12 +178,12 @@ void shell::driver::eval_fmla(const std::string &name){
     }
 }
 
-void free_expr(const void *expr){
+void shell::driver::free_exp(const void *expr){
     toTerm(expr, term1);
     term1->dealloc();
 }
 
-void free_fmla(const void *formula){
+void shell::driver::free_fmla(const void *formula){
     toFmla(formula, fmla1);
     fmla1->dealloc();
 }

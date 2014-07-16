@@ -149,7 +149,8 @@ term        : number                { $$ = driver.mk_const($1); }
 // C++ Code:
 
 void 
-shell::parser::error( const std::string &err_message )
+shell::parser::error( const shell::parser::location_type &l,
+                      const std::string &err_message )
 {
    std::cerr << "Error: " << err_message << "\n"; 
 }
