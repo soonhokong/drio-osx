@@ -178,6 +178,16 @@ void shell::driver::eval_fmla(const std::string &name){
     }
 }
 
+void free_expr(const void *expr){
+    toTerm(expr, term1);
+    term1->dealloc();
+}
+
+void free_fmla(const void *formula){
+    toFmla(formula, fmla1);
+    fmla1->dealloc();
+}
+
 void shell::driver::error(const std::string &err){
     std::cerr << "Error: " << err << "\n";
 }

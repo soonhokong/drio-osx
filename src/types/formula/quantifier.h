@@ -19,5 +19,6 @@ public:
     fmla_quant(unsigned type, const term_var *var, const fmla *formula);
     quant_type type() { return static_cast<quant_type>(f_type); }
     bool val() const;
+    void dealloc() const { f_var->dealloc(); f_fmla->dealloc(); delete this; }
 };
 }

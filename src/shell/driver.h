@@ -51,6 +51,9 @@ public:
     void set_fmla(const std::string &name, const void *formula);
     void eval_fmla(const std::string &name);
 
+    void free_exp(const void *expr);
+    void free_fmla(const void *formula);
+
     void error(const std::string &err);
 
 private:

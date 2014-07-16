@@ -88,15 +88,15 @@ line        : stmt
             | line stmt
             ;
 
-stmt        : '\n'                  { ; }
-            | assignment '\n'       { ; }
-            | var eval              { driver.eval_fmla(*$1); } 
+stmt        : '\n'                      { ; }
+            | assignment '\n'           { ; }
+            | var eval                  { driver.eval_fmla(*$1); } 
             | var eval '(' tmp_var ')'  { driver.eval_fmla(*$1); driver.var_pop(); }
-            | exp '\n'              { driver.print_exp($1); }
-            | lgc '\n'              { driver.print_fmla($1); } 
-            | quit '\n'             { exit(0); }
-            | print exp '\n'        { driver.print_exp($2); }
-            | printenv '\n'         { driver.print_env(); }
+            | exp '\n'                  { driver.print_exp($1); driver.free_exp($1); }
+            | lgc '\n'                  { driver.print_fmla($1); driver.free_fmla($1); } 
+            | quit '\n'                 { exit(0); }
+            | print exp '\n'            { driver.print_exp($2); driver.free_exp($2); }
+            | printenv '\n'             { driver.print_env(); }
             ;
 
 eq_op       : exp EQ exp            { $$ = driver.mk_fmla_eq(EQ,$1,$3); } 
@@ -149,8 +149,7 @@ term        : number                { $$ = driver.mk_const($1); }
 // C++ Code:
 
 void 
-shell::parser::error( const shell::parser::location_type &l,
-                      const std::string &err_message )
+shell::parser::error( const std::string &err_message )
 {
    std::cerr << "Error: " << err_message << "\n"; 
 }

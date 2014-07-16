@@ -19,6 +19,7 @@ public:
     fmla_cnct(unsigned type, const fmla* lsh, const fmla* rhs);
     cnct_type type() const { return static_cast<cnct_type>(f_type); }
     bool val() const;
+    void dealloc() const { f_lhs->dealloc(); f_rhs->dealloc(); delete this; }
 };
 
 class fmla_neg : public fmla {
@@ -27,6 +28,7 @@ protected:
 public:
     fmla_neg(const fmla* arg);
     bool val() const { return !(f_arg->val()); }
+    void dealloc() const { f_arg->dealloc(); delete this; }
 };
 
 }

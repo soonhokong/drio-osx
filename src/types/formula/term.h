@@ -17,6 +17,7 @@ protected:
 public:
     term_kind kind() const { return static_cast<term_kind>(m_kind); }
     virtual double val() const =0;
+    virtual void dealloc() const =0;
 };
 
 /* Variable class */
@@ -30,7 +31,8 @@ public:
     term_type type() const { return static_cast<term_type>(m_type); }
     void set_type(unsigned type) { m_type = type; }
     std::string name() const { return m_name; }
-    double val() const; 
+    double val() const;
+    void dealloc() const { delete this; }
 };
 
 /* Constants class */
@@ -39,7 +41,7 @@ private:
     double          m_val;
 public:
     term_const(const double val);
-
     double val() const { return m_val; }
+    void dealloc() const { delete this; }
 };
 }
