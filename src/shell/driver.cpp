@@ -113,7 +113,7 @@ shell::term* shell::driver::mk_const(const double num){
 //Used for delclaring variable type
 shell::term* shell::driver::mk_var(const string &name, term_type const type){
     term_var * res = new term_var(name, type);
-    var_env.insert(name, make_pair(static_cast<term_type>(type),0));
+    var_env.insert(name, make_pair(type, 0));
     return res;
 }
 

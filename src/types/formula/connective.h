@@ -18,7 +18,7 @@ protected:
 public:
     fmla_cnct(cnct_type type, const fmla* lsh, const fmla* rhs);
     ~fmla_cnct() { delete f_lhs; delete f_rhs; }
-    cnct_type type() const { return static_cast<cnct_type>(f_type); }
+    cnct_type type() const { return f_type; }
     bool val() const;
 };
 

@@ -19,7 +19,7 @@ protected:
 public:
     fmla_eq(equality_op op, const term *lhs, const term *rhs);
     ~fmla_eq() { delete f_lhs; delete f_rhs; }
-    equality_op type() const { return static_cast<equality_op>(f_type); }
+    equality_op type() const { return f_type; }
     bool val() const;
 };
 }

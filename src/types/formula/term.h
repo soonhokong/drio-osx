@@ -20,7 +20,7 @@ protected:
     term_kind        m_kind;
 public:
     virtual ~term() { }
-    term_kind kind() const { return static_cast<term_kind>(m_kind); }
+    term_kind kind() const { return m_kind; }
     virtual double val() const =0;
 };
 
@@ -32,7 +32,7 @@ private:
 public:
     term_var(const std::string name, const term_type type);
     ~term_var() { }
-    term_type type() const { return static_cast<term_type>(m_type); }
+    term_type type() const { return m_type; }
     void set_type(term_type type) { m_type = type; }
     std::string name() const { return m_name; }
     double val() const;
