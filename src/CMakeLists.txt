@@ -20,7 +20,11 @@ include_directories("${DRIO_SOURCE_DIR}")
 add_subdirectory(types)
 add_subdirectory(shell)
 
-# adds executable
+################################################################
+# Set Module Path
+################################################################
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
 ################################################################
 # External: googletest (Google Test)
 ################################################################
@@ -47,8 +51,24 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DRIO_EXTRA_LINKER_FLAGS}
 # Add tests
 ################################################################
 add_subdirectory(tests/types/formula)
+
+################################################################
+# Adds executable
+################################################################
 add_executable(sh main.cpp)
 target_link_libraries(sh SH_UTIL formula)
+
+################################################################
+# Include style check
+################################################################
+include(StyleCheck)
+file(GLOB_RECURSE DRIO_SOURCES
+  ${DRIO_SOURCE_DIR}/shell/*.cpp      ${DRIO_SOURCE_DIR}/shell/*.h
+  ${DRIO_SOURCE_DIR}/types/*.cpp      ${DRIO_SOURCE_DIR}/types/*.h
+  ${DRIO_SOURCE_DIR}/tests/*.cpp      ${DRIO_SOURCE_DIR}/tests/*.h
+  )
+add_style_check_target(style "${DRIO_SOURCES}")
+add_test(NAME style_check COMMAND ${DRIO_SOURCE_DIR}/cmake/Modules/cpplint.py ${DRIO_SOURCES})
 
 ADD_CUSTOM_COMMAND(TARGET sh
           POST_BUILD
