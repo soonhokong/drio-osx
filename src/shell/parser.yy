@@ -65,7 +65,7 @@
 
 %token          formula
 %token          eval
-%token  <str>   define
+%token          define
 
 %token          print
 %token          printenv
