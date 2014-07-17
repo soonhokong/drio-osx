@@ -1,1 +1,1 @@
-add_library(formula STATIC function.cpp term.cpp atom.cpp connective.cpp quantifier.cpp)
+add_library(formula function.cpp term.cpp atom.cpp connective.cpp quantifier.cpp)
