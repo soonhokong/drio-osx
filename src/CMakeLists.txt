@@ -48,15 +48,20 @@ set(EXTERNAL_LD_FLAGS "-L${CMAKE_CURRENT_BINARY_DIR}/lib")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DRIO_EXTRA_LINKER_FLAGS} ${EXTERNAL_LD_FLAGS}")
 
 ################################################################
+# Adds executable
+################################################################
+add_executable(sh main.cpp)
+target_link_libraries(sh SH_UTIL formula)
+
+################################################################
 # Add tests
 ################################################################
 add_subdirectory(tests/types/formula)
 
 ################################################################
-# Adds executable
+# Add Dependencies
 ################################################################
-add_executable(sh main.cpp)
-target_link_libraries(sh SH_UTIL formula)
+add_dependencies(formula GTEST)
 
 ################################################################
 # Include style check
