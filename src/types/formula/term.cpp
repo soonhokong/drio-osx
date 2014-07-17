@@ -2,6 +2,7 @@
  * Copyright 2014 Jichao Sun
  */
 
+#include <string>
 #include <utility>
 #include "types/formula/term.h"
 #include "shell/var_scoped_env.h"

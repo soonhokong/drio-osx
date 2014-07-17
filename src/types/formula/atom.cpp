@@ -14,8 +14,8 @@ fmla_eq::fmla_eq(equality_op op, const term *lhs, const term *rhs):
     f_lhs(lhs),
     f_rhs(rhs){ f_kind = formula_kind::Equality; }
 
-bool fmla_eq::val() const{
-    switch( f_type ){
+bool fmla_eq::val() const {
+    switch (f_type) {
     case equality_op::EQ:
         return f_lhs->val() == f_rhs->val();
     case equality_op::GT:

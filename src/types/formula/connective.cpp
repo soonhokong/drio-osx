@@ -12,14 +12,14 @@ fmla_cnct::fmla_cnct(cnct_type type, const fmla* lhs, const fmla* rhs):
         f_lhs(lhs),
         f_rhs(rhs){ f_kind = formula_kind::Connective; }
 
-bool fmla_cnct::val() const{
-    switch(f_type){
+bool fmla_cnct::val() const {
+    switch (f_type) {
     case cnct_type::And:
         return f_lhs->val() && f_rhs->val();
     case cnct_type::Or:
         return f_lhs->val() || f_rhs->val();
     case cnct_type::Implies:
-        return f_lhs->val() ? f_rhs->val() : false; //TODO: Implemenet correct implies
+        return f_lhs->val() ? f_rhs->val() : false; // TODO(jichaos): Implemenet correct implies
     }
     assert(false); // should be unreachable
     return false;

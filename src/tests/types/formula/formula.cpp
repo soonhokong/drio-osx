@@ -1,3 +1,6 @@
+/* Author: Soonho Kong <soonhok@cs.cmu.edu>
+ * Copyright 2014 Soonho Kong
+ */
 #include "gtest/gtest.h"
 
 TEST(formula, 1) {

@@ -68,7 +68,7 @@ void var_scoped_env::update(key_type const & k, mapped_type const & v) {
 var_scoped_env::mapped_type var_scoped_env::lookup(key_type const & k) {
     auto ite = m_map.find(k);
     if (ite == m_map.end()){
-        throw std::runtime_error( "Error: variable " + k + " was not found." );;
+        throw std::runtime_error("Error: variable " + k + " was not found.");
     }
     return ite->second;
 }

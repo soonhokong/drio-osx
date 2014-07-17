@@ -68,7 +68,7 @@ void fmla_scoped_env::update(key_type const & k, mapped_type const & v) {
 fmla_scoped_env::mapped_type fmla_scoped_env::lookup(key_type const & k) {
     auto ite = m_map.find(k);
     if (ite == m_map.end()){
-        throw std::runtime_error( "Error: formula " + k + " was not found." );;
+        throw std::runtime_error("Error: formula " + k + " was not found.");
     }
     return ite->second;
 }

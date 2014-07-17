@@ -16,9 +16,9 @@
 #include "types/formula/connective.h"
 #include "types/formula/quantifier.h"
 
-#define toTerm(x,y) const shell::term* y =  static_cast<const shell::term*>(x)
-#define toTermVar(x,y) const shell::term_var* y =  static_cast<const shell::term_var*>(x)
-#define toFmla(x,y) const shell::fmla* y =  static_cast<const shell::fmla*>(x)
+#define toTerm(x, y) const shell::term* y =  static_cast<const shell::term*>(x)
+#define toTermVar(x, y) const shell::term_var* y =  static_cast<const shell::term_var*>(x)
+#define toFmla(x, y) const shell::fmla* y =  static_cast<const shell::fmla*>(x)
 
 using std::cout;
 using std::cin;
@@ -53,7 +53,7 @@ void shell::driver::parse(){
 }
 
 void shell::driver::print_exp(const void* expr){
-    toTerm(expr,res);
+    toTerm(expr, res);
     try{
         cout << res->val()  << "\n";
     } catch(const exception& ex){
@@ -62,7 +62,7 @@ void shell::driver::print_exp(const void* expr){
 }
 
 void shell::driver::print_fmla(const void* formula){
-    toFmla(formula,res);
+    toFmla(formula, res);
     try{
         cout << (res->val() ? "true" : "false") << "\n";
     } catch(const exception& ex){
@@ -79,9 +79,9 @@ void shell::driver::print_env(){
 }
 
 void shell::driver::set_var(const string &name, const void *expr){
-    toTerm(expr,res);
+    toTerm(expr, res);
 
-    //Retrieving type if already delcared
+    // Retrieving type if already delcared
     term_type type;
     try{
         type = var_env.lookup(name).first;
@@ -91,7 +91,7 @@ void shell::driver::set_var(const string &name, const void *expr){
 
     try {
         double num = res->val();
-        var_env.insert(name, make_pair(type,num));
+        var_env.insert(name, make_pair(type, num));
     } catch(const exception& ex){
         cerr << ex.what() << "\n";
     }
@@ -110,14 +110,14 @@ shell::term* shell::driver::mk_const(const double num){
     return new term_const(num);
 }
 
-//Used for delclaring variable type
+// Used for delclaring variable type
 shell::term* shell::driver::mk_var(const string &name, term_type const type){
     term_var * res = new term_var(name, type);
     var_env.insert(name, make_pair(type, 0));
     return res;
 }
 
-//Single arg constructor for possibly inheriting a already declared type.
+// Single arg constructor for possibly inheriting a already declared type.
 shell::term* shell::driver::mk_var(const string &name){
     term_type type;
     try{
@@ -152,7 +152,7 @@ shell::fmla* shell::driver::mk_fmla_cnct(cnct_type const op, const void *lhs, co
 }
 
 shell::fmla* shell::driver::mk_fmla_neg(const void *arg){
-    toFmla(arg,res);
+    toFmla(arg, res);
     return new fmla_neg(res);
 }
 
