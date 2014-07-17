@@ -1,5 +1,5 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
- * Copyright 2014 Jichao Sun
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
+ * Copyright 2014 Jichao Sun, Soonho Kong
  */
 
 #pragma once
@@ -18,8 +18,8 @@ protected:
     const term*         f_rhs;
 public:
     fmla_eq(unsigned op, const term *lhs, const term *rhs);
+    ~fmla_eq() { delete f_lhs; delete f_rhs; }
     equality_op type() const { return static_cast<equality_op>(f_type); }
     bool val() const;
-    void dealloc() const { f_lhs->dealloc(); f_rhs->dealloc(); delete this; }
 };
 }

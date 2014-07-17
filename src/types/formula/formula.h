@@ -1,4 +1,4 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
@@ -8,14 +8,14 @@
 namespace shell{
 
 /* Abstract base class for formulas */
-enum formula_kind { Predicate, Equality, Negation, Connective, Quantifier, Custom };
+enum class formula_kind { Predicate, Equality, Negation, Connective, Quantifier, Custom };
 
 class fmla {
 protected:
-	unsigned 			f_kind;
+    formula_kind f_kind;
 public:
-	formula_kind kind() const { return static_cast<formula_kind>(f_kind); }
-	virtual bool val() const =0;
-	virtual void dealloc() const =0;
+    virtual bool val() const =0;
+    formula_kind kind() const { return f_kind; }
+    virtual ~fmla() { }
 };
 }

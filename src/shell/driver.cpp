@@ -180,12 +180,12 @@ void shell::driver::eval_fmla(const std::string &name){
 
 void shell::driver::free_exp(const void *expr){
     toTerm(expr, term1);
-    term1->dealloc();
+    delete term1;
 }
 
 void shell::driver::free_fmla(const void *formula){
     toFmla(formula, fmla1);
-    fmla1->dealloc();
+    delete fmla1;
 }
 
 void shell::driver::error(const std::string &err){

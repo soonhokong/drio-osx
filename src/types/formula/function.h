@@ -21,7 +21,7 @@ private:
 public:
     term_func(const unsigned op, const term *lhs);
     term_func(const unsigned op, const term *lhs, const term *rhs);
+    ~term_func() { delete m_lhs; delete m_rhs; }
     double val() const;
-    void dealloc() const { m_lhs->dealloc(); m_rhs->dealloc(); delete this; }
 };
 }

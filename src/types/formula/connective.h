@@ -1,4 +1,4 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
@@ -17,9 +17,9 @@ protected:
     const fmla*         f_rhs;
 public:
     fmla_cnct(unsigned type, const fmla* lsh, const fmla* rhs);
+    ~fmla_cnct() { delete f_lhs; delete f_rhs; }
     cnct_type type() const { return static_cast<cnct_type>(f_type); }
     bool val() const;
-    void dealloc() const { f_lhs->dealloc(); f_rhs->dealloc(); delete this; }
 };
 
 class fmla_neg : public fmla {
@@ -27,8 +27,7 @@ protected:
     const fmla*      f_arg;
 public:
     fmla_neg(const fmla* arg);
+    ~fmla_neg() { delete f_arg; }
     bool val() const { return !(f_arg->val()); }
-    void dealloc() const { f_arg->dealloc(); delete this; }
 };
-
 }

@@ -1,4 +1,4 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
@@ -18,7 +18,7 @@ protected:
 public:
     fmla_quant(unsigned type, const term_var *var, const fmla *formula);
     quant_type type() { return static_cast<quant_type>(f_type); }
+    ~fmla_quant() { delete f_var; }
     bool val() const;
-    void dealloc() const { f_var->dealloc(); f_fmla->dealloc(); delete this; }
 };
 }
