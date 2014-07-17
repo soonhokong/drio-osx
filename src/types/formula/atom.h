@@ -9,15 +9,15 @@
 namespace shell{
 
 /* Equality type atomic formula */
-enum equality_op { EQ, GT, LT, GTE, LTE };
+enum class equality_op { EQ, GT, LT, GTE, LTE };
 
 class fmla_eq : public fmla {
 protected:
-    unsigned            f_type;
+    equality_op         f_type;
     const term*         f_lhs;
     const term*         f_rhs;
 public:
-    fmla_eq(unsigned op, const term *lhs, const term *rhs);
+    fmla_eq(equality_op op, const term *lhs, const term *rhs);
     ~fmla_eq() { delete f_lhs; delete f_rhs; }
     equality_op type() const { return static_cast<equality_op>(f_type); }
     bool val() const;

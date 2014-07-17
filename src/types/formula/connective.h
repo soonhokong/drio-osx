@@ -8,15 +8,15 @@
 
 namespace shell{
 
-enum cnct_type { And, Or, Implies };
+enum class cnct_type { And, Or, Implies };
 
 class fmla_cnct : public fmla {
 protected:
-    unsigned            f_type;
+    cnct_type           f_type;
     const fmla*         f_lhs;
     const fmla*         f_rhs;
 public:
-    fmla_cnct(unsigned type, const fmla* lsh, const fmla* rhs);
+    fmla_cnct(cnct_type type, const fmla* lsh, const fmla* rhs);
     ~fmla_cnct() { delete f_lhs; delete f_rhs; }
     cnct_type type() const { return static_cast<cnct_type>(f_type); }
     bool val() const;

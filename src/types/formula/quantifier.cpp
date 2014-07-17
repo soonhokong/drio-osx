@@ -1,4 +1,4 @@
-/* Author: Jichao Sun <jichaos@andrew.cmu.edu> 
+/* Author: Jichao Sun <jichaos@andrew.cmu.edu>
  * Copyright 2014 Jichao Sun
  */
 
@@ -8,13 +8,13 @@
 
 namespace shell{
 
-fmla_quant::fmla_quant(unsigned type, const term_var* var, const fmla* formula):
-	f_type(type),
-	f_var(var),
-	f_fmla(formula){ f_kind = Quantifier; }
+fmla_quant::fmla_quant(quant_type ty, const term_var* var, const fmla* formula):
+        f_type(ty),
+        f_var(var),
+        f_fmla(formula){ f_kind = formula_kind::Quantifier; }
 
 bool fmla_quant::val() const{
-	return f_fmla->val(); //TODO Implement quantifier solving 
+        return f_fmla->val(); //TODO Implement quantifier solving
 }
 
 }

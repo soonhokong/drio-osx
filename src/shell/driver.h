@@ -37,15 +37,15 @@ public:
     // void eval(const std::string &name);
 
     term* mk_const(const double num);
-    term* mk_var(const std::string &name, const unsigned type);
+    term* mk_var(const std::string &name, term_type const type);
     term* mk_var(const std::string &name);
-    term* mk_func(const unsigned op, const void *expr);
-    term* mk_func(const unsigned op, const void *expr1, const void *expr2);
+    term* mk_func(const func_op op, const void *expr);
+    term* mk_func(const func_op op, const void *expr1, const void *expr2);
 
-    fmla* mk_fmla_eq(const unsigned op, const void *lhs, const void *rhs);
-    fmla* mk_fmla_cnct(const unsigned op, const void *lhs, const void *rhs);
+    fmla* mk_fmla_eq(equality_op const op, const void *lhs, const void *rhs);
+    fmla* mk_fmla_cnct(cnct_type const op, const void *lhs, const void *rhs);
     fmla* mk_fmla_neg(const void *arg);
-    fmla* mk_fmla_quant(const unsigned op, const std::string &name, const void *formula);
+    fmla* mk_fmla_quant(quant_type const op, const std::string &name, const void *formula);
 
     void set_fmla(const std::string &name);
     void set_fmla(const std::string &name, const void *formula);

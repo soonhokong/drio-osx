@@ -4,16 +4,20 @@
 
 #pragma once
 #include <string>
+#include <iostream>
 
 namespace shell{
 
-enum term_kind { Variable, Constant, Formula };
-enum term_type { Real, Int };
+enum class term_kind { Variable, Constant, Formula };
+enum class term_type { Real, Int };
+
+std::ostream& operator<<(std::ostream & out, term_kind const & tk);
+std::ostream& operator<<(std::ostream & out, term_type const & tt);
 
 /* Abstract base class for terms */
 class term{
 protected:
-    unsigned        m_kind;
+    term_kind        m_kind;
 public:
     virtual ~term() { }
     term_kind kind() const { return static_cast<term_kind>(m_kind); }
@@ -23,13 +27,13 @@ public:
 /* Variable class */
 class term_var : public term {
 private:
-    unsigned        m_type;
+    term_type       m_type;
     std::string     m_name;
 public:
-    term_var(const std::string name, const unsigned type);
+    term_var(const std::string name, const term_type type);
     ~term_var() { }
     term_type type() const { return static_cast<term_type>(m_type); }
-    void set_type(unsigned type) { m_type = type; }
+    void set_type(term_type type) { m_type = type; }
     std::string name() const { return m_name; }
     double val() const;
 };
