@@ -3,6 +3,7 @@
  */
 
 #include <string>
+#include <cassert>
 #include <cmath>
 #include "types/formula/function.h"
 
@@ -35,6 +36,7 @@ double term_func::val() const {
         return m_lhs->val() * -1;
     }
     //Should never reach here
+    assert(false);
     return 0;
 }
 }

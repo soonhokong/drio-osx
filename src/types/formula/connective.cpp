@@ -2,6 +2,7 @@
  * Copyright 2014 Jichao Sun
  */
 
+#include <cassert>
 #include "types/formula/connective.h"
 
 namespace shell{
@@ -20,6 +21,8 @@ bool fmla_cnct::val() const{
     case cnct_type::Implies:
         return f_lhs->val() ? f_rhs->val() : false; //TODO: Implemenet correct implies
     }
+    assert(false); // should be unreachable
+    return false;
 }
 
 fmla_neg::fmla_neg(const fmla* arg):

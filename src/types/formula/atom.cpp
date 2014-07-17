@@ -2,6 +2,7 @@
  * Copyright 2014 Jichao Sun
  */
 
+#include <cassert>
 #include "types/formula/atom.h"
 #include "types/formula/formula.h"
 #include "types/formula/term.h"
@@ -26,7 +27,7 @@ bool fmla_eq::val() const{
     case equality_op::LTE:
         return f_lhs->val() <= f_rhs->val();
     }
-    //Should never reach here
+    assert(false); // should be unreachable
     return false;
 }
 }
