@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 2.8.7)
 project(DRIO)
 set(CMAKE_COLOR_MAKEFILE ON)
+include(CTest)
+include(ExternalProject)
 
+find_package(GIT REQUIRED)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
@@ -18,6 +21,32 @@ add_subdirectory(types)
 add_subdirectory(shell)
 
 # adds executable
+################################################################
+# External: googletest (Google Test)
+################################################################
+ExternalProject_Add(GTEST
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/external
+  GIT_REPOSITORY https://github.com/soonhokong/googletest.git
+  GIT_TAG origin/master
+  UPDATE_COMMAND ${GIT_EXECUTABLE} pull -s recursive -X theirs origin master
+  CONFIGURE_COMMAND cmake -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} "-DCMAKE_CXX_FLAGS=${EXTERNAL_CXX_FLAGS} -w" -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR} ./
+  BUILD_COMMAND make -j
+  BUILD_IN_SOURCE 1
+  INSTALL_COMMAND make install
+)
+set(EXTRA_LIBS ${EXTRA_LIBS} "gtest")
+
+################################################################
+# External: set up include dir and libpath
+################################################################
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
+set(EXTERNAL_LD_FLAGS "-L${CMAKE_CURRENT_BINARY_DIR}/lib")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DRIO_EXTRA_LINKER_FLAGS} ${EXTERNAL_LD_FLAGS}")
+
+################################################################
+# Add tests
+################################################################
+add_subdirectory(tests/types/formula)
 add_executable(sh main.cpp)
 target_link_libraries(sh SH_UTIL formula)
 
