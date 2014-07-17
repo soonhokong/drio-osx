@@ -1,65 +1,43 @@
-language: cpp
-cache: apt
+language: objective-c
+
 env:
-  global:
-    # BB_TOKEN - encrypt "bitbucket key" with travis-ci key
-    - secure: "b6GXxAgYBSdiJqiQ1B2uuIQtJ4c+BNKStBLPtV+01bGntrcu3MuPNJ1iisOzpTUCA+ItV3ri3TzXKNyzEG2hTjeWGX1OMAyhxUuaMnDuhVWorVT11rAGC9bSWzsYxhRske0Fy55obf78USxKnbWWV3R1E9voqisJc3YgwunXvQc="
-    # REPO - encrypt "blessed" with private key (travis-ci)
-    - secure: "pt+5KM7wYO4IWuRd68Pcne7VlentJcCecuYu+ghK57FoYHbF99WRZqCslmyHDz8tMxpIi47NqWwM09TfpcixsIf2bXTveDnPp96M/mMn+HmV10XsGux+YhoicVf6FI1bEyQhUzjkQTJ5CZ8hpyLAthBqJYgZDovRDBkDYdfel2c="
-    # GH_TOKEN - for OSX repository (soonhokong/drio-osx)
-    - secure: "ExpgDDmFrRNvIqI6VDBQhNiuvgKrDPRInUsUEb1DdMs+kMeRBwhRygvRUZ+lhHRmheIB6V3eJ9AKSABLFcHuaLyVm0ARHr3cD3HkaiT6cAKkQPKIQ+2C+2Z9PYV9GUBOwc2jmbYJCnR9cbWMXZijMW8XbnM/XipG6Kz/GAl1atg="
   matrix:
-    - TRIGGER_OSX=ON
-      TRIGGER_BB=ON
-      CMAKE_CXX_COMPILER=g++-4.8 CMAKE_C_COMPILER=gcc-4.8
+    - CMAKE_CXX_COMPILER=g++-4.8 CMAKE_C_COMPILER=gcc-4.8
       CMAKE_BUILD_TYPE=Release
-      CTEST=ON
+      CTEST=TRUE
     - CMAKE_CXX_COMPILER=g++-4.8 CMAKE_C_COMPILER=gcc-4.8
       CMAKE_BUILD_TYPE=Debug
-      CTEST=ON
-    - CMAKE_CXX_COMPILER=clang++-3.3 CMAKE_C_COMPILER=clang-3.3
+      CTEST=TRUE
+    - CMAKE_CXX_COMPILER=clang++ CMAKE_C_COMPILER=clang
       CMAKE_BUILD_TYPE=Release
-      CTEST=ON
-    - CMAKE_CXX_COMPILER=clang++-3.3 CMAKE_C_COMPILER=clang-3.3
+      CTEST=TRUE
+    - CMAKE_CXX_COMPILER=clang++ CMAKE_C_COMPILER=clang
       CMAKE_BUILD_TYPE=Debug
-      CTEST=ON
+      CTEST=TRUE
 
 install:
-  # PUSH TO BACKUP REPO
-  - if [[ $REPO == BLESSED && $TRIGGER_BB == ON ]]; then
-      git fetch --unshallow;
-      git push -q https://soonhok:${BB_TOKEN}@bitbucket.org/dreal/drio.git +HEAD:refs/heads/${TRAVIS_BRANCH};
-    fi
-  # TRIGGER OSX Build
-  - if [[ $REPO == BLESSED && $TRIGGER_OSX == ON ]]; then
-      MSG=`git log --pretty=oneline --abbrev-commit -n 1 | cut -d ' ' -f 2-`;
-      cp .travis.yml /tmp/.travis.temp.yml;
-      cp .travis.osx.yml .travis.yml;
-      git config --global user.email "notifications@travis-ci.org";
-      git config --global user.name "Travis CI";
-      git add .travis.yml;
-      git commit -m "$MSG";
-      git push -q https://soonhokong:${GH_TOKEN}@github.com/soonhokong/drio-osx.git +HEAD:refs/heads/${TRAVIS_BRANCH};
-      mv /tmp/.travis.temp.yml .travis.yml;
-      git reset --hard HEAD~;
-    fi
-  # Add ppas
-  - sudo add-apt-repository --yes ppa:h-rayflood/llvm
-  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-  - sudo add-apt-repository --yes ppa:dns/gnu
-  - sudo add-apt-repository --yes ppa:avsm/ppa
-  - sudo add-apt-repository --yes ppa:kalakris/cmake
-  - sudo apt-get -qq update
-  - sudo apt-get -qq install libstdc++-4.8-dev
-  - if [[ $CMAKE_CXX_COMPILER == g++-4.8 ]]; then until sudo apt-get -qq install g++-4.8; do echo retry; done fi
-  - if [[ $CMAKE_CXX_COMPILER == clang++-3.3 ]]; then until sudo apt-get -qq install clang-3.3; do echo retry; done fi
-  # Install Bison, Flex, CMAKE
-  - sudo apt-get -qq install bison flex wget cmake
+ - brew update
+ - brew --config
+ - brew --env
+ - if [[ ${CMAKE_CXX_COMPILER} == g++-4.8 ]]; then
+      brew install gcc;
+      brew link gcc;
+      COMPILER=g++-4.8.3;
+   fi
+ - if [[ ${CMAKE_CXX_COMPILER} == clang++ ]]; then
+      wget https://dl.dropboxusercontent.com/u/203889738/gcc/clang+llvm-3.4.1-x86_64-apple-darwin10.9.tar.xz;
+      sudo tar xfz clang+llvm-3.4.1-x86_64-apple-darwin10.9.tar.xz -C /;
+      sudo chown -R `whoami` /usr/bin;
+      export LIBRARY_PATH=/usr/lib:/usr/local/lib;
+      COMPILER=clang++-3.4.1;
+   fi
+ # autoconf automake cmake libtool pkg-config
+ - brew install autoconf automake cmake ninja libtool pkg-config
 
 before_script:
-  - SITE=Ubuntu12.04@Travis
-  - BUILD_NAME=${TRAVIS_BRANCH}_${CMAKE_CXX_COMPILER}_${CMAKE_BUILD_TYPE}
-  - GIT_SUBJECT=`git log --oneline -n 1 | cut -d ' ' -f 2-`
+  - SITE=OSX10.9.2@Travis
+  - BUILD_NAME=${TRAVIS_BRANCH}_${COMPILER}_${CMAKE_BUILD_TYPE}
+  - GIT_SUBJECT=`git log HEAD~ --oneline -n 1 | cut -d ' ' -f 2-`
   - GIT_SUBJECT=${GIT_SUBJECT//\"/\\\"}
   - GIT_SUBJECT=${GIT_SUBJECT//,/\,}
   - GIT_SUBJECT=$(echo -e $(printf '%q' "$GIT_SUBJECT"))
@@ -68,29 +46,25 @@ script:
   # compile drio
   - mkdir build
   - cd build
-  - CMAKE_CMD_OPTION="-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-  - cmake $CMAKE_CMD_OPTION ../src
-  - ctest -D ExperimentalConfigure
+  - cmake -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -G Ninja ../src
   - CONFIG_FILE=DartConfiguration.tcl
-  - sed -i "s/^Site:.*/Site:$SITE/" $CONFIG_FILE
-  - sed -i "s/BuildName:.*/BuildName:$BUILD_NAME/" $CONFIG_FILE
+  - sed -i "" "s/^Site:.*/Site:$SITE/" $CONFIG_FILE
+  - sed -i "" "s/BuildName:.*/BuildName:$BUILD_NAME/" $CONFIG_FILE
   - ctest -D ExperimentalConfigure
-  - sed -i "s/^Site:.*/Site:$SITE/" $CONFIG_FILE
-  - sed -i "s/BuildName:.*/BuildName:$BUILD_NAME/" $CONFIG_FILE
+  - sed -i "" "s/^Site:.*/Site:$SITE/" $CONFIG_FILE
+  - sed -i "" "s/BuildName:.*/BuildName:$BUILD_NAME/" $CONFIG_FILE
   - ctest -D ExperimentalBuild -VV
   - cd ..
-  # compile tools
-  - make -C tools
-  # compile proof checker
-  - make -C tools/proofcheck/checker
 
 after_script:
   - cd build
-  - export PATH=/usr/bin:$PATH
-  - find Testing -name "*.xml" -exec sed -i "s,Generator=\".*\",Generator=\"${TRAVIS_COMMIT}###${GIT_SUBJECT}\"," {} ";"
+  - if [[ $CTEST == TRUE ]]; then
+      ctest -D ExperimentalTest -L normal --timeout 250 -VV;
+    fi
+  - find Testing -name "*.xml" -exec sed -i "" "s,Generator=\".*\",Generator=\"${TRAVIS_COMMIT}###${GIT_SUBJECT}\"," {} ";"
   - find Testing \( -name "LastTest_*.log" -o -name "LastDynamicAnalysis_*.log" \) -exec sh -c 'TMP=`mktemp /tmp/ctesttmp_XXXX`; ../script/demangle_cpptype.py {} > $TMP; mv -v $TMP {}' ";"
   - ctest -D ExperimentalSubmit
-  -  cd ..
+  - cd ..
 
 notifications:
   email:
