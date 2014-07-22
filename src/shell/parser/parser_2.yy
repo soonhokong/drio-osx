@@ -76,6 +76,7 @@ static int yylex( shell::parser::semantic_type *yylval,
 %type   <ptr>   exp term eq_op lgc
 %left           '+' '-'
 %left           '*' '/'
+
 %nonassoc       UMINUS
 %nonassoc       UNOT
 

@@ -25,6 +25,13 @@ find_package(GIT REQUIRED)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
+EXEC_PROGRAM(${BISON_EXECUTABLE} ARGS --version OUTPUT_VARIABLE BISON_VERSION_STR)
+STRING(REGEX REPLACE "([^\n]+).*" "\\1" FIRST_LINE "${BISON_VERSION_STR}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)" "\\1" BISON_VERSION_MAJOR "${FIRST_LINE}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)" "\\2" BISON_VERSION_MINOR "${FIRST_LINE}")
+MESSAGE( STATUS "BISON_VERSION_MAJOR:  ${BISON_VERSION_MAJOR}" )
+MESSAGE( STATUS "BISON_VERSION_MINOR:  ${BISON_VERSION_MINOR}" )
+
 ################################################################
 # External: googletest (Google Test)
 ################################################################

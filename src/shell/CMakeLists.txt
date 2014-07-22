@@ -11,7 +11,7 @@ if ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
 else ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/parser.yy
-        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_3.yy ${DRIO_BINARY_DIR}/shell/parser.yy
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_2.yy ${DRIO_BINARY_DIR}/shell/parser.yy
     )
 endif ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
 
@@ -31,11 +31,11 @@ ADD_CUSTOM_COMMAND(
 # Execute flex command
 ################################################################
 ADD_CUSTOM_COMMAND(
-        OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
-        COMMAND ${FLEX_EXECUTABLE}
-        ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
-        DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
-        )
+    OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
+    COMMAND ${FLEX_EXECUTABLE}
+    ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
+    DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
+    )
 
 
 ################################################################
