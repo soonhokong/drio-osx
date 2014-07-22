@@ -4,10 +4,6 @@ set(CMAKE_COLOR_MAKEFILE ON)
 include(CTest)
 include(ExternalProject)
 
-find_package(GIT REQUIRED)
-find_package(BISON REQUIRED)
-find_package(FLEX REQUIRED)
-
 include_directories("${DRIO_BINARY_DIR}")
 
 set(CMAKE_CXX_FLAGS                "-Wall -Wextra -std=c++11 ${DRIO_EXTRA_CXX_FLAGS}")
@@ -24,6 +20,10 @@ add_subdirectory(shell)
 # Set Module Path
 ################################################################
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+
+find_package(GIT REQUIRED)
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
 
 ################################################################
 # External: googletest (Google Test)
