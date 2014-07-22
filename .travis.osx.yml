@@ -17,11 +17,12 @@ env:
 
 install:
  - brew update
+ - brew upgrade
  - brew --config
  - brew --env
  - if [[ ${CMAKE_CXX_COMPILER} == g++-4.9 ]]; then
-      brew install gcc;
-      brew link gcc;
+      brew install gcc || true;
+      brew link gcc || true;
       COMPILER=`${CMAKE_CXX_COMPILER} --version | head -n 1 | grep -Eo '([^ ]|\\ )*$'`;
    fi
  - if [[ ${CMAKE_CXX_COMPILER} == clang++ ]]; then
