@@ -175,15 +175,18 @@ void shell::driver::eval_fmla(const string &name){
     const fmla* formula;
     try{
         formula = fmla_env.lookup(name);
+        if (formula == NULL){
+            cerr << "Error: formula " << name << " was not found.\n";
+            printf("This\n");
+        }
+        else {
+            print_fmla(formula);
+        }
     } catch(const exception& ex){
         cerr << ex.what() << "\n";
     }
-    if (formula == NULL){
-        cerr << "Error: formula " << name << " was not found.\n";
-    } else{
-        print_fmla(formula);
-    }
 }
+
 
 void shell::driver::free_exp(const void *expr){
     toTerm(expr, term1);
