@@ -22,7 +22,7 @@ install:
  - if [[ ${CMAKE_CXX_COMPILER} == g++-4.9 ]]; then
       brew install gcc;
       brew link gcc;
-      COMPILER=`${CMAKE_CXX_COMPILER} --version | head -n 1 | grep -Eo '([^ ]|\\ )*$`
+      COMPILER=`${CMAKE_CXX_COMPILER} --version | head -n 1 | grep -Eo '([^ ]|\\ )*$'`
    fi
  - if [[ ${CMAKE_CXX_COMPILER} == clang++ ]]; then
       wget https://dl.dropboxusercontent.com/u/203889738/gcc/clang+llvm-3.4.1-x86_64-apple-darwin10.9.tar.xz;
