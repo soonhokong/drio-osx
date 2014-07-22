@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include "shell/driver.h"
 
-int main(int argc, char const *argv[]){
+int main(){
     shell::driver driver;
     while (1){
         driver.parse();
