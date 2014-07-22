@@ -18,6 +18,7 @@
 
 %skeleton "lalr1.cc"
 %debug
+%defines
 %name-prefix="shell"
 %define "parser_class_name" "parser"
 
