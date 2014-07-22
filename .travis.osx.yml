@@ -2,10 +2,10 @@ language: objective-c
 
 env:
   matrix:
-    - CMAKE_CXX_COMPILER=g++-4.8 CMAKE_C_COMPILER=gcc-4.8
+    - CMAKE_CXX_COMPILER=g++-4.9 CMAKE_C_COMPILER=gcc-4.9
       CMAKE_BUILD_TYPE=Release
       CTEST=TRUE
-    - CMAKE_CXX_COMPILER=g++-4.8 CMAKE_C_COMPILER=gcc-4.8
+    - CMAKE_CXX_COMPILER=g++-4.9 CMAKE_C_COMPILER=gcc-4.9
       CMAKE_BUILD_TYPE=Debug
       CTEST=TRUE
     - CMAKE_CXX_COMPILER=clang++ CMAKE_C_COMPILER=clang
@@ -19,10 +19,10 @@ install:
  - brew update
  - brew --config
  - brew --env
- - if [[ ${CMAKE_CXX_COMPILER} == g++-4.8 ]]; then
+ - if [[ ${CMAKE_CXX_COMPILER} == g++-4.9 ]]; then
       brew install gcc;
       brew link gcc;
-      COMPILER=g++-4.8.3;
+      COMPILER=`${CMAKE_CXX_COMPILER} --version | head -n 1 | grep -Eo '([^ ]|\\ )*$`
    fi
  - if [[ ${CMAKE_CXX_COMPILER} == clang++ ]]; then
       wget https://dl.dropboxusercontent.com/u/203889738/gcc/clang+llvm-3.4.1-x86_64-apple-darwin10.9.tar.xz;
@@ -32,7 +32,7 @@ install:
       COMPILER=clang++-3.4.1;
    fi
  # autoconf automake cmake libtool pkg-config
- - brew install autoconf automake cmake ninja libtool pkg-config
+ - brew install autoconf automake cmake ninja libtool pkg-config || true
 
 before_script:
   - SITE=OSX10.9.2@Travis
