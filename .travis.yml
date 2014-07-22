@@ -80,9 +80,9 @@ script:
   - ctest -D ExperimentalBuild -VV
   - cd ..
   # compile tools
-  - make -C tools
+  #- make -C tools
   # compile proof checker
-  - make -C tools/proofcheck/checker
+  #- make -C tools/proofcheck/checker
 
 after_script:
   - cd build
