@@ -75,6 +75,9 @@ file(GLOB_RECURSE DRIO_SOURCES
 add_style_check_target(style "${DRIO_SOURCES}")
 add_test(NAME style_check COMMAND ${DRIO_SOURCE_DIR}/cmake/Modules/cpplint.py ${DRIO_SOURCES})
 
+################################################################
+# Moving compiled shell to bin/sh
+################################################################
 ADD_CUSTOM_COMMAND(TARGET sh
           POST_BUILD
           COMMAND ${CMAKE_COMMAND} -E make_directory ${DRIO_SOURCE_DIR}/../bin

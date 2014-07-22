@@ -28,11 +28,9 @@ using std::make_pair;
 using std::string;
 
 /* var_env  -> unordered map for variables
-   fmla_env -> unordered map for formulas
-   temp_env -> unordered map for temporary variables */
+   fmla_env -> unordered map for formulas */
 dreal::var_scoped_env var_env;
 dreal::fmla_scoped_env fmla_env;
-// dreal::scoped_env temp_env;
 
 shell::driver::~driver(){
     delete scanner;
@@ -178,8 +176,7 @@ void shell::driver::eval_fmla(const string &name){
         if (formula == NULL){
             cerr << "Error: formula " << name << " was not found.\n";
             printf("This\n");
-        }
-        else {
+        } else {
             print_fmla(formula);
         }
     } catch(const exception& ex){
