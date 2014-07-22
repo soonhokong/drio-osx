@@ -32,10 +32,6 @@ public:
     void var_push();
     void var_pop();
 
-    // void update_form(const std::string &name, const std::string &form);
-    // void update_temp(const std::string &var, const std::string &type, const double num);
-    // void eval(const std::string &name);
-
     term* mk_const(const double num);
     term* mk_var(const std::string &name, term_type const type);
     term* mk_var(const std::string &name);

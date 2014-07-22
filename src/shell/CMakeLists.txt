@@ -1,5 +1,8 @@
 #Custon command for flex/bison
 
+################################################################
+# Setting correct parser file based on bison version
+################################################################
 if ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/parser.yy
@@ -12,6 +15,10 @@ else ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
     )
 endif ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
 
+
+################################################################
+# Execute bison command
+################################################################
 ADD_CUSTOM_COMMAND(
     OUTPUT ${DRIO_BINARY_DIR}/shell/parser.tab.cc
     COMMAND ${BISON_EXECUTABLE}
@@ -20,6 +27,9 @@ ADD_CUSTOM_COMMAND(
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
     )
 
+################################################################
+# Execute flex command
+################################################################
 ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
         COMMAND ${FLEX_EXECUTABLE}
@@ -27,7 +37,10 @@ ADD_CUSTOM_COMMAND(
         DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
         )
 
-# Add parser.tab.cc to the list of sources
+
+################################################################
+# Mark custom command results as generated and include in source
+################################################################
 SET(DRIO_SRCS ${DRIO_SRCS} ${DRIO_BINARY_DIR}/shell/parser.tab.cc)
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/parser.tab.cc GENERATED)
 
