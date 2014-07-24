@@ -2,6 +2,7 @@
  * Copyright 2014 Soonho Kong
  */
 #include "gtest/gtest.h"
+#include <pthread.h>
 
 TEST(formula, 1) {
 }
