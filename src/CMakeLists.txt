@@ -25,7 +25,6 @@ find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(Threads REQUIRED)
 
-
 ################################################################
 # Setting Bison and Flex versions
 ################################################################
@@ -99,6 +98,7 @@ file(GLOB_RECURSE DRIO_SOURCES
   ${DRIO_SOURCE_DIR}/types/*.cpp      ${DRIO_SOURCE_DIR}/types/*.h
   ${DRIO_SOURCE_DIR}/tests/*.cpp      ${DRIO_SOURCE_DIR}/tests/*.h
   )
+list(REMOVE_ITEM DRIO_SOURCES ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer.h ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h)
 add_style_check_target(style "${DRIO_SOURCES}")
 add_test(NAME style_check COMMAND ${DRIO_SOURCE_DIR}/cmake/Modules/cpplint.py ${DRIO_SOURCES})
 
