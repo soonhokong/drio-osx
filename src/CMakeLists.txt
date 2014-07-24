@@ -14,8 +14,6 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 
 include_directories("${DRIO_SOURCE_DIR}")
 include_directories("${DRIO_SOURCE_DIR}/shell")
-add_subdirectory(types)
-add_subdirectory(shell)
 
 ################################################################
 # Set Module Path
@@ -48,6 +46,12 @@ ExternalProject_Add(GTEST
   INSTALL_COMMAND make install
 )
 set(EXTRA_LIBS ${EXTRA_LIBS} "gtest")
+
+################################################################
+# Adds subdirectories
+################################################################
+add_subdirectory(types)
+add_subdirectory(shell)
 
 ################################################################
 # External: set up include dir and libpath
