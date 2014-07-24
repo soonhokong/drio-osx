@@ -25,12 +25,26 @@ find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 find_package(Threads REQUIRED)
 
+
+################################################################
+# Setting Bison and Flex versions
+################################################################
 EXEC_PROGRAM(${BISON_EXECUTABLE} ARGS --version OUTPUT_VARIABLE BISON_VERSION_STR)
 STRING(REGEX REPLACE "([^\n]+).*" "\\1" FIRST_LINE "${BISON_VERSION_STR}")
-STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)" "\\1" BISON_VERSION_MAJOR "${FIRST_LINE}")
-STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)" "\\2" BISON_VERSION_MINOR "${FIRST_LINE}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)(\\.([0-9]+))?" "\\1" BISON_VERSION_MAJOR "${FIRST_LINE}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)(\\.([0-9]+))?" "\\2" BISON_VERSION_MINOR "${FIRST_LINE}")
 MESSAGE( STATUS "BISON_VERSION_MAJOR:  ${BISON_VERSION_MAJOR}" )
 MESSAGE( STATUS "BISON_VERSION_MINOR:  ${BISON_VERSION_MINOR}" )
+
+EXEC_PROGRAM(${FLEX_EXECUTABLE} ARGS --version OUTPUT_VARIABLE FLEX_VERSION_STR)
+STRING(REGEX REPLACE "([^\n]+).*" "\\1" FIRST_LINE "${FLEX_VERSION_STR}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)(\\.([0-9]+))?" "\\1" FLEX_VERSION_MAJOR "${FIRST_LINE}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)(\\.([0-9]+))?" "\\2" FLEX_VERSION_MINOR "${FIRST_LINE}")
+STRING(REGEX REPLACE ".* ([0-9]+)\\.([0-9]+)(\\.([0-9]+))?" "\\4" FLEX_VERSION_PATCH "${FIRST_LINE}")
+MESSAGE( STATUS "FLEX_VERSION_MAJOR:  ${FLEX_VERSION_MAJOR}" )
+MESSAGE( STATUS "FLEX_VERSION_MINOR:  ${FLEX_VERSION_MINOR}" )
+MESSAGE( STATUS "FLEX_VERSION_PATCH:  ${FLEX_VERSION_PATCH}" )
+
 
 ################################################################
 # External: googletest (Google Test)

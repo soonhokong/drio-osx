@@ -8,13 +8,14 @@ if ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
         OUTPUT ${DRIO_BINARY_DIR}/shell/parser.yy
         COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_2.yy ${DRIO_BINARY_DIR}/shell/parser.yy
     )
-else ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
-    ADD_CUSTOM_COMMAND(
+elseif("${BISON_VERSION_MAJOR}" GREATER 2)
+        ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/parser.yy
-        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_2.yy ${DRIO_BINARY_DIR}/shell/parser.yy
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_3.yy ${DRIO_BINARY_DIR}/shell/parser.yy
     )
-endif ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
-
+else ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
+    MESSAGE(FATAL_ERROR "Bison version 2.3 or above required. You are using " ${BISON_VERSION_MAJOR} "." ${BISON_VERSION_MINOR})
+endif ()
 
 ################################################################
 # Execute bison command
@@ -28,6 +29,35 @@ ADD_CUSTOM_COMMAND(
     )
 
 ################################################################
+# Checking which version of FlexLexer to use
+################################################################
+if(APPLE)
+    ADD_CUSTOM_COMMAND(
+        OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+    )
+elseif(UNIX)
+    ADD_CUSTOM_COMMAND(
+        OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+    )
+endif()
+
+################################################################
+# Checking Flex version
+################################################################
+if(${FLEX_VERSION_MAJOR} EQUAL 2)
+    if(${FLEX_VERSION_MINOR} EQUAL 5)
+        if(${FLEX_VERSION_PATCH} LESS 35)
+            MESSAGE(FATAL_ERROR "Flex version 2.5.35 or above required. You are using " ${FLEX_VERSION_MAJOR} "." ${FLEX_VERSION_MINOR} "." ${FLEX_VERSION_PATCH})
+        endif()
+    elseif(${FLEX_VERSION_MINOR} LESS 5)
+        MESSAGE(FATAL_ERROR "Flex version 2.5.35 or above required. You are using " ${FLEX_VERSION_MAJOR} "." ${FLEX_VERSION_MINOR} "." ${FLEX_VERSION_PATCH})
+    endif()
+elseif(${FLEX_VERSION_MAJOR} LESS 2)
+    MESSAGE(FATAL_ERROR "Flex version 2.5.35 or above required. You are using " ${FLEX_VERSION_MAJOR} "." ${FLEX_VERSION_MINOR} "." ${FLEX_VERSION_PATCH})
+endif()
+################################################################
 # Execute flex command
 ################################################################
 ADD_CUSTOM_COMMAND(
@@ -35,6 +65,7 @@ ADD_CUSTOM_COMMAND(
     COMMAND "${FLEX_EXECUTABLE}"
     ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
+    DEPENDS ${DRIO_BINARY_DIR}/shell/FlexLexer.h
     )
 
 
