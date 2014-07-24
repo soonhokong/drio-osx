@@ -3,7 +3,7 @@
 ################################################################
 # Setting correct parser file based on bison version
 ################################################################
-if ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
+if ("${BISON_VERSION_MAJOR}" EQUAL 2 AND  NOT ("${BISON_VERSION_MINOR}" LESS 3))
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/parser.yy
         COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/parser/parser_2.yy ${DRIO_BINARY_DIR}/shell/parser.yy
