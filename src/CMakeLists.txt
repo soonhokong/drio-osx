@@ -13,6 +13,7 @@ set(CMAKE_CXX_FLAGS_RELEASE        "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
 
 include_directories("${DRIO_SOURCE_DIR}")
+include_directories("${DRIO_SOURCE_DIR}/shell")
 add_subdirectory(types)
 add_subdirectory(shell)
 
@@ -69,7 +70,6 @@ add_subdirectory(tests/types/formula)
 # Add Dependencies
 ################################################################
 add_dependencies(formula GTEST)
-add_dependencies(SH_UTIL formula)
 
 ################################################################
 # Include style check

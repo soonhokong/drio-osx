@@ -5,7 +5,7 @@
 #pragma once
 // Defining yyFlexLexer
 #if !defined(yyFlexLexerOnce)
-#include <FlexLexer.h>
+#include "shell/FlexLexer.h"
 #endif
 
 // Changing default yylex function
