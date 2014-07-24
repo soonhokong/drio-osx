@@ -32,7 +32,7 @@ ADD_CUSTOM_COMMAND(
 ################################################################
 ADD_CUSTOM_COMMAND(
     OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
-    COMMAND ${FLEX_EXECUTABLE}
+    COMMAND "${FLEX_EXECUTABLE}"
     ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
     )

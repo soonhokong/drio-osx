@@ -69,6 +69,7 @@ add_subdirectory(tests/types/formula)
 # Add Dependencies
 ################################################################
 add_dependencies(formula GTEST)
+add_dependencies(SH_UTIL formula)
 
 ################################################################
 # Include style check
