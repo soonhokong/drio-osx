@@ -21,7 +21,7 @@ endif ("${BISON_VERSION_MAJOR}" EQUAL 2 AND "${BISON_VERSION_MINOR}" GREATER 3)
 ################################################################
 ADD_CUSTOM_COMMAND(
     OUTPUT ${DRIO_BINARY_DIR}/shell/parser.tab.cc
-    COMMAND ${BISON_EXECUTABLE}
+    COMMAND "${BISON_EXECUTABLE}"
     ARGS -d -v ${DRIO_BINARY_DIR}/shell/parser.yy
     DEPENDS ${DRIO_BINARY_DIR}/shell/parser.yy
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
