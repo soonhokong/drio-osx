@@ -35,8 +35,7 @@ double term_func::val() const {
     case func_op::Neg:
         return m_lhs->val() * -1;
     }
-    // Should never reach here
-    assert(false);
+    assert(false); //should be unreachable
     return 0;
 }
 }

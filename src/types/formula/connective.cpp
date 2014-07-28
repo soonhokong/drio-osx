@@ -8,23 +8,23 @@
 namespace shell{
 
 fmla_cnct::fmla_cnct(cnct_type type, const fmla* lhs, const fmla* rhs):
-        f_type(type),
-        f_lhs(lhs),
-        f_rhs(rhs){ f_kind = formula_kind::Connective; }
+        m_type(type),
+        m_lhs(lhs),
+        m_rhs(rhs){ m_kind = formula_kind::Connective; }
 
 bool fmla_cnct::val() const {
-    switch (f_type) {
+    switch (m_type) {
     case cnct_type::And:
-        return f_lhs->val() && f_rhs->val();
+        return m_lhs->val() && m_rhs->val();
     case cnct_type::Or:
-        return f_lhs->val() || f_rhs->val();
+        return m_lhs->val() || m_rhs->val();
     case cnct_type::Implies:
-        return f_lhs->val() ? f_rhs->val() : false; // TODO(jichaos): Implemenet correct implies
+        return m_lhs->val() ? m_rhs->val() : false; // TODO(jichaos): Implemenet correct implies
     }
     assert(false); // should be unreachable
     return false;
 }
 
 fmla_neg::fmla_neg(const fmla* arg):
-    f_arg(arg) { f_kind = formula_kind::Negation; }
+    m_arg(arg) { m_kind = formula_kind::Negation; }
 }

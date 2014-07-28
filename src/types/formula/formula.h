@@ -12,10 +12,10 @@ enum class formula_kind { Predicate, Equality, Negation, Connective, Quantifier,
 
 class fmla {
 protected:
-    formula_kind f_kind;
+    formula_kind m_kind;
 public:
     virtual bool val() const =0;
-    formula_kind kind() const { return f_kind; }
+    formula_kind kind() const { return m_kind; }
     virtual ~fmla() { }
 };
 }
