@@ -92,7 +92,6 @@ line        : stmt
 
 stmt        : '\n'                      { ; }
             | assignment '\n'           { ; }
-            | var eval                  { driver.eval_fmla(*$1); }
             | var eval '(' tmp_var ')'  { driver.eval_fmla(*$1); driver.var_pop(); }
             | exp '\n'                  { driver.print_exp($1); driver.free_exp($1); }
             | lgc '\n'                  { driver.print_fmla($1); driver.free_fmla($1); }
@@ -127,7 +126,8 @@ assignment  : var '=' exp           { driver.set_var(*$1, $3); }
             | var define exp        { driver.error("Not a valid formula"); }
             ;
 
-tmp_var     : var '=' exp               { driver.var_push(); driver.set_var(*$1, $3); }
+tmp_var     :                           { ; }
+            | var '=' exp               { driver.var_push(); driver.set_var(*$1, $3); }
             | tmp_var ',' var '=' exp   { driver.set_var(*$3, $5); }
             ;
 
@@ -144,8 +144,6 @@ exp         : term
 term        : number                { $$ = driver.mk_const($1); }
             | var                   { $$ = driver.mk_var(*$1); }
             ;
-
-
 %%
 
 // C++ Code:
