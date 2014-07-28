@@ -6,6 +6,8 @@
 #include <string>
 #include <cstdlib>
 #include "shell/scanner.h"
+#include "types/formula/term.h"
+#include "types/formula/formula.h"
 
 #define STOKEN(x) (new std::string(x))
 #define NTOKEN(x) ( double (atof(x)) )

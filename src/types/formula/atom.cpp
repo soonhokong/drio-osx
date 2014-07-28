@@ -9,7 +9,7 @@
 
 namespace shell{
 
-fmla_eq::fmla_eq(equality_op op, const term *lhs, const term *rhs):
+fmla_eq::fmla_eq(equality_op op, const term lhs, const term rhs):
     m_type(op),
     m_lhs(lhs),
     m_rhs(rhs){ m_kind = formula_kind::Equality; }
@@ -17,15 +17,15 @@ fmla_eq::fmla_eq(equality_op op, const term *lhs, const term *rhs):
 bool fmla_eq::val() const {
     switch (m_type) {
     case equality_op::EQ:
-        return m_lhs->val() == m_rhs->val();
+        return m_lhs.val() == m_rhs.val();
     case equality_op::GT:
-        return m_lhs->val() > m_rhs->val();
+        return m_lhs.val() > m_rhs.val();
     case equality_op::LT:
-        return m_lhs->val() < m_rhs->val();
+        return m_lhs.val() < m_rhs.val();
     case equality_op::GTE:
-        return m_lhs->val() >= m_rhs->val();
+        return m_lhs.val() >= m_rhs.val();
     case equality_op::LTE:
-        return m_lhs->val() <= m_rhs->val();
+        return m_lhs.val() <= m_rhs.val();
     }
     assert(false); // should be unreachable
     return false;

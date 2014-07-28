@@ -15,23 +15,47 @@ std::ostream& operator<<(std::ostream & out, term_kind const & tk);
 std::ostream& operator<<(std::ostream & out, term_type const & tt);
 
 /* Abstract base class for terms */
-class term{
+class term_cell{
 protected:
     term_kind        m_kind;
 public:
-    virtual ~term() { }
+    virtual ~term_cell() { }
     term_kind kind() const { return m_kind; }
     virtual double val() const =0;
 };
 
+/* Forward declare enums for term interface*/
+enum class func_op;
+
+class term{
+private:
+    term_cell*      m_ptr;
+public:
+    // ~term() { if(m_ptr) delete m_ptr; }
+    double val() const { return m_ptr->val(); }
+
+    friend term mk_term(term_cell* ptr);
+};
+
+term mk_const(const double num);
+term mk_var(const std::string &name, term_type const type);
+term mk_var(const std::string &name);
+void set_var(const std::string &name, const term t1);
+term mk_func(const func_op op, const term t1);
+term mk_func(const func_op op, const term t1, const term t2);
+
+void var_push();
+void var_pop();
+void var_print_env();
+
 /* Variable class */
-class term_var : public term {
+class term_var : public term_cell {
 private:
     term_type       m_type;
     std::string     m_name;
 public:
     term_var(const std::string name, const term_type type);
-    ~term_var() { }
+    ~term_var() {};
     term_type type() const { return m_type; }
     void set_type(term_type type) { m_type = type; }
     std::string name() const { return m_name; }
@@ -39,12 +63,12 @@ public:
 };
 
 /* Constants class */
-class term_const : public term {
+class term_const : public term_cell {
 private:
     double          m_val;
 public:
     term_const(const double val);
-    ~term_const() { }
+    ~term_const() {};
     double val() const { return m_val; }
 };
 }

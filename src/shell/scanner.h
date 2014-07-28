@@ -12,14 +12,17 @@
 #undef YY_DECL
 #define YY_DECL int shell::scanner::yylex()
 
+#include "types/formula/term.h"
+#include "types/formula/formula.h"
 #include "shell/parser.tab.hh"
+
 
 namespace shell{
 
 class scanner : public yyFlexLexer{
 public:
     scanner(std::istream *in) :  yyFlexLexer(in),
-                                                 yylval(nullptr){};
+                                 yylval(nullptr){};
 
     int yylex(shell::parser::semantic_type *lval){
         yylval = lval;

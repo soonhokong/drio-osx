@@ -66,6 +66,8 @@ ADD_CUSTOM_COMMAND(
     ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+    DEPENDS ${DRIO_SOURCE_DIR}/types/formula/term.h
+    DEPENDS ${DRIO_SOURCE_DIR}/types/formula/formula.h
     )
 
 
@@ -77,6 +79,7 @@ SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/parser.tab.cc GENERATED)
 
 INCLUDE_DIRECTORIES(${DRIO_BINARY_DIR}/shell)
 add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp var_scoped_env.cpp fmla_scoped_env.cpp)
+add_dependencies(SH_UTIL formula)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare")
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
