@@ -57,6 +57,7 @@ if(${FLEX_VERSION_MAJOR} EQUAL 2)
 elseif(${FLEX_VERSION_MAJOR} LESS 2)
     MESSAGE(FATAL_ERROR "Flex version 2.5.35 or above required. You are using " ${FLEX_VERSION_MAJOR} "." ${FLEX_VERSION_MINOR} "." ${FLEX_VERSION_PATCH})
 endif()
+
 ################################################################
 # Execute flex command
 ################################################################
@@ -69,7 +70,6 @@ ADD_CUSTOM_COMMAND(
     DEPENDS ${DRIO_SOURCE_DIR}/types/formula/term.h
     DEPENDS ${DRIO_SOURCE_DIR}/types/formula/formula.h
     )
-
 
 ################################################################
 # Mark custom command results as generated and include in source
