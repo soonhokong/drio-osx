@@ -77,7 +77,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DRIO_EXTRA_LINKER_FLAGS}
 # Adds executable
 ################################################################
 add_executable(sh main.cpp)
-target_link_libraries(sh SH_UTIL formula)
+target_link_libraries(sh formula SH_UTIL)
 
 ################################################################
 # Add tests

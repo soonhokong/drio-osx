@@ -29,8 +29,8 @@
     #include <string>
     #include "types/formula/term.h"
     #include "types/formula/formula.h"
-    #include "shell/driver.h"
     #include "shell/scanner.h"
+    #include "shell/driver.h"
 
     enum term_type { Real, Int };
     enum func_op { Add, Sub, Mult, Div, Neg, Pow };
