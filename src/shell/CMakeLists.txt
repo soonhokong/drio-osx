@@ -34,7 +34,7 @@ ADD_CUSTOM_COMMAND(
 if(APPLE)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
-        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
     )
 elseif(UNIX)
     ADD_CUSTOM_COMMAND(
@@ -63,7 +63,7 @@ endif()
 ################################################################
 ADD_CUSTOM_COMMAND(
     OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
-    COMMAND "${FLEX_EXECUTABLE}"
+    COMMAND /Users/sun/Downloads/flex-2.5.35/flex
     ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_BINARY_DIR}/shell/FlexLexer.h
@@ -78,7 +78,7 @@ SET(DRIO_SRCS ${DRIO_SRCS} ${DRIO_BINARY_DIR}/shell/parser.tab.cc)
 SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/parser.tab.cc GENERATED)
 
 INCLUDE_DIRECTORIES(${DRIO_BINARY_DIR}/shell)
-add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp var_scoped_env.cpp fmla_scoped_env.cpp)
+add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp)
 add_dependencies(SH_UTIL formula)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare")

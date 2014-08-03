@@ -6,7 +6,7 @@
 #include <utility>
 #include "types/formula/term.h"
 #include "types/formula/function.h"
-#include "shell/var_scoped_env.h"
+#include "types/formula/var_scoped_env.h"
 
 namespace shell{
 

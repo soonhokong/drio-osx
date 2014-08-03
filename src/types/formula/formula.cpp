@@ -9,7 +9,7 @@
 #include "types/formula/atom.h"
 #include "types/formula/connective.h"
 #include "types/formula/quantifier.h"
-#include "shell/fmla_scoped_env.h"
+#include "types/formula/fmla_scoped_env.h"
 
 using std::string;
 

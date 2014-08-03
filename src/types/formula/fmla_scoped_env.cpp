@@ -31,7 +31,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
-#include "shell/fmla_scoped_env.h"
+#include "types/formula/fmla_scoped_env.h"
 
 using std::endl;
 using std::setfill;
