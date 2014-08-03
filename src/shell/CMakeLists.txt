@@ -34,7 +34,7 @@ ADD_CUSTOM_COMMAND(
 if(APPLE)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
-        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
     )
 elseif(UNIX)
     ADD_CUSTOM_COMMAND(
@@ -79,7 +79,7 @@ SET_SOURCE_FILES_PROPERTIES(${DRIO_BINARY_DIR}/shell/parser.tab.cc GENERATED)
 
 INCLUDE_DIRECTORIES(${DRIO_BINARY_DIR}/shell)
 add_library(SH_UTIL STATIC lexer.yy.cc parser.tab.cc driver.cpp)
-add_dependencies(SH_UTIL formula)
+target_link_libraries(SH_UTIL formula)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare")
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")

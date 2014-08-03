@@ -13,11 +13,6 @@
     #include "shell/scanner.h"
     #include "shell/driver.h"
 
-    enum term_type { Real, Int };
-    enum func_op { Add, Sub, Mult, Div, Neg, Pow };
-    enum equality_op { EQ, GT, LT, GTE, LTE };
-    enum cnct_type { And, Or, Implies };
-    enum quant_type { Forall, Exists };
 %}
 
 %skeleton "lalr1.cc"

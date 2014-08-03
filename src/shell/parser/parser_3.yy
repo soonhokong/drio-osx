@@ -32,13 +32,6 @@
     #include "shell/scanner.h"
     #include "shell/driver.h"
 
-    enum term_type { Real, Int };
-    enum func_op { Add, Sub, Mult, Div, Neg, Pow };
-    enum equality_op { EQ, GT, LT, GTE, LTE };
-    enum cnct_type { And, Or, Implies };
-    enum quant_type { Forall, Exists };
-
-
     static int yylex(shell::parser::semantic_type *yylval,
                     shell::scanner  &scanner,
                     shell::driver   &driver);
