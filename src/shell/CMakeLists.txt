@@ -63,7 +63,7 @@ endif()
 ################################################################
 ADD_CUSTOM_COMMAND(
     OUTPUT ${DRIO_BINARY_DIR}/shell/lexer.yy.cc
-    COMMAND /Users/sun/Downloads/flex-2.5.35/flex
+    COMMAND ${FLEX_EXECUTABLE}
     ARGS --outfile=${DRIO_BINARY_DIR}/shell/lexer.yy.cc ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_SOURCE_DIR}/shell/scanner.l
     DEPENDS ${DRIO_BINARY_DIR}/shell/FlexLexer.h
