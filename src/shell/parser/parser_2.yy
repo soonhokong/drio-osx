@@ -10,9 +10,6 @@
     #include <string>
     #include "types/formula/term.h"
     #include "types/formula/formula.h"
-    #include "shell/scanner.h"
-    #include "shell/driver.h"
-
 %}
 
 %skeleton "lalr1.cc"
@@ -21,18 +18,25 @@
 %name-prefix="shell"
 %define "parser_class_name" "parser"
 
-%lex-param   { class scanner  &scanner  }
-%parse-param { class scanner  &scanner  }
-
-%lex-param   { class driver  &driver  }
-%parse-param { class driver  &driver  }
-
 %union {
     term trm;
     fmla fml;
     double num;
     std::string *str;
 }
+
+%{
+    #include "shell/scanner.h"
+    #include "shell/driver.h"
+%}
+
+
+%lex-param   { class scanner  &scanner  }
+%parse-param { class scanner  &scanner  }
+
+%lex-param   { class driver  &driver  }
+%parse-param { class driver  &driver  }
+
 
 %{
 
