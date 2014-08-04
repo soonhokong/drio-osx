@@ -85,19 +85,18 @@
 %destructor { if ($$)  { delete ($$); ($$) = nullptr; } } var
 
 %%
-line        : stmt
-            | line stmt
+line        : stmt '\n'
+            | line stmt '\n'
             ;
 
-stmt        : '\n'                      { ; }
-            | assignment '\n'           { ; }
+stmt        : assignment                { ; }
             | var eval '(' ')'          { driver.eval_fmla(*$1); }
             | var eval '(' tmp_var ')'  { driver.eval_fmla(*$1); shell::var_pop(); }
-            | exp '\n'                  { driver.print_exp($1); }
-            | lgc '\n'                  { driver.print_fmla($1); }
-            | quit '\n'                 { exit(0); }
-            | print exp '\n'            { driver.print_exp($2); }
-            | printenv '\n'             { shell::var_print_env(); }
+            | exp                       { driver.print_exp($1); }
+            | lgc                       { driver.print_fmla($1); }
+            | quit                      { exit(0); }
+            | print exp                 { driver.print_exp($2); }
+            | printenv                  { shell::var_print_env(); }
             ;
 
 eq_op       : exp EQ exp            { $$ = shell::mk_fmla_eq(equality_op::EQ,$1,$3); }
