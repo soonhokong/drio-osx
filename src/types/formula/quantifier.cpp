@@ -8,7 +8,7 @@
 
 namespace shell{
 
-fmla_quant::fmla_quant(quant_type const op, const term var, const fmla formula):
+fmla_quant::fmla_quant(quant_type const op, term var, fmla formula):
         m_type(op),
         m_var(var),
         m_fmla(formula){ m_kind = formula_kind::Quantifier; }

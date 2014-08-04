@@ -31,8 +31,8 @@ class term{
 private:
     term_cell*      m_ptr;
 public:
-    // ~term() { if(m_ptr) delete m_ptr; }
     double val() const { return m_ptr->val(); }
+    void free() { if(m_ptr) delete m_ptr; }
 
     friend term mk_term(term_cell* ptr);
 };
@@ -40,9 +40,9 @@ public:
 term mk_const(const double num);
 term mk_var(const std::string &name, term_type const type);
 term mk_var(const std::string &name);
-void set_var(const std::string &name, const term t1);
-term mk_func(const func_op op, const term t1);
-term mk_func(const func_op op, const term t1, const term t2);
+void set_var(const std::string &name, term t1);
+term mk_func(const func_op op, term t1);
+term mk_func(const func_op op, term t1, term t2);
 
 void var_push();
 void var_pop();

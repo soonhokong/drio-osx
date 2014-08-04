@@ -9,7 +9,7 @@
 
 namespace shell{
 
-fmla_eq::fmla_eq(equality_op op, const term lhs, const term rhs):
+fmla_eq::fmla_eq(equality_op op, term lhs, term rhs):
     m_type(op),
     m_lhs(lhs),
     m_rhs(rhs){ m_kind = formula_kind::Equality; }

@@ -97,10 +97,10 @@ line        : stmt '\n'
 stmt        : assignment                { ; }
             | var eval '(' ')'          { driver.eval_fmla(*$1); }
             | var eval '(' tmp_var ')'  { driver.eval_fmla(*$1); shell::var_pop(); }
-            | exp                       { driver.print_exp($1); }
-            | lgc                       { driver.print_fmla($1); }
+            | exp                       { driver.print_exp($1); $1.free(); }
+            | lgc                       { driver.print_fmla($1); $1.free(); }
             | quit                      { exit(0); }
-            | print exp                 { driver.print_exp($2); }
+            | print exp                 { driver.print_exp($2); $2.free(); }
             | printenv                  { shell::var_print_env(); }
             ;
 
@@ -122,16 +122,16 @@ lgc         : eq_op
             | '(' lgc ')'           { $$ = $2; }
             ;
 
-assignment  : var '=' exp           { shell::set_var(*$1, $3); }
+assignment  : var '=' exp           { shell::set_var(*$1, $3); $3.free(); }
             | realnum var           { shell::mk_var(*$2, term_type::Real); }
             | intnum var            { shell::mk_var(*$2, term_type::Int); }
             | formula var           { shell::set_fmla(*$2); }
-            | var define lgc        { shell::set_fmla(*$1,$3); }
-            | var define exp        { driver.error("Not a valid formula"); }
+            | var define lgc        { shell::set_fmla(*$1,$3); $3.free(); }
+            | var define exp        { driver.error("Not a valid formula"); $3.free(); }
             ;
 
-tmp_var     : var '=' exp               { shell::var_push(); shell::set_var(*$1, $3); }
-            | tmp_var ',' var '=' exp   { shell::set_var(*$3, $5); }
+tmp_var     : var '=' exp               { shell::var_push(); shell::set_var(*$1, $3); $3.free(); }
+            | tmp_var ',' var '=' exp   { shell::set_var(*$3, $5); $5.free(); }
             ;
 
 exp         : term

@@ -9,13 +9,13 @@
 
 namespace shell{
 
-term_func::term_func(const func_op op, const term lhs):
+term_func::term_func(const func_op op, term lhs):
     m_op(op),
     m_num_args(1),
     m_lhs(lhs),
     m_rhs(){ m_kind = term_kind::Formula; }
 
-term_func::term_func(const func_op op, const term lhs, const term rhs):
+term_func::term_func(const func_op op, term lhs, term rhs):
     m_op(op),
     m_num_args(2),
     m_lhs(lhs),

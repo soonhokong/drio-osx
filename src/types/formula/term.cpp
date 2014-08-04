@@ -76,7 +76,7 @@ term mk_var(const string &name){
     return mk_term(new term_var(name, type));
 }
 
-void set_var(const string &name, const term t1){
+void set_var(const string &name, term t1){
     // Retrieving type if already delcared
     term_type type;
     try{
@@ -93,11 +93,11 @@ void set_var(const string &name, const term t1){
     }
 }
 
-term mk_func(const func_op op, const term t1){
+term mk_func(const func_op op, term t1){
     return mk_term(new term_func(op, t1));
 }
 
-term mk_func(const func_op op, const term t1, const term t2){
+term mk_func(const func_op op, term t1, term t2){
     return mk_term(new term_func(op, t1, t2));
 }
 

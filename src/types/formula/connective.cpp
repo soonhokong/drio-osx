@@ -7,7 +7,7 @@
 
 namespace shell{
 
-fmla_cnct::fmla_cnct(cnct_type type, const fmla lhs, const fmla rhs):
+fmla_cnct::fmla_cnct(cnct_type type, fmla lhs, fmla rhs):
         m_type(type),
         m_lhs(lhs),
         m_rhs(rhs){ m_kind = formula_kind::Connective; }
@@ -25,6 +25,6 @@ bool fmla_cnct::val() const {
     return false;
 }
 
-fmla_neg::fmla_neg(const fmla arg):
+fmla_neg::fmla_neg(fmla arg):
     m_arg(arg) { m_kind = formula_kind::Negation; }
 }
