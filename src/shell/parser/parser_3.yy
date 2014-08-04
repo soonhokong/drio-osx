@@ -76,13 +76,18 @@
 
 %type   <fml>   eq_op lgc
 %type   <trm>   exp term
+
+%left           t_and t_or implies t_not
+%left           EQ GT LT GTE LTE
 %left           '+' '-'
-%left           '*' '/'
+%left           '*' '/' '^'
 
 %nonassoc       UMINUS
 %nonassoc       UNOT
 
 %destructor { if ($$)  { delete ($$); ($$) = nullptr; } } var
+
+%expect 7
 
 %%
 line        : stmt '\n'
