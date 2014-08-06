@@ -114,11 +114,11 @@ eq_op       : exp EQ exp            { $$ = shell::mk_fmla_eq(equality_op::EQ,$1,
 
 lgc         : eq_op
             | t_not lgc %prec UNOT  { $$ = shell::mk_fmla_neg($2); }
-            | lgc t_and lgc         { $$ = shell::mk_fmla_cnct(cnct_type::And, $1, $3); }
-            | lgc t_or lgc          { $$ = shell::mk_fmla_cnct(cnct_type::Or, $1, $3); }
-            | lgc implies lgc       { $$ = shell::mk_fmla_cnct(cnct_type::Implies, $1, $3); }
-            | forall var lgc        { $$ = shell::mk_fmla_quant(quant_type::Forall, *$2, $3); }
-            | exists var lgc        { $$ = shell::mk_fmla_quant(quant_type::Exists, *$2, $3); }
+            | lgc t_and lgc         { $$ = shell::mk_fmla_cnct(cnct_op::And, $1, $3); }
+            | lgc t_or lgc          { $$ = shell::mk_fmla_cnct(cnct_op::Or, $1, $3); }
+            | lgc implies lgc       { $$ = shell::mk_fmla_cnct(cnct_op::Implies, $1, $3); }
+            | forall var lgc        { $$ = shell::mk_fmla_quant(quant_op::Forall, *$2, $3); }
+            | exists var lgc        { $$ = shell::mk_fmla_quant(quant_op::Exists, *$2, $3); }
             | '(' lgc ')'           { $$ = $2; }
             ;
 

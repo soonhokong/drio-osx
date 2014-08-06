@@ -31,7 +31,7 @@ fmla mk_fmla_eq(equality_op const op, term lhs, term rhs){
     return mk_fmla(new fmla_eq(op, lhs, rhs));
 }
 
-fmla mk_fmla_cnct(cnct_type const op, fmla lhs, fmla rhs){
+fmla mk_fmla_cnct(cnct_op const op, fmla lhs, fmla rhs){
     return mk_fmla(new fmla_cnct(op, lhs, rhs));
 }
 
@@ -39,7 +39,7 @@ fmla mk_fmla_neg(fmla f1){
     return mk_fmla(new fmla_neg(f1));
 }
 
-fmla mk_fmla_quant(quant_type const op, const string &name, fmla formula){
+fmla mk_fmla_quant(quant_op const op, const string &name, fmla formula){
     return mk_fmla(new fmla_quant(op, mk_var(name), formula));
 }
 

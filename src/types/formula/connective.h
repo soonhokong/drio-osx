@@ -8,17 +8,17 @@
 
 namespace shell{
 
-enum class cnct_type { And, Or, Implies };
+enum class cnct_op { And, Or, Implies };
 
 class fmla_cnct : public fmla_cell {
 protected:
-    cnct_type           m_type;
+    cnct_op             m_op;
     fmla                m_lhs;
     fmla                m_rhs;
 public:
-    fmla_cnct(cnct_type const type, fmla lsh, fmla rhs);
+    fmla_cnct(cnct_op const op, fmla lsh, fmla rhs);
     ~fmla_cnct() { m_lhs.free(); m_rhs.free(); }
-    cnct_type type() const { return m_type; }
+    cnct_op op() const { return m_op; }
     bool val() const;
 };
 

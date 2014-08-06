@@ -23,8 +23,8 @@ public:
 
 /* Forward declare enums for term interface*/
 enum class equality_op;
-enum class cnct_type;
-enum class quant_type;
+enum class cnct_op;
+enum class quant_op;
 
 class fmla {
 private:
@@ -41,9 +41,9 @@ public:
 
 fmla fmla_lookup(const std::string &name);
 fmla mk_fmla_eq(equality_op const op, term lhs, term rhs);
-fmla mk_fmla_cnct(cnct_type const op, fmla lhs, fmla rhs);
+fmla mk_fmla_cnct(cnct_op const op, fmla lhs, fmla rhs);
 fmla mk_fmla_neg(fmla f1);
-fmla mk_fmla_quant(quant_type const op, const std::string &name, fmla formula);
+fmla mk_fmla_quant(quant_op const op, const std::string &name, fmla formula);
 void set_fmla(const std::string &name);
 void set_fmla(const std::string &name, fmla formula);
 }

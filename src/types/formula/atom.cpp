@@ -10,12 +10,12 @@
 namespace shell{
 
 fmla_eq::fmla_eq(equality_op op, term lhs, term rhs):
-    m_type(op),
+    m_op(op),
     m_lhs(lhs),
     m_rhs(rhs){ m_kind = formula_kind::Equality; }
 
 bool fmla_eq::val() const {
-    switch (m_type) {
+    switch (m_op) {
     case equality_op::EQ:
         return m_lhs.val() == m_rhs.val();
     case equality_op::GT:
