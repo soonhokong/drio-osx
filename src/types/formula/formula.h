@@ -32,6 +32,8 @@ private:
 public:
     bool val() const { return m_ptr->val(); }
     bool is_empty() const { return m_ptr == NULL; }
+    formula_kind kind() { return m_ptr->kind(); }
+    void* raw() { return m_ptr; }
     void free() { if (m_ptr) delete m_ptr; }
 
     friend fmla mk_fmla(fmla_cell *ptr);
