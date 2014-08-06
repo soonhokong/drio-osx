@@ -11,6 +11,7 @@ namespace shell{
 /* Function class for unary and binary operations */
 enum class func_op { Add, Sub, Mult, Div, Neg, Pow };
 
+// TODO(jichaos): Refractor code to gurantee function correctness
 class term_func : public term_cell {
 private:
     func_op         m_op;

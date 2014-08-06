@@ -69,6 +69,8 @@ fmla_scoped_env::mapped_type fmla_scoped_env::lookup(key_type const & k) {
     auto ite = m_map.find(k);
     if (ite == m_map.end()){
         throw std::runtime_error("Error: formula " + k + " was not found.");
+    } else if (ite->second.raw() == NULL){
+        throw std::runtime_error("Error: formula " + k + " is uninitiated.");
     }
     return ite->second;
 }
