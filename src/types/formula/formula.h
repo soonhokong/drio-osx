@@ -32,7 +32,7 @@ private:
 public:
     bool val() const { return m_ptr->val(); }
     bool is_empty() const { return m_ptr == NULL; }
-	void free() { if(m_ptr) delete m_ptr; }
+    void free() { if (m_ptr) delete m_ptr; }
 
     friend fmla mk_fmla(fmla_cell *ptr);
 };

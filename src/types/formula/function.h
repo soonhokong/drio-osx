@@ -15,13 +15,13 @@ class term_func : public term_cell {
 private:
     func_op         m_op;
     unsigned        m_num_args;
-    term     	 	m_lhs;
-    term     	 	m_rhs;
+    term            m_lhs;
+    term            m_rhs;
 
 public:
     term_func(const func_op op, term lhs);
     term_func(const func_op op, term lhs, term rhs);
-    ~term_func() { m_lhs.free(); if(m_num_args == 2) m_rhs.free(); }
+    ~term_func() { m_lhs.free(); if (m_num_args == 2) m_rhs.free(); }
     double val() const;
 };
 }

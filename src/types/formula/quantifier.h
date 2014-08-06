@@ -13,8 +13,8 @@ enum class quant_type { Forall, Exists };
 class fmla_quant : public fmla_cell {
 protected:
     quant_type          m_type;
-    term           		m_var;
-    fmla          		m_fmla;
+    term                m_var;
+    fmla                m_fmla;
 public:
     fmla_quant(quant_type const op, term  var, fmla formula);
     ~fmla_quant() { m_var.free(); m_fmla.free(); }

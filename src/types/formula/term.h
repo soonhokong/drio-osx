@@ -32,7 +32,7 @@ private:
     term_cell*      m_ptr;
 public:
     double val() const { return m_ptr->val(); }
-    void free() { if(m_ptr) delete m_ptr; }
+    void free() { if (m_ptr) delete m_ptr; }
 
     friend term mk_term(term_cell* ptr);
 };
