@@ -61,7 +61,13 @@ term mk_const(const double num){
 
 // Used for delclaring variable type
 void set_var(const string &name, term_type const type){
-    var_env.insert(name, make_pair(type, 0));
+    double val;
+    try{
+        val = var_env.lookup(name).second;
+    } catch(const exception& ex){
+        val = 0;
+    }
+    var_env.insert(name, make_pair(type, val));
 }
 
 term mk_var(const string &name){
