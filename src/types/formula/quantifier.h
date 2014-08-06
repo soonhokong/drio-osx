@@ -20,5 +20,6 @@ public:
     ~fmla_quant() { m_var.free(); m_fmla.free(); }
     quant_op type() { return m_op; }
     bool val() const;
+    quant_op op() const { return m_op; }
 };
 }

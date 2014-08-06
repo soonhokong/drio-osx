@@ -33,8 +33,8 @@ private:
 public:
     double val() const { return m_ptr->val(); }
     void free() { if (m_ptr) delete m_ptr; }
-    term_kind kind() { return m_ptr->kind(); }
-    void* raw() { return m_ptr; }
+    term_kind kind() const { return m_ptr->kind(); }
+    void* raw() const { return m_ptr; }
 
     friend term mk_term(term_cell* ptr);
 };

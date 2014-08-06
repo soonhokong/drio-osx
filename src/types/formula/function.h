@@ -23,5 +23,6 @@ public:
     term_func(const func_op op, term lhs, term rhs);
     ~term_func() { m_lhs.free(); if (m_num_args == 2) m_rhs.free(); }
     double val() const;
+    func_op op() const { return m_op; }
 };
 }
