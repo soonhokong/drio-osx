@@ -60,10 +60,8 @@ term mk_const(const double num){
 }
 
 // Used for delclaring variable type
-term mk_var(const string &name, term_type const type){
+void set_var(const string &name, term_type const type){
     var_env.insert(name, make_pair(type, 0));
-
-    return mk_term(new term_var(name, type));
 }
 
 term mk_var(const string &name){

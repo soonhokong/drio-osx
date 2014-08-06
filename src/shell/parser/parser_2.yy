@@ -123,8 +123,8 @@ lgc         : eq_op
             ;
 
 assignment  : var '=' exp           { shell::set_var(*$1, $3); $3.free(); }
-            | realnum var           { shell::mk_var(*$2, term_type::Real); }
-            | intnum var            { shell::mk_var(*$2, term_type::Int); }
+            | realnum var           { shell::set_var(*$2, term_type::Real); }
+            | intnum var            { shell::set_var(*$2, term_type::Int); }
             | formula var           { shell::set_fmla(*$2); }
             | var define lgc        { shell::set_fmla(*$1,$3); $3.free(); }
             | var define exp        { driver.error("Not a valid formula"); $3.free(); }

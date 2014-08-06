@@ -38,7 +38,7 @@ public:
 };
 
 term mk_const(const double num);
-term mk_var(const std::string &name, term_type const type);
+void set_var(const std::string &name, term_type const type);
 term mk_var(const std::string &name);
 void set_var(const std::string &name, term t1);
 term mk_func(const func_op op, term t1);
