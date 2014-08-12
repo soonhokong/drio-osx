@@ -120,6 +120,14 @@ void var_print_env(){
         }
     }
 }
+
+void print_exp(const term t){
+    try{
+        cout << t.val()  << "\n";
+    } catch(const exception& ex){
+        cerr << ex.what() << "\n";
+    }
+}
 /**** End term interface ****/
 
 term_var::term_var(string const name, term_type const type):

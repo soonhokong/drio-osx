@@ -46,4 +46,7 @@ fmla mk_fmla_neg(fmla f1);
 fmla mk_fmla_quant(quant_op const op, const std::string &name, fmla formula);
 void set_fmla(const std::string &name);
 void set_fmla(const std::string &name, fmla formula);
+
+void print_fmla(const fmla f);
+void eval_fmla(const std::string &name);
 }

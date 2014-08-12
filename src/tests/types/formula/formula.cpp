@@ -21,6 +21,7 @@ TEST(term, constructors) {
     EXPECT_EQ(1, one.val());
     EXPECT_EQ(-1, n_one.val());
     EXPECT_EQ(0.1, decimal.val());
+    EXPECT_EQ(term_kind::Constant, zero.kind());
 
     // Variable constructors
     set_var("uninitiated", term_type::Int);
@@ -34,8 +35,6 @@ TEST(term, constructors) {
     EXPECT_EQ(-1, mk_var("n_one").val());
     EXPECT_EQ(0.1, mk_var("decimal").val());
     EXPECT_ANY_THROW(mk_var("not_in_map").val());
-
-    EXPECT_EQ(term_kind::Constant, zero.kind());
     EXPECT_EQ(term_kind::Variable, mk_var("zero").kind());
 
     // Function constructors
@@ -43,6 +42,8 @@ TEST(term, constructors) {
     term n_two = mk_func(func_op::Neg, two);
     EXPECT_EQ(2, two.val());
     EXPECT_EQ(-2, n_two.val());
+
+    printf("Fault\n");
 }
 
 TEST(term, rounding){

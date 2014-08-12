@@ -49,6 +49,7 @@ term mk_func(const func_op op, term t1, term t2);
 void var_push();
 void var_pop();
 void var_print_env();
+void print_exp(const term t);
 
 /* Variable class */
 class term_var : public term_cell {

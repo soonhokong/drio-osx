@@ -95,57 +95,57 @@ line        : stmt '\n'
             ;
 
 stmt        : assignment                { ; }
-            | var eval '(' ')'          { driver.eval_fmla(*$1); }
-            | var eval '(' tmp_var ')'  { driver.eval_fmla(*$1); shell::var_pop(); }
-            | exp                       { driver.print_exp($1); $1.free(); }
-            | lgc                       { driver.print_fmla($1); $1.free(); }
+            | var eval '(' ')'          { shell::eval_fmla(*$1); }
+            | var eval '(' tmp_var ')'  { shell::eval_fmla(*$1); shell::var_pop(); }
+            | exp                       { shell::print_exp($1); $1.free(); }
+            | lgc                       { shell::print_fmla($1); $1.free(); }
             | quit                      { exit(0); }
-            | print exp                 { driver.print_exp($2); $2.free(); }
+            | print exp                 { shell::print_exp($2); $2.free(); }
             | printenv                  { shell::var_print_env(); }
             ;
 
-eq_op       : exp EQ exp            { $$ = shell::mk_fmla_eq(equality_op::EQ,$1,$3); }
-            | exp GT exp            { $$ = shell::mk_fmla_eq(equality_op::GT,$1,$3); }
-            | exp LT exp            { $$ = shell::mk_fmla_eq(equality_op::LT,$1,$3); }
-            | exp GTE exp           { $$ = shell::mk_fmla_eq(equality_op::GTE,$1,$3); }
-            | exp LTE exp           { $$ = shell::mk_fmla_eq(equality_op::LTE,$1,$3); }
-            | '(' eq_op ')'         { $$ = $2; }
-            ;
-
-lgc         : eq_op
-            | t_not lgc %prec UNOT  { $$ = shell::mk_fmla_neg($2); }
-            | lgc t_and lgc         { $$ = shell::mk_fmla_cnct(cnct_op::And, $1, $3); }
-            | lgc t_or lgc          { $$ = shell::mk_fmla_cnct(cnct_op::Or, $1, $3); }
-            | lgc implies lgc       { $$ = shell::mk_fmla_cnct(cnct_op::Implies, $1, $3); }
-            | forall var lgc        { $$ = shell::mk_fmla_quant(quant_op::Forall, *$2, $3); }
-            | exists var lgc        { $$ = shell::mk_fmla_quant(quant_op::Exists, *$2, $3); }
-            | '(' lgc ')'           { $$ = $2; }
-            ;
-
-assignment  : var '=' exp           { shell::set_var(*$1, $3); $3.free(); }
-            | realnum var           { shell::set_var(*$2, term_type::Real); }
-            | intnum var            { shell::set_var(*$2, term_type::Int); }
-            | formula var           { shell::set_fmla(*$2); }
-            | var define lgc        { shell::set_fmla(*$1,$3); $3.free(); }
-            | var define exp        { driver.error("Not a valid formula"); $3.free(); }
+assignment  : var '=' exp               { shell::set_var(*$1, $3); $3.free(); }
+            | realnum var               { shell::set_var(*$2, term_type::Real); }
+            | intnum var                { shell::set_var(*$2, term_type::Int); }
+            | formula var               { shell::set_fmla(*$2); }
+            | var define lgc            { shell::set_fmla(*$1,$3); $3.free(); }
+            | var define exp            { driver.error("Not a valid formula"); $3.free(); }
             ;
 
 tmp_var     : var '=' exp               { shell::var_push(); shell::set_var(*$1, $3); $3.free(); }
             | tmp_var ',' var '=' exp   { shell::set_var(*$3, $5); $5.free(); }
             ;
 
-exp         : term
-            | '-' exp %prec UMINUS  { $$ = shell::mk_func(func_op::Neg, $2); }
-            | exp '+' exp           { $$ = shell::mk_func(func_op::Add, $1, $3); }
-            | exp '-' exp           { $$ = shell::mk_func(func_op::Sub, $1, $3); }
-            | exp '*' exp           { $$ = shell::mk_func(func_op::Mult, $1, $3); }
-            | exp '/' exp           { $$ = shell::mk_func(func_op::Div, $1, $3); }
-            | exp '^' exp           { $$ = shell::mk_func(func_op::Pow, $1, $3); }
-            | '(' exp ')'           { $$ = $2; }
+eq_op       : exp EQ exp                { $$ = shell::mk_fmla_eq(equality_op::EQ,$1,$3); }
+            | exp GT exp                { $$ = shell::mk_fmla_eq(equality_op::GT,$1,$3); }
+            | exp LT exp                { $$ = shell::mk_fmla_eq(equality_op::LT,$1,$3); }
+            | exp GTE exp               { $$ = shell::mk_fmla_eq(equality_op::GTE,$1,$3); }
+            | exp LTE exp               { $$ = shell::mk_fmla_eq(equality_op::LTE,$1,$3); }
+            | '(' eq_op ')'             { $$ = $2; }
             ;
 
-term        : number                { $$ = shell::mk_const($1); }
-            | var                   { $$ = shell::mk_var(*$1); }
+lgc         : eq_op
+            | t_not lgc %prec UNOT      { $$ = shell::mk_fmla_neg($2); }
+            | lgc t_and lgc             { $$ = shell::mk_fmla_cnct(cnct_op::And, $1, $3); }
+            | lgc t_or lgc              { $$ = shell::mk_fmla_cnct(cnct_op::Or, $1, $3); }
+            | lgc implies lgc           { $$ = shell::mk_fmla_cnct(cnct_op::Implies, $1, $3); }
+            | forall var lgc            { $$ = shell::mk_fmla_quant(quant_op::Forall, *$2, $3); }
+            | exists var lgc            { $$ = shell::mk_fmla_quant(quant_op::Exists, *$2, $3); }
+            | '(' lgc ')'               { $$ = $2; }
+            ;
+
+exp         : term
+            | '-' exp %prec UMINUS      { $$ = shell::mk_func(func_op::Neg, $2); }
+            | exp '+' exp               { $$ = shell::mk_func(func_op::Add, $1, $3); }
+            | exp '-' exp               { $$ = shell::mk_func(func_op::Sub, $1, $3); }
+            | exp '*' exp               { $$ = shell::mk_func(func_op::Mult, $1, $3); }
+            | exp '/' exp               { $$ = shell::mk_func(func_op::Div, $1, $3); }
+            | exp '^' exp               { $$ = shell::mk_func(func_op::Pow, $1, $3); }
+            | '(' exp ')'               { $$ = $2; }
+            ;
+
+term        : number                    { $$ = shell::mk_const($1); }
+            | var                       { $$ = shell::mk_var(*$1); }
             ;
 %%
 

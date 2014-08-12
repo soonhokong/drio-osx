@@ -12,6 +12,9 @@
 #include "types/formula/fmla_scoped_env.h"
 
 using std::string;
+using std::cout;
+using std::cerr;
+using std::exception;
 
 namespace shell{
 
@@ -49,5 +52,26 @@ void set_fmla(const string &name){
 
 void set_fmla(const string &name, fmla formula){
     fmla_env.insert(name, formula);
+}
+
+void print_fmla(const fmla f){
+    try{
+        cout << (f.val() ? "true" : "false") << "\n";
+    } catch(const exception& ex){
+        cerr << ex.what() << "\n";
+    }
+}
+
+void eval_fmla(const string &name){
+    try{
+        fmla formula = fmla_lookup(name);
+        if (formula.is_empty()){
+            cerr << "Error: formula " << name << " was not found.\n";
+        } else {
+            print_fmla(formula);
+        }
+    } catch(const exception& ex){
+        cerr << ex.what() << "\n";
+    }
 }
 }
