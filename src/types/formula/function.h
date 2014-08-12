@@ -4,6 +4,7 @@
 
 #pragma once
 #include <string>
+#include <vector>
 #include "types/formula/term.h"
 
 namespace shell{
@@ -11,18 +12,16 @@ namespace shell{
 /* Function class for unary and binary operations */
 enum class func_op { Add, Sub, Mult, Div, Neg, Pow };
 
-// TODO(jichaos): Refractor code to gurantee function correctness
 class term_func : public term_cell {
 private:
-    func_op         m_op;
-    unsigned        m_num_args;
-    term            m_lhs;
-    term            m_rhs;
+    func_op             m_op;
+    std::vector<term>   m_trm;
 
 public:
-    term_func(const func_op op, term lhs);
-    term_func(const func_op op, term lhs, term rhs);
-    ~term_func() { m_lhs.free(); if (m_num_args == 2) m_rhs.free(); }
+    term_func(const func_op op, term t1);
+    term_func(const func_op op, term t1, term t2);
+    term_func(const func_op op, term t1, term t2, term t3);
+    ~term_func();
     double val() const;
     func_op op() const { return m_op; }
 };
