@@ -34,7 +34,7 @@ ADD_CUSTOM_COMMAND(
 if(APPLE)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
-        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
+        COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
     )
 elseif(UNIX)
     ADD_CUSTOM_COMMAND(
