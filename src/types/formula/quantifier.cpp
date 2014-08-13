@@ -8,12 +8,12 @@
 
 namespace shell{
 
-fmla_quant::fmla_quant(quant_op const op, term var, fmla formula):
+fmla_quant::fmla_quant(quant_op const op, expr var, expr formula):
         m_op(op),
         m_var(var),
         m_fmla(formula){ m_kind = formula_kind::Quantifier; }
 
-bool fmla_quant::val() const{
-        return m_fmla.val(); // TODO(jichaos): Implement quantifier solving
+bool fmla_quant::eval() const{
+        return m_fmla.eval(); // TODO(jichaos): Implement quantifier solving
 }
 }

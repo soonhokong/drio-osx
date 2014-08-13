@@ -10,43 +10,43 @@
 
 namespace shell{
 
-term_func::term_func(const func_op op, term t1):
+term_func::term_func(const func_op op, expr t1):
     m_op(op),
-    m_trm(1) { m_kind = term_kind::Formula; m_trm[0] = t1; }
+    m_expr(1) { m_kind = term_kind::Formula; m_expr[0] = t1; }
 
-term_func::term_func(const func_op op, term t1, term t2):
+term_func::term_func(const func_op op, expr t1, expr t2):
     m_op(op),
-    m_trm(2){ m_kind = term_kind::Formula; m_trm[0] = t1; m_trm[1] = t2;}
+    m_expr(2){ m_kind = term_kind::Formula; m_expr[0] = t1; m_expr[1] = t2;}
 
-term_func::term_func(const func_op op, term t1, term t2, term t3):
+term_func::term_func(const func_op op, expr t1, expr t2, expr t3):
     m_op(op),
-    m_trm(3){ m_kind = term_kind::Formula; m_trm[0] = t1; m_trm[1] = t2; m_trm[3] = t3;}
+    m_expr(3){ m_kind = term_kind::Formula; m_expr[0] = t1; m_expr[1] = t2; m_expr[3] = t3;}
 
 term_func::~term_func(){
-    for (int i = 0; i < m_trm.size(); ++i){
-        m_trm[i].free();
+    for (int i = 0; i < static_cast<int>(m_expr.size()); ++i){
+        m_expr[i].free();
     }
 };
 
 double term_func::val() const {
     switch (m_op){
     case func_op::Add:
-        assert(m_trm.size() == 2);
-        return m_trm[0].val() + m_trm[1].val();
+        assert(m_expr.size() == 2);
+        return m_expr[0].val() + m_expr[1].val();
     case func_op::Sub:
-        assert(m_trm.size() == 2);
-        return m_trm[0].val() - m_trm[1].val();
+        assert(m_expr.size() == 2);
+        return m_expr[0].val() - m_expr[1].val();
     case func_op::Mult:
-        assert(m_trm.size() == 2);
-        return m_trm[0].val() * m_trm[1].val();
+        assert(m_expr.size() == 2);
+        return m_expr[0].val() * m_expr[1].val();
     case func_op::Div:
-        assert(m_trm.size() == 2);
-        return m_trm[0].val() / m_trm[1].val();
+        assert(m_expr.size() == 2);
+        return m_expr[0].val() / m_expr[1].val();
     case func_op::Pow:
-        assert(m_trm.size() == 2);
-        return std::pow(m_trm[0].val(), m_trm[1].val());
+        assert(m_expr.size() == 2);
+        return std::pow(m_expr[0].val(), m_expr[1].val());
     case func_op::Neg:
-        return m_trm[0].val() * -1;
+        return m_expr[0].val() * -1;
     }
     assert(false); // should be unreachable
     return 0;

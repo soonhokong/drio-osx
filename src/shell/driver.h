@@ -23,12 +23,6 @@ public:
     virtual ~driver();
 
     void parse();
-
-    void print_exp(const term t);
-    void print_fmla(const fmla f);
-    void eval_fmla(const std::string &name);
-    void print_env();
-
     void error(const std::string &err);
 
 private:

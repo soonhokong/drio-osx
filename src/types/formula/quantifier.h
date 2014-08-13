@@ -13,13 +13,13 @@ enum class quant_op { Forall, Exists };
 class fmla_quant : public fmla_cell {
 protected:
     quant_op            m_op;
-    term                m_var;
-    fmla                m_fmla;
+    expr                m_var;
+    expr                m_fmla;
 public:
-    fmla_quant(quant_op const op, term  var, fmla formula);
+    fmla_quant(quant_op const op, expr  var, expr formula);
     ~fmla_quant() { m_var.free(); m_fmla.free(); }
     quant_op type() { return m_op; }
-    bool val() const;
+    bool eval() const;
     quant_op op() const { return m_op; }
 };
 }

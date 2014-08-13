@@ -4,6 +4,7 @@
 
 #include <string>
 #include <utility>
+#include "types/formula/expr.h"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
 #include "types/formula/var_scoped_env.h"
@@ -49,14 +50,8 @@ std::ostream& operator<<(std::ostream & out, term_type const & tt) {
 
 /**** Start term interface ****/
 
-term mk_term(term_cell *ptr){
-    term temp;
-    temp.m_ptr = ptr;
-    return temp;
-}
-
-term mk_const(const double num){
-    return mk_term(new term_const(num));
+expr mk_const(const double num){
+    return mk_expr(new term_const(num));
 }
 
 // Used for delclaring variable type
@@ -70,17 +65,17 @@ void set_var(const string &name, term_type const type){
     var_env.insert(name, make_pair(type, val));
 }
 
-term mk_var(const string &name){
+expr mk_var(const string &name){
     term_type type;
     try{
         type = var_env.lookup(name).first;
     } catch(const exception& ex){
         type = term_type::Real;
     }
-    return mk_term(new term_var(name, type));
+    return mk_expr(new term_var(name, type));
 }
 
-void set_var(const string &name, term t1){
+void set_var(const string &name, expr t1){
     // Retrieving type if already delcared
     term_type type;
     try{
@@ -97,12 +92,12 @@ void set_var(const string &name, term t1){
     }
 }
 
-term mk_func(const func_op op, term t1){
-    return mk_term(new term_func(op, t1));
+expr mk_func(const func_op op, expr t1){
+    return mk_expr(new term_func(op, t1));
 }
 
-term mk_func(const func_op op, term t1, term t2){
-    return mk_term(new term_func(op, t1, t2));
+expr mk_func(const func_op op, expr t1, expr t2){
+    return mk_expr(new term_func(op, t1, t2));
 }
 
 void var_push(){
@@ -121,7 +116,7 @@ void var_print_env(){
     }
 }
 
-void print_exp(const term t){
+void print_exp(const expr t){
     try{
         cout << t.val()  << "\n";
     } catch(const exception& ex){

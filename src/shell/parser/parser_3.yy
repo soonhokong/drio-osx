@@ -27,6 +27,7 @@
     #include <iostream>
     #include <cstdlib>
     #include <string>
+    #include "types/formula/expr.h"
     #include "types/formula/term.h"
     #include "types/formula/formula.h"
     #include "shell/scanner.h"
@@ -74,8 +75,7 @@
 %token  <num>   number
 %token  <str>   var
 
-%type   <fml>   eq_op lgc
-%type   <trm>   exp term
+%type   <exp>   eq_op lgc exp term
 
 %left           t_and t_or implies t_not
 %left           EQ GT LT GTE LTE
@@ -148,7 +148,6 @@ term        : number                    { $$ = shell::mk_const($1); }
             | var                       { $$ = shell::mk_var(*$1); }
             ;
 %%
-
 
 // C++ Code:
 

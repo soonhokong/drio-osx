@@ -8,6 +8,7 @@
     #include <iostream>
     #include <cstdlib>
     #include <string>
+    #include "types/formula/expr.h"
     #include "types/formula/term.h"
     #include "types/formula/formula.h"
 %}
@@ -19,8 +20,7 @@
 %define "parser_class_name" "parser"
 
 %union {
-    term trm;
-    fmla fml;
+    expr   exp;
     double num;
     std::string *str;
 }
@@ -74,8 +74,7 @@ static int yylex( shell::parser::semantic_type *yylval,
 %token  <num>   number
 %token  <str>   var
 
-%type   <fml>   eq_op lgc
-%type   <trm>   exp term
+%type   <exp>   eq_op lgc exp term
 
 %left           t_and t_or implies t_not
 %left           EQ GT LT GTE LTE
@@ -108,7 +107,7 @@ assignment  : var '=' exp               { shell::set_var(*$1, $3); $3.free(); }
             | realnum var               { shell::set_var(*$2, term_type::Real); }
             | intnum var                { shell::set_var(*$2, term_type::Int); }
             | formula var               { shell::set_fmla(*$2); }
-            | var define lgc            { shell::set_fmla(*$1,$3); }
+            | var define lgc            { shell::set_fmla(*$1,$3); $3.free(); }
             | var define exp            { driver.error("Not a valid formula"); $3.free(); }
             ;
 

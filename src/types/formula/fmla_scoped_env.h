@@ -38,7 +38,7 @@ along with dReal. If not, see <http://www.gnu.org/licenses/>.
 namespace dreal {
 class fmla_scoped_env {
 private:
-    typedef std::unordered_map<std::string, shell::fmla> map;
+    typedef std::unordered_map<std::string, shell::expr> map;
     typedef map::key_type key_type;
     typedef map::value_type value_type;
     typedef map::mapped_type mapped_type;

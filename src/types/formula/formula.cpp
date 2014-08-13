@@ -3,6 +3,7 @@
  */
 
 #include <string>
+#include "types/formula/expr.h"
 #include "types/formula/term.h"
 #include "types/formula/function.h"
 #include "types/formula/formula.h"
@@ -20,43 +21,37 @@ namespace shell{
 
 dreal::fmla_scoped_env fmla_env;
 
-fmla mk_fmla(fmla_cell *ptr){
-    fmla temp;
-    temp.m_ptr = ptr;
-    return temp;
-}
-
-fmla fmla_lookup(const std::string &name){
+expr fmla_lookup(const std::string &name){
     return fmla_env.lookup(name);
 }
 
-fmla mk_fmla_eq(equality_op const op, term lhs, term rhs){
-    return mk_fmla(new fmla_eq(op, lhs, rhs));
+expr mk_fmla_eq(equality_op const op, expr lhs, expr rhs){
+    return mk_expr(new fmla_eq(op, lhs, rhs));
 }
 
-fmla mk_fmla_cnct(cnct_op const op, fmla lhs, fmla rhs){
-    return mk_fmla(new fmla_cnct(op, lhs, rhs));
+expr mk_fmla_cnct(cnct_op const op, expr lhs, expr rhs){
+    return mk_expr(new fmla_cnct(op, lhs, rhs));
 }
 
-fmla mk_fmla_neg(fmla f1){
-    return mk_fmla(new fmla_neg(f1));
+expr mk_fmla_neg(expr f1){
+    return mk_expr(new fmla_neg(f1));
 }
 
-fmla mk_fmla_quant(quant_op const op, const string &name, fmla formula){
-    return mk_fmla(new fmla_quant(op, mk_var(name), formula));
+expr mk_fmla_quant(quant_op const op, const string &name, expr f1){
+    return mk_expr(new fmla_quant(op, mk_var(name), f1));
 }
 
 void set_fmla(const string &name){
-    fmla_env.insert(name, mk_fmla(NULL));
+    fmla_env.insert(name, mk_expr(NULL));
 }
 
-void set_fmla(const string &name, fmla formula){
-    fmla_env.insert(name, formula);
+void set_fmla(const string &name, expr f1){
+    fmla_env.insert(name, f1);
 }
 
-void print_fmla(const fmla f){
+void print_fmla(const expr f1){
     try{
-        cout << (f.val() ? "true" : "false") << "\n";
+        cout << (f1.eval() ? "true" : "false") << "\n";
     } catch(const exception& ex){
         cerr << ex.what() << "\n";
     }
@@ -64,7 +59,7 @@ void print_fmla(const fmla f){
 
 void eval_fmla(const string &name){
     try{
-        fmla formula = fmla_lookup(name);
+        expr formula = fmla_lookup(name);
         if (formula.is_empty()){
             cerr << "Error: formula " << name << " was not found.\n";
         } else {

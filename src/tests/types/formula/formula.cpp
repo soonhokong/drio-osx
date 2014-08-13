@@ -13,15 +13,14 @@ using namespace shell;
 
 TEST(term, constructors) {
     // Constant constructors
-    term zero = mk_const(0);
-    term one = mk_const(1);
-    term n_one = mk_const(-1);
-    term decimal = mk_const(0.1);
+    expr zero = mk_const(0);
+    expr one = mk_const(1);
+    expr n_one = mk_const(-1);
+    expr decimal = mk_const(0.1);
     EXPECT_EQ(0, zero.val());
     EXPECT_EQ(1, one.val());
     EXPECT_EQ(-1, n_one.val());
     EXPECT_EQ(0.1, decimal.val());
-    EXPECT_EQ(term_kind::Constant, zero.kind());
 
     // Variable constructors
     set_var("uninitiated", term_type::Int);
@@ -35,22 +34,19 @@ TEST(term, constructors) {
     EXPECT_EQ(-1, mk_var("n_one").val());
     EXPECT_EQ(0.1, mk_var("decimal").val());
     EXPECT_ANY_THROW(mk_var("not_in_map").val());
-    EXPECT_EQ(term_kind::Variable, mk_var("zero").kind());
 
     // Function constructors
-    term two = mk_func(func_op::Add, one, one);
-    term n_two = mk_func(func_op::Neg, two);
+    expr two = mk_func(func_op::Add, one, one);
+    expr n_two = mk_func(func_op::Neg, two);
     EXPECT_EQ(2, two.val());
     EXPECT_EQ(-2, n_two.val());
-
-    printf("Fault\n");
 }
 
 TEST(term, rounding){
     // Variable rounding
-    term one_fourth = mk_const(.25);
-    term one_half = mk_const(.5);
-    term three_fourth = mk_const(.75);
+    expr one_fourth = mk_const(.25);
+    expr one_half = mk_const(.5);
+    expr three_fourth = mk_const(.75);
 
     // Declaring variable types
     set_var("real", term_type::Real);
@@ -74,24 +70,24 @@ TEST(term, rounding){
 
 TEST(formula, constructors){
     // Equality constructors
-    term one  = mk_const(1);
+    expr one  = mk_const(1);
 
-    fmla equal = mk_fmla_eq(equality_op::EQ, one, one);
-    fmla less = mk_fmla_eq(equality_op::LT, one, one);
-    EXPECT_EQ(true, equal.val());
-    EXPECT_EQ(false, less.val());
+    expr equal = mk_fmla_eq(equality_op::EQ, one, one);
+    expr less = mk_fmla_eq(equality_op::LT, one, one);
+    EXPECT_EQ(true, equal.eval());
+    EXPECT_EQ(false, less.eval());
 
     // Connective constructors
-    fmla _and = mk_fmla_cnct(cnct_op::And, equal, less);
-    fmla _or = mk_fmla_cnct(cnct_op::Or, equal, less);
-    EXPECT_EQ(false, _and.val());
-    EXPECT_EQ(true, _or.val());
+    expr _and = mk_fmla_cnct(cnct_op::And, equal, less);
+    expr _or = mk_fmla_cnct(cnct_op::Or, equal, less);
+    EXPECT_EQ(false, _and.eval());
+    EXPECT_EQ(true, _or.eval());
 
     // Negation constructors
-    fmla neg_false = mk_fmla_neg(_and);
-    fmla neg_true = mk_fmla_neg(_or);
-    EXPECT_EQ(true, neg_false.val());
-    EXPECT_EQ(false, neg_true.val());
+    expr neg_false = mk_fmla_neg(_and);
+    expr neg_true = mk_fmla_neg(_or);
+    EXPECT_EQ(true, neg_false.eval());
+    EXPECT_EQ(false, neg_true.eval());
 
     // Quantifier constructors
     /***** TODO(jichaos) *****/
