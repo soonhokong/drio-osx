@@ -31,7 +31,7 @@ ADD_CUSTOM_COMMAND(
 ################################################################
 # Checking which version of FlexLexer to use
 ################################################################
-if(APPLE)
+if(FLEX_VERSION_APPLE STREQUAL "Apple")
     ADD_CUSTOM_COMMAND(
         OUTPUT ${DRIO_BINARY_DIR}/shell/FlexLexer.h
         COMMAND ${CMAKE_COMMAND} -E copy ${DRIO_SOURCE_DIR}/shell/FlexLexer/FlexLexer_osx.h ${DRIO_BINARY_DIR}/shell/FlexLexer.h
