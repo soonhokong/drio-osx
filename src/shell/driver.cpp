@@ -16,9 +16,6 @@ using std::exception;
 using std::make_pair;
 using std::string;
 
-/* var_env  -> unordered map for variables
-   fmla_env -> unordered map for formulas */
-
 shell::driver::~driver(){
     delete scanner;
     scanner = nullptr;
