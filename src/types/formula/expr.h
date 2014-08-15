@@ -10,8 +10,8 @@ namespace shell{
 class expr_cell {
 public:
     virtual ~expr_cell() { }
-    virtual double val() const { std::cerr << "Error: calling unimplemented .val()\n"; return 0;}
-    virtual bool eval() const { std::cerr << "Error: calling unimplemented .eval()\n"; return false;}
+    virtual double val() const { throw std::runtime_error("Error: calling unimplemented .val()\n");  }
+    virtual bool eval() const { throw std::runtime_error("Error: calling unimplemented .eval()\n"); }
 };
 
 class expr{
