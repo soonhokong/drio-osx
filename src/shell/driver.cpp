@@ -30,7 +30,7 @@ void shell::driver::parse(){
     parser = new shell::parser(*scanner, *this);
 
     if (parser->parse() != 0){
-        cerr << "Parse failed \n";
+        // Error message printed each time parse failed
     }
 }
 

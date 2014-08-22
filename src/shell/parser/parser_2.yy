@@ -62,6 +62,18 @@ static int yylex( shell::parser::semantic_type *yylval,
 %token          forall
 %token          exists
 
+%token          SIN
+%token          COS
+%token          TAN
+%token          ASIN
+%token          ACOS
+%token          ATAN
+%token          SINH
+%token          COSH
+%token          TANH
+%token          ASINH
+%token          ACOSH
+%token          ATANH
 
 %token          formula
 %token          eval
@@ -85,8 +97,6 @@ static int yylex( shell::parser::semantic_type *yylval,
 %nonassoc       UNOT
 
 %destructor { if ($$)  { delete ($$); ($$) = nullptr; } } var
-
-%expect 7
 
 %%
 line        : stmt '\n'
@@ -140,6 +150,18 @@ exp         : term
             | exp '*' exp               { $$ = shell::mk_func(func_op::Mult, $1, $3); }
             | exp '/' exp               { $$ = shell::mk_func(func_op::Div, $1, $3); }
             | exp '^' exp               { $$ = shell::mk_func(func_op::Pow, $1, $3); }
+            | SIN exp                   { $$ = shell::mk_func(trig_op::Sin, $2); }
+            | COS exp                   { $$ = shell::mk_func(trig_op::Cos, $2); }
+            | TAN exp                   { $$ = shell::mk_func(trig_op::Tan, $2); }
+            | ASIN exp                  { $$ = shell::mk_func(trig_op::Asin, $2); }
+            | ACOS exp                  { $$ = shell::mk_func(trig_op::Acos, $2); }
+            | ATAN exp                  { $$ = shell::mk_func(trig_op::Atan, $2); }
+            | SINH exp                  { $$ = shell::mk_func(trig_op::Sinh, $2); }
+            | COSH exp                  { $$ = shell::mk_func(trig_op::Cosh, $2); }
+            | TANH exp                  { $$ = shell::mk_func(trig_op::Tanh, $2); }
+            | ASINH exp                 { $$ = shell::mk_func(trig_op::Asinh, $2); }
+            | ACOSH exp                 { $$ = shell::mk_func(trig_op::Acosh, $2); }
+            | ATANH exp                 { $$ = shell::mk_func(trig_op::Atanh, $2); }
             | '(' exp ')'               { $$ = $2; }
             ;
 

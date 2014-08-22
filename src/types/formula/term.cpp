@@ -100,6 +100,10 @@ expr mk_func(const func_op op, expr t1, expr t2){
     return mk_expr(new term_func(op, t1, t2));
 }
 
+expr mk_func(const trig_op op, expr t1){
+    return mk_expr(new term_trig(op, t1));
+}
+
 void var_push(){
     var_env.push();
 }

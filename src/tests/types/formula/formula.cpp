@@ -40,6 +40,13 @@ TEST(term, constructors) {
     expr n_two = mk_func(func_op::Neg, two);
     EXPECT_EQ(2, two.val());
     EXPECT_EQ(-2, n_two.val());
+
+    // Trig Constructors
+    expr trig_one = mk_func(trig_op::Sin, mk_func(trig_op::Asin, one));
+    EXPECT_EQ(1, trig_one.val());
+    trig_one = mk_func(trig_op::Cos, mk_func(trig_op::Acos, one));
+    EXPECT_EQ(1, trig_one.val());
+
 }
 
 TEST(term, rounding){

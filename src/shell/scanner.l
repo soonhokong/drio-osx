@@ -30,6 +30,19 @@ typedef shell::parser::token token;
 "<="                    { return token::LTE; }
 "=="                    { return token::EQ; }
 
+"sin"                   { return token::SIN; }
+"cos"                   { return token::COS; }
+"tan"                   { return token::TAN; }
+"arcsin"                { return token::ASIN; }
+"arccos"                { return token::ACOS; }
+"arctan"                { return token::ATAN; }
+"sinh"                  { return token::SINH; }
+"cosh"                  { return token::COSH; }
+"tanh"                  { return token::TANH; }
+"arcsinh"               { return token::ASINH; }
+"arccosh"               { return token::ACOSH; }
+"arctanh"               { return token::ATANH; }
+
 "\\and"                   { return token::t_and; }
 "\\or"                    { return token::t_or; }
 "\\implies"               { return token::implies; }

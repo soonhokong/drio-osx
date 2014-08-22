@@ -10,6 +10,8 @@
 
 namespace shell{
 
+/********** term_func **********/
+
 term_func::term_func(const func_op op, expr t1):
     m_op(op),
     m_expr(1) { m_kind = term_kind::Formula; m_expr[0] = t1; }
@@ -51,4 +53,39 @@ double term_func::val() const {
     assert(false); // should be unreachable
     return 0;
 }
+
+/********** term_trig **********/
+term_trig::term_trig(const trig_op op, expr t1):
+    m_op(op),
+    m_expr(t1) { m_kind = term_kind::Formula; }
+
+double term_trig::val() const {
+    switch (m_op){
+    case trig_op::Sin:
+        return sin(m_expr.val());
+    case trig_op::Cos:
+        return cos(m_expr.val());
+    case trig_op::Tan:
+        return tan(m_expr.val());
+    case trig_op::Asin:
+        return asin(m_expr.val());
+    case trig_op::Acos:
+        return acos(m_expr.val());
+    case trig_op::Atan:
+        return atan(m_expr.val());
+    case trig_op::Sinh:
+        return sinh(m_expr.val());
+    case trig_op::Cosh:
+        return cosh(m_expr.val());
+    case trig_op::Tanh:
+        return tanh(m_expr.val());
+    case trig_op::Asinh:
+        return asinh(m_expr.val());
+    case trig_op::Acosh:
+        return acosh(m_expr.val());
+    case trig_op::Atanh:
+        return atanh(m_expr.val());
+    }
 }
+}
+

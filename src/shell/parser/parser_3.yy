@@ -63,6 +63,18 @@
 %token          forall
 %token          exists
 
+%token          SIN
+%token          COS
+%token          TAN
+%token          ASIN
+%token          ACOS
+%token          ATAN
+%token          SINH
+%token          COSH
+%token          TANH
+%token          ASINH
+%token          ACOSH
+%token          ATANH
 
 %token          formula
 %token          eval
@@ -87,7 +99,6 @@
 
 %destructor { if ($$)  { delete ($$); ($$) = nullptr; } } var
 
-%expect 7
 
 %%
 line        : stmt '\n'

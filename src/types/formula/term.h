@@ -26,6 +26,7 @@ public:
 
 /* Forward declare enums for term interface*/
 enum class func_op;
+enum class trig_op;
 
 expr mk_const(const double num);
 void set_var(const std::string &name, term_type const type);
@@ -33,6 +34,7 @@ expr mk_var(const std::string &name);
 void set_var(const std::string &name, expr t1);
 expr mk_func(const func_op op, expr t1);
 expr mk_func(const func_op op, expr t1, expr t2);
+expr mk_func(const trig_op op, expr t1);
 
 void var_push();
 void var_pop();
