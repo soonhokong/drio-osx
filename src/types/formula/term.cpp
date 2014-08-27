@@ -113,11 +113,7 @@ void var_pop(){
 }
 
 void var_print_env(){
-    for (auto i = var_env.begin(); i != var_env.end(); ++i){
-        if (i->first != ""){
-            cout << i->first << ":" << i->second.first << " ~ " << i->second.second << "\n";
-        }
-    }
+    cout << var_env;
 }
 
 void print_exp(const expr t){

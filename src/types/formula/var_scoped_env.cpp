@@ -118,7 +118,7 @@ unsigned var_scoped_env::size() const {
 
 std::ostream & operator<<(std::ostream & out, var_scoped_env const & e) {
     for (auto const & p : e) {
-        out << setfill(' ') << setw(15) << p.first
+        out << setfill(' ') << p.first
             << " : " << p.second.first << " ~ " << p.second.second << ";" << endl;
     }
     return out;
