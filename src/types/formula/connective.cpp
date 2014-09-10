@@ -19,7 +19,7 @@ bool fmla_cnct::eval() const {
     case cnct_op::Or:
         return m_lhs.eval() || m_rhs.eval();
     case cnct_op::Implies:
-        return m_lhs.eval() ? m_rhs.eval() : false; // TODO(jichaos): Implemenet correct implies
+        return (!m_lhs.eval()) || m_rhs.eval();
     }
     assert(false); // should be unreachable
     return false;
