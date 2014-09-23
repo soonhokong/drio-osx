@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <string>
 #include "shell/driver.h"
+#include "dreal.h"
 
 inline void prompt(std::string const & msg) {
     std::cout << msg;
@@ -16,6 +17,9 @@ inline void prompt(std::string const & msg) {
 int main(){
     shell::driver driver;
     std::string line;
+    dreal::api::solver* solver;
+    dreal::api::create(&solver);
+
     while (1){
         prompt("drio # ");
         std::getline(std::cin, line);
