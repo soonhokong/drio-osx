@@ -74,11 +74,71 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 set(EXTERNAL_LD_FLAGS "-L${CMAKE_CURRENT_BINARY_DIR}/lib")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${DRIO_EXTRA_LINKER_FLAGS} ${EXTERNAL_LD_FLAGS}")
 
+# Load dreal libs
+ExternalProject_Add(
+  dreal
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/external/
+  GIT_REPOSITORY https://github.com/pondering/dreal-weichen.git
+  GIT_TAG origin/dreal-api
+  UPDATE_COMMAND git pull origin dreal-api
+  CONFIGURE_COMMAND rm -rf build && mkdir build && cd build && cmake -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER} -DCMAKE_CXX_FLAGS=-fPIC -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR} ../src
+  BUILD_COMMAND cd build && make -j
+  BUILD_IN_SOURCE 1
+  INSTALL_COMMAND cd build && make install
+)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/lib/libdreal_api.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/api/libopensmt_api.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/dsolvers/libdsolvers.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libglog.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/egraph/libopensmt_egraph.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/cnfizers/libopensmt_cnfizers.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/common/libopensmt_common.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/tsolvers/libopensmt_tsolvers.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/tsolvers/emptysolver/libopensmt_emptysolver.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/sorts/libopensmt_sorts.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/simplifiers/libopensmt_simplifiers.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/smtsolvers/libopensmt_smtsolvers.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/opensmt/parsers/smt2/libopensmt_smt2parser.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/realpaver/librealpaver.a")
+
+
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapddynset.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libgflags.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdpoincare.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdalglib.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapddynsysfacade.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdvectalg.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdmap.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdgeomset.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapddiffAlgebra.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdcovrel.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libglog.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libgflags_nothreads.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdintervals.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapddynsys.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdrounding.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdbasicalg.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdalgfacade.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libprim.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libjson11.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdmatrixAlgorithms.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libgtest.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapd.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapddiffIncl.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib/libcapdauxil.a")
+set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/util/libutil.a")
+set(DREAL_LIBS ${DREAL_LIBS} "-lpthread")
+
+
 ################################################################
 # Adds executable
 ################################################################
 add_executable(sh main.cpp)
+add_dependencies(sh dreal)
 target_link_libraries(sh SH_UTIL)
+target_link_libraries(sh ${DREAL_LIBS})
 
 ################################################################
 # Add tests
