@@ -22,7 +22,7 @@ public:
 
     virtual ~driver();
 
-    void parse();
+    void parse(std::istream&);
     void error(const std::string &err);
 
 private:

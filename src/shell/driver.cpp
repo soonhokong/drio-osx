@@ -23,9 +23,9 @@ shell::driver::~driver(){
     parser = nullptr;
 }
 
-void shell::driver::parse(){
+void shell::driver::parse(std::istream& string_in){
     delete scanner;
-    scanner = new shell::scanner(&cin);
+    scanner = new shell::scanner(&string_in);
     delete parser;
     parser = new shell::parser(*scanner, *this);
 
