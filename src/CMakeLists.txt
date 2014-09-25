@@ -131,6 +131,7 @@ set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/lib
 set(DREAL_LIBS ${DREAL_LIBS} "${PROJECT_BINARY_DIR}/external/src/dreal/build/util/libutil.a")
 set(DREAL_LIBS ${DREAL_LIBS} "-lpthread")
 
+include_directories("${PROJECT_BINARY_DIR}/include/opensmt")
 
 ################################################################
 # Adds executable

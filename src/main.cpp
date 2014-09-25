@@ -7,7 +7,10 @@
 #include <cstdlib>
 #include <string>
 #include "shell/driver.h"
+
+#include "api/OpenSMTContext.h"
 #include "dreal.h"
+
 
 inline void prompt(std::string const & msg) {
     std::cout << msg;
